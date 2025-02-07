@@ -1,18 +1,21 @@
 <?php
 
+use App\Http\Controllers\Info;
 use App\Http\Controllers\auth\Login;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\auth\Register;
+use App\Http\Controllers\EmailController;
+use App\Http\Controllers\Panduanpengguna;
 use App\Http\Controllers\standarController;
 use App\Http\Controllers\timjamuController;
 use App\Http\Controllers\evaluasiController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DataPenggunaController;
 use App\Http\Controllers\perangkatController;
 use App\Http\Controllers\peningkatanController;
+use App\Http\Controllers\DataPenggunaController;
 use App\Http\Controllers\pelaksanaan1Controller;
 use App\Http\Controllers\pelaksanaan2Controller;
 use App\Http\Controllers\pengendalianController;
-use App\Http\Controllers\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,7 +131,7 @@ use App\Http\Controllers\EmailController;
 
     // route untuk halaman menu Peningkatan CRUD
     Route::get('Peningkatan/StandarInstitusi',[peningkatanController::class, 'index'])->name('peningkatan');
-        Route::get('/Peningkatan/tambahDokumenPeningkatan',[peningkatanController::class, 'create'])->name('tambahDokumenPeningkatan');
+    Route::get('/Peningkatan/tambahDokumenPeningkatan',[peningkatanController::class, 'create'])->name('tambahDokumenPeningkatan');
     Route::resource('/tambahDokumenPeningkatan-2', peningkatanController::class);
     Route::get('/dokumenPeningkatan({id_peningkatan})',[peningkatanController::class, 'lihatdokumenpeningkatan'])->name('lihatdokumenpeningkatan');
     Route::delete('/Peningkatan/hapusPeningkatan{id_peningkatan}', [peningkatanController::class, 'destroy'])->name('hapusDokumenPeningkatan');

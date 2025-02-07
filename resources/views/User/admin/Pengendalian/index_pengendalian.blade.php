@@ -77,7 +77,7 @@
             <!--    <li><a class="dropdown-item" href="javascript:void(0);">2024-2025</a></li>-->
             <!--</ul>-->
         </h5>
-        <div class="table text-nowrap" id="horizontal-example">
+        <div class="table text-nowrap" id="horizontal-example" style="height: 200px;">
             <table class="table table-bordered">
                 <thead class="table-purple">
                     <tr>
@@ -106,7 +106,7 @@
                             <td>
 
                                 @if ($row->file_rtm)
-                                    <a href="{{ route('lihatdokumenpengendalian', ['id_pengendalian' => $row->id_pengendalian, 'jenis_file' => 'rtm']) }}"
+                                    <a href="{{ route('dokumenpengendalian', ['id_pengendalian' => $row->id_pengendalian, 'jenis_file' => 'rtm']) }}"
                                         class="badge bg-label-info me-1" target="_blank">
                                         <i class="bi bi-link-45deg">Buka Dokumen RTM</i>
                                     </a>
@@ -118,7 +118,7 @@
                             <td>
 
                                 @if ($row->file_rtl)
-                                    <a href="{{ route('lihatdokumenpengendalian', ['id_pengendalian' => $row->id_pengendalian, 'jenis_file' => 'rtl']) }}"
+                                    <a href="{{ route('dokumenpengendalian', ['id_pengendalian' => $row->id_pengendalian, 'jenis_file' => 'rtl']) }}"
                                         class="badge bg-label-info me-1" target="_blank">
                                         <i class="bi bi-link-45deg">Buka Dokumen RTL</i>
                                     </a>
@@ -149,7 +149,7 @@
                                                     action="{{ route('hapusDokumenPengendalian', $row->id_pengendalian) }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="dropdown-item btn btn-outline-danger"
+                                                    <button type="button" class="dropdown-item btn btn-outline-danger"
                                                         onclick="confirmDelete({{ $row->id_pengendalian }})"><i
                                                             class="bx bx-trash me-1"></i>
                                                         Hapus</button>

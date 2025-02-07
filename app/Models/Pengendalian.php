@@ -10,7 +10,7 @@ class Pengendalian extends Model
     use HasFactory;
 
     protected $table = 'pengendalians';
-    protected $primaryKey = 'id_pengendalians';
+    protected $primaryKey = 'id_pengendalian';
 
     /**
      * Atribut diisi secara massal
