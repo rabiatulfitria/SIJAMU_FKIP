@@ -22,10 +22,10 @@ class standarController extends Controller
         // Mengambil data dari tabel standar_institusi beserta nama prodi dari tabel_prodi
         $dokumenp1 = DB::table('standar_institusi')
             ->join('penetapans', 'standar_institusi.id_penetapan', '=', 'penetapans.id_penetapan')
-            ->join('tabel_prodi', 'standar_institusi.namaprodi', '=', 'tabel_prodi.id_prodi')
+            ->join('tabel_prodi', 'standar_institusi.id_prodi', '=', 'tabel_prodi.id_prodi')
             ->select(
                 'standar_institusi.id_standarinstitut',
-                'tabel_prodi.nama_prodi as program_studi',
+                'tabel_prodi.id_prodi as program_studi',
                 'penetapans.tanggal_ditetapkan as tanggal_ditetapkan',
                 'penetapans.id_penetapan as id_penetapan',
                 'standar_institusi.namafile as nama_dokumenstandar',
@@ -196,10 +196,10 @@ class standarController extends Controller
         // Ambil data standar_institusi yang ingin diedit
         $dokumenp1 = DB::table('standar_institusi')
             ->join('penetapans', 'standar_institusi.id_penetapan', '=', 'penetapans.id_penetapan')
-            ->join('tabel_prodi', 'standar_institusi.namaprodi', '=', 'tabel_prodi.id_prodi')
+            ->join('tabel_prodi', 'standar_institusi.id_prodi', '=', 'tabel_prodi.id_prodi')
             ->select(
                 'standar_institusi.id_standarinstitut',
-                'tabel_prodi.nama_prodi as program_studi',
+                'tabel_prodi.id_prodi as program_studi',
                 'penetapans.tanggal_ditetapkan as tanggal_ditetapkan',
                 'penetapans.id_penetapan as id_penetapan',
                 'standar_institusi.namafile as nama_dokumenstandar',
