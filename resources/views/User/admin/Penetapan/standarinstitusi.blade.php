@@ -67,6 +67,9 @@
     <div class="card">
         <h5 class="card-header">Standar Yang Ditetapkan Institusi</h5>
         <div class="table-responsive text-nowrap">
+            @if (session('success'))
+                <div>{{ @session('success') }}</div>
+            @endif
             <table class="table custom-table-sm dataTables_paginate .paginate_button" id="Datatable">
                 <thead class="table-purple">
                     <tr>
@@ -94,7 +97,7 @@
                             <td>
                                 @if ($row->unggahan_dokumen)
                                     <!-- Link ke dokumen -->
-                                    <a href="{{ asset('storage/' . $row->unggahan_dokumen) }}"
+                                    <a href="{{ route('dokumenstandar.tampil', ['id' => $row->id_standarinstitut]) }}"
                                         class="badge bg-label-info me-1" target="_blank">
                                         <i class="bi bi-link-45deg">Dokumen</i>
                                     </a>
@@ -114,9 +117,6 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            @if (session('success'))
-                                                <div>{{ @session('success') }}</div>
-                                            @endif
                                             <a class="dropdown-item"
                                                 onclick="window.location.href='{{ route('editDataStandar', $row->id_standarinstitut) }}'">
                                                 <i class="bx bx-edit-alt me-1"></i> Edit
@@ -137,7 +137,6 @@
                                 </td>
                             @endif
                         </tr>
-
                     @endforeach
                 </tbody>
             </table>
@@ -251,4 +250,3 @@
         /* Cursor tidak diizinkan */
     }
 </style>
-

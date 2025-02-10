@@ -95,9 +95,9 @@
                             <td>
                                 @if ($row->unggahan_dokumen)
                                     <!-- Link ke dokumen -->
-                                    <a href="{{ asset('storage/' . $row->unggahan_dokumen) }}"
+                                    <a href="{{ route('dokumenperangkat.tampil', ['id_dokspmi' => $row->id_dokspmi]) }}"
                                         class="badge bg-label-info me-1" target="_blank">
-                                        <i class="bi bi-link-45deg">Dokumen</i>
+                                        <i class="bi bi-link-45deg">Buka Dokumen</i>
                                     </a>
                                 @else
                                     <p>Masih dalam proses</p>
@@ -121,11 +121,11 @@
                                                         class="bx bx-edit-alt me-1"></i> Edit</a>
                                             </div>
                                             <div>
-                                                <form method="POST"
+                                                <form id="delete-form-{{ $row->id_dokspmi }}" method="POST"
                                                     action="{{ route('hapusDokumenPerangkat', $row->id_dokspmi) }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="dropdown-item btn btn-outline-danger"><i
+                                                    <button type="button" class="dropdown-item btn btn-outline-danger" onclick="confirmDelete({{ $row->id_dokspmi }})"><i
                                                             class="bx bx-trash me-1"></i> Hapus</button>
                                                 </form>
                                             </div>
@@ -144,7 +144,6 @@
                 Auth::user()->role->role_name == 'JMF' ||
                 Auth::user()->role->role_name == 'Ketua Jurusan' ||
                 Auth::user()->role->role_name == 'Koordinator Prodi'))
-
         <div class="demo-inline-spacing">
             <button type="button" class="btn btn-light"
                 onclick="window.location.href='{{ route('tambahDokumenPerangkat') }}'">+ Tambah Dokumen

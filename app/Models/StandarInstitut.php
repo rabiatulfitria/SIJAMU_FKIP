@@ -11,7 +11,7 @@ class StandarInstitut extends Model
     protected $table = 'standar_institusi';
 
     // Pendefinisian primarykey secara khusus. Karena default laravel berupa 'id'
-    protected $primaryKey = 'standar_institut';
+    protected $primaryKey = 'id_standarinstitut';
 
     /**
      * Atribut diisi secara massal

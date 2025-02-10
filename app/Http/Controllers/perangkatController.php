@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Penetapan;
-use App\Models\NamaFileP1;
+use App\Models\DokumenSPMI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Console\StorageLinkCommand;
-use Illuminate\Support\Facades\Mail;
 
 class perangkatController extends Controller
 {
@@ -45,7 +45,7 @@ class perangkatController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'nama_dokumenspmi' => 'required|string|max:255', //nama dari models DokumenSPMI
+            'nama_dokumenspmi' => 'required|string|max:255', //semua nama dari models DokumenSPMI
             'kategori' => 'required|string',
             'tanggal_ditetapkan' => 'nullable|date',
             'files' => 'required',
@@ -116,20 +116,17 @@ class perangkatController extends Controller
     }
 
 
-    public function lihatdokumenperangkat($id_penetapan)
+    public function lihatdokumenperangkat($id_dokspmi)
     {
-        $dokumenp1 = Penetapan::findOrFail($id_penetapan);
-        $filePaths = json_decode($dokumenp1->files, true);
+        //$dokumenp1 mendefinisikan tabel dokumen_spmi = models DokumenSPMI (atribut di models penamaannya berbeda dengan tabel asli)
+        $dokumenp1 = DokumenSPMI::findOrFail($id_dokspmi);
+        $filePath = storage_path('app/public/' . $dokumenp1->file);
 
-        if (is_array($filePaths) && !empty($filePaths)) {
-            $file = $filePaths[0];
-
-            if (Storage::disk('local')->exists($file)) {
-                return response()->file(storage_path('app' . $file));
-            } else {
-                abort(404, 'File not found.');
-            }
+        if (!file_exists($filePath)) {
+            abort(404, 'File tidak ditemukan di penyimpanan.');
         }
+
+        return response()->file($filePath);
     }
 
     public function edit(String $id_dokspmi)

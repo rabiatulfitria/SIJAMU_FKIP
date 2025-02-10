@@ -68,12 +68,12 @@ use App\Http\Controllers\pengendalianController;
     Route::delete('/TimPenjaminanMutu/{id}', [timjamuController::class, 'destroy'])->name('hapusTimJAMU');
     Route::put('/TimPenjaminanMutu/{id}/updateTimJAMU', [timjamuController::class, 'update'])->name('updateTimJAMU');
 
-    // route untuk halaman menu Penetapan CRUD -> Perangkat SPMI
+    // route untuk halaman menu Penetapan CRUD -> Dokumen Perangkat SPMI
     Route::get('/Penetapan/DokumenSPMI', [perangkatController::class, 'index'])->name('penetapan.perangkat');
     Route::get('/Penetapan/tambahDokumenPerangkatSPMI',[perangkatController::class, 'create'])->name('tambahDokumenPerangkat');
     Route::get('/Penetapan/editDokumenPerangkatSPMI/{id_dokspmi}', [perangkatController::class, 'edit'])->name('editDokumenPerangkat');
     Route::resource('/tambahDokumenPerangkatSPMI-2', perangkatController::class);
-    Route::get('/dokumenPerangkatSPMI({id_penetapan})', [perangkatController::class, 'lihatdokumenperangkat'])->name('dokumenperangkat');
+    Route::get('/dokumenPerangkatSPMI/{id_dokspmi}', [perangkatController::class, 'lihatdokumenperangkat'])->name('dokumenperangkat.tampil');
     Route::delete('/Penetapan/PerangkatSPMI{id_dokspmi}', [perangkatController::class, 'destroy'])->name('hapusDokumenPerangkat');
     Route::put('Penetapan/updateDokumenPerangkat/{id_dokspmi}', [perangkatController::class, 'update'])->name('updateDokumenPerangkat');
 
@@ -87,7 +87,7 @@ use App\Http\Controllers\pengendalianController;
     // Route::post('/StandarYangDitetapkanInstitusi', [standarController::class, 'store'])->name('standar.store');
     Route::get('/Penetapan/editDokumenStandarSPMI/{id}', [standarController::class, 'edit'])->name('editDataStandar');
     // Route::post('/unggahDokumenStandarSPMI', [standarController::class, 'uploadDokumen']);
-    Route::get('/dokumenStandarInstitusi{id_penetapan}', [standarController::class, 'lihatdokumenstandar'])->name('dokumenstandar');
+    Route::get('/dokumenStandarInstitusi/{id}', [standarController::class, 'lihatdokumenstandar'])->name('dokumenstandar.tampil');
     Route::delete('/Penetapan/StandarSPMI{id}', [standarController::class, 'destroy'])->name('hapusDokumenStandar');
     Route::put('Penetapan/updateDokumenStandar/{id}', [standarController::class, 'update'])->name('updateDokumenStandar');
     // Route::get('/Penetapan/StandarInstitusi/folder/{id}', [standarController::class, 'folder'])->name('FolderDokumenStandar');

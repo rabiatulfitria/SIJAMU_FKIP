@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Penetapan;
 use Illuminate\Http\Request;
+use App\Models\StandarInstitut;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use function PHPUnit\Framework\isNull;
 
+use Illuminate\Support\Facades\Mail;
+use function PHPUnit\Framework\isNull;
 use function PHPUnit\Framework\isEmpty;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Mail;
 
 
 class standarController extends Controller
@@ -175,20 +176,19 @@ class standarController extends Controller
         }
     }
 
-    public function lihatdokumenstandar($id_penetapan)
+    public function lihatdokumenstandar($id)
     {
-        $standar = Penetapan::findOrFail($id_penetapan);
-        $filePaths = json_decode($standar->files, true); //string berkode JSON (berupa path file) diterjemahkan ke bentuk array
+        
+        $dokumenp1 = StandarInstitut::findOrFail($id);
+        $filePath = storage_path('app/public/' . $dokumenp1->file);
 
-        if (is_array($filePaths) && !empty($filePaths)) { //memeriksa variabel $filePaths apakah berupa array, dan tidak kosong?
-            $file = $filePaths[0];
-
-            if (Storage::disk('local')->exists($file)) {
-                return response()->file(storage_path('app' . $file)); //mengarahkan ke file
-            } else {
-                abort(404, 'File tidak ditemukan.');
-            }
+        if (!file_exists($filePath)) {
+            abort(404, 'File tidak ditemukan di penyimpanan.');
         }
+
+        return response()->file($filePath);
+        
+        
     }
 
     public function edit(String $id)
