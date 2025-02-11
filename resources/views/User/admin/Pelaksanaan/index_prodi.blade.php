@@ -9,7 +9,7 @@
     @endif
     <!-- Tabel yang akan ditampilkan -->
     <!-- id="DatatablesRenstraProgramStudinya" dipanggil di sidebar_prodi-->
-    
+
     <div id="DatatablesRenstraProgramStudinya">
         <!-- Tabel Renstra Program Studi di sini -->
         <table class="table table-bordered custom-table-sm">
@@ -30,7 +30,7 @@
             </thead>
             <tbody>
                 @foreach ($renstraProgramStudi as $index => $document)
-                                    <tr>
+                    <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
@@ -45,8 +45,9 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form id="delete-form-{{ $document->id_plks_prodi }}" action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    method="POST" style="display: inline;">
+                                <form id="delete-form-{{ $document->id_plks_prodi }}"
+                                    action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
+                                    style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger btn-sm"
@@ -95,8 +96,9 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form id="delete-form-{{ $document->id_plks_prodi }}" action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    method="POST" style="display: inline;">
+                                <form id="delete-form-{{ $document->id_plks_prodi }}"
+                                    action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
+                                    style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger btn-sm"
@@ -145,8 +147,9 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form id="delete-form-{{ $document->id_plks_prodi }}" action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    method="POST" style="display: inline;">
+                                <form id="delete-form-{{ $document->id_plks_prodi }}"
+                                    action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
+                                    style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger btn-sm"
@@ -154,7 +157,7 @@
                                 </form>
                             </td>
                         @endif
-                    </tr>                
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -195,8 +198,9 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form id="delete-form-{{ $document->id_plks_prodi }}" action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    method="POST" style="display: inline;">
+                                <form id="delete-form-{{ $document->id_plks_prodi }}"
+                                    action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
+                                    style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger btn-sm"
@@ -204,7 +208,7 @@
                                 </form>
                             </td>
                         @endif
-                    </tr>                
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -294,8 +298,9 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form id="delete-form-{{ $document->id_plks_prodi }}" action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    method="POST" style="display: inline;">
+                                <form id="delete-form-{{ $document->id_plks_prodi }}"
+                                    action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
+                                    style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger btn-sm"
@@ -303,7 +308,7 @@
                                 </form>
                             </td>
                         @endif
-                    </tr>                
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -343,7 +348,8 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form id="delete-form-{{ $document->id_plks_prodi }}" action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
+                                <form id="delete-form-{{ $document->id_plks_prodi }}"
+                                    action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -352,7 +358,7 @@
                                 </form>
                             </td>
                         @endif
-                    </tr>                
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -392,7 +398,8 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form id="delete-form-{{ $document->id_plks_prodi }}" action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
+                                <form id="delete-form-{{ $document->id_plks_prodi }}"
+                                    action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -401,7 +408,7 @@
                                 </form>
                             </td>
                         @endif
-                    </tr>                
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -441,7 +448,8 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form id="delete-form-{{ $document->id_plks_prodi }}" action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
+                                <form id="delete-form-{{ $document->id_plks_prodi }}"
+                                    action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -450,7 +458,7 @@
                                 </form>
                             </td>
                         @endif
-                    </tr>                
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -490,7 +498,8 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form id="delete-form-{{ $document->id_plks_prodi }}" action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
+                                <form id="delete-form-{{ $document->id_plks_prodi }}"
+                                    action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -499,7 +508,7 @@
                                 </form>
                             </td>
                         @endif
-                    </tr>                
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -549,7 +558,7 @@
                                 </form>
                             </td>
                         @endif
-                    </tr>                
+                    </tr>
                 @endforeach
             </tbody>
         </table>
