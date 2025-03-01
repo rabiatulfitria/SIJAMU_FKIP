@@ -11,7 +11,8 @@ class StandarInstitut extends Model
     protected $table = 'standar_institusi';
 
     // Pendefinisian primarykey secara khusus. Karena default laravel berupa 'id'
-    protected $primaryKey = 'id_standarinstitut';
+    protected $primaryKey = 'id_standarinstitut'; //jangan lupa di database di buat Auto_Increment
+    public $timestamps = true;
 
     /**
      * Atribut diisi secara massal
@@ -20,10 +21,20 @@ class StandarInstitut extends Model
      */
     protected $fillable = [
         'id_standarinstitut',
-        'nama_dokumenstandar',
+        'id_penetapan',
+        'namafile',
         'kategori',
-        'tanggal_ditetapkan',
-        'program_studi',
-        'files'
+        'id_prodi',
+        'file'
     ];
+
+    public function penetapan()
+    {
+        return $this->belongsTo(Penetapan::class, 'id_penetapan', 'id_penetapan');
+    }
+
+    public function prodi()
+    {
+      return $this->belongsTo(Prodi::class, 'id_prodi', 'id_prodi');
+    }
 }

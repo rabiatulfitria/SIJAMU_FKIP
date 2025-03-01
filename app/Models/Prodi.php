@@ -38,4 +38,13 @@ class Prodi extends Model
       return $this->hasMany(Peningkatan::class, 'id_prodi');
    }
 
+   public function namaFileEval()
+   {
+      return $this->hasMany(NamaFileEval::class, 'id_prodi');
+   }
+
+   public function standarinstitusi()
+   {
+      return $this->hasMany(StandarInstitut::class, 'id_prodi');
+   }
 }

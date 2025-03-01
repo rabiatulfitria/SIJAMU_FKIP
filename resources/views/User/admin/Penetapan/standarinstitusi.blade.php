@@ -90,16 +90,16 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($dokumenp1 as $row)
                         <tr>
-                            <td>{{ $row->nama_dokumenstandar }}</td>
+                            <td>{{ $row->namafile }}</td>
                             <td>{{ $row->kategori }}</td>
-                            <td>{{ $row->tanggal_ditetapkan }}</td>
-                            <td>{{ $row->program_studi }}</td>
+                            <td>{{ $row->penetapan->tanggal_ditetapkan }}</td>
+                            <td>{{ $row->prodi->nama_prodi }}</td>
                             <td>
-                                @if ($row->unggahan_dokumen)
+                                @if ($row->file)
                                     <!-- Link ke dokumen -->
-                                    <a href="{{ route('dokumenstandar.tampil', ['id' => $row->id_standarinstitut]) }}"
+                                    <a href="{{ route('dokumenstandar.tampil', ['id_standarinstitut' => $row->id_standarinstitut, 'namafile' => $row->namafile]) }}"
                                         class="badge bg-label-info me-1" target="_blank">
-                                        <i class="bi bi-link-45deg">Dokumen</i>
+                                        <i class="bi bi-link-45deg">Buka Dokumen</i>
                                     </a>
                                 @else
                                     <p>Masih dalam proses</p>
@@ -149,7 +149,7 @@
                 Auth::user()->role->role_name == 'Koordinator Prodi'))
         <div class="demo-inline-spacing">
             <button type="button" class="btn btn-light" onclick="window.location.href='{{ route('tambahStandar') }}'">
-                + Tambah Standar
+                + Tambah Dokumen Standar
             </button>
             @if (session('success'))
                 <div>{{ @session('success') }}</div>

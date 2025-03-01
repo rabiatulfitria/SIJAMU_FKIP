@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Tambah Standar SPMI Universitas Trunojoyo Madura</div>
+            <div class="nav-items d-flex align-item-center">Tambah Dokumen Standar SPMI Universitas Trunojoyo Madura</div>
         </div>
     @endsection
 
@@ -27,8 +27,9 @@
                             <div class="mb-3">
                                 <label class="form-label" for="bx bx-file">Nama Dokumen</label>
                                 <div class="input-group input-group-merge">
-                                    <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-file"></i></span>
-                                    <input type="text" class="form-control" id="bx bx-file" name="nama_dokumenstandar"
+                                    <span id="basic-icon-default-fullname2" class="input-group-text"><i
+                                            class="bx bx-file"></i></span>
+                                    <input type="text" class="form-control" id="bx bx-file" name="namafile"
                                         placeholder="Nama Dokumen" required />
                                     <!--<input type="hidden" name="submenu_penetapan" value="standarinstitusi">-->
                                 </div>
@@ -39,27 +40,34 @@
                                 <label for="kategori" class="form-label">Kategori</label>
                                 <select class="form-select" id="kategori" name="kategori" required>
                                     <option value="">Pilih Kategori</option>
-                                    <option value="Standar Pendidikan Universitas Trunojoyo Madura">Standar Pendidikan Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Penelitian Universitas Trunojoyo Madura">Standar Penelitian Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Pengabdian Kepada Masyarakat Universitas Trunojoyo Madura">Standar Pengabdian Kepada Masyarakat Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Layanan Kemahasiswaan Universitas Trunojoyo Madura">Standar Layanan Kemahasiswaan Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Layanan Kerjasama Universitas Trunojoyo Madura">Standar Layanan Kerjasama Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Tata Kelola Universitas Trunojoyo Madura">Standar Tata Kelola Universitas Trunojoyo Madura</option>
+                                    <option value="Standar Pendidikan Universitas Trunojoyo Madura">Standar Pendidikan
+                                        Universitas Trunojoyo Madura</option>
+                                    <option value="Standar Penelitian Universitas Trunojoyo Madura">Standar Penelitian
+                                        Universitas Trunojoyo Madura</option>
+                                    <option value="Standar Pengabdian Kepada Masyarakat Universitas Trunojoyo Madura">
+                                        Standar Pengabdian Kepada Masyarakat Universitas Trunojoyo Madura</option>
+                                    <option value="Standar Layanan Kemahasiswaan Universitas Trunojoyo Madura">Standar
+                                        Layanan Kemahasiswaan Universitas Trunojoyo Madura</option>
+                                    <option value="Standar Layanan Kerjasama Universitas Trunojoyo Madura">Standar Layanan
+                                        Kerjasama Universitas Trunojoyo Madura</option>
+                                    <option value="Standar Tata Kelola Universitas Trunojoyo Madura">Standar Tata Kelola
+                                        Universitas Trunojoyo Madura</option>
                                 </select>
                             </div>
 
                             <!-- Tahun -->
                             <div class="mb-3">
                                 <label for="tanggal_ditetapkan" class="form-label">Tanggal Ditetapkan</label>
-                                <input type="date" class="form-control" id="tanggal_ditetapkan" name="tanggal_ditetapkan" placeholder="TanggalDitetapkan" required />
+                                <input type="date" class="form-control" id="tanggal_ditetapkan" name="tanggal_ditetapkan"
+                                    placeholder="TanggalDitetapkan" required />
                             </div>
 
                             <!-- Nama Program Studi -->
                             <div class="mb-3">
                                 <label for="program_studi" class="form-label">Nama Program Studi</label>
-                                <select class="form-select" id="program_studi" name="program_studi" required>
+                                <select class="form-select" id="program_studi" name="id_prodi" required>
                                     <option value="">Pilih Program Studi</option>
-                                    @foreach($prodi as $item)
+                                    @foreach ($prodi as $item)
                                         <option value="{{ $item->id_prodi }}">{{ $item->nama_prodi }}</option>
                                     @endforeach
                                 </select>
@@ -68,11 +76,12 @@
                             <!-- Pilih Dokumen -->
                             <div class="mb-3">
                                 <label for="formFileMultiple" class="form-label">Pilih Dokumen</label>
-                                <input class="form-control" type="file" name="files[]" id="formFileMultiple" multiple />
+                                <input class="form-control" type="file" name="file" id="formFileMultiple" multiple />
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
 
                             <!-- Submit -->
-                            <button type="submit" class="btn btn-primary">{{ isset($dokumenp1) }}Kirim</button>
+                            <button type="submit" class="btn btn-primary">Kirim</button>
                         </form>
 
                     </div>
