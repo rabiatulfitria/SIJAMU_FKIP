@@ -25,6 +25,10 @@ class Login extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+        ], [
+            'email.required' => 'Email harus diisi!',
+            'email.email' => 'Format email tidak valid!',
+            'password.required' => 'Password harus diisi!',
         ]);
 
         // Ambil user dari database menggunakan query builder
@@ -40,7 +44,7 @@ class Login extends Controller
             return redirect()->route('BerandaSIJAMUFIP');
         } else {
             // Jika email atau password salah, kembali ke halaman login dengan pesan error
-            Alert::error('error', 'Email atau password salah!.');
+            Alert::error('Gagal', 'Email atau password salah!.');
             return redirect()->back();
         }
 
@@ -53,7 +57,7 @@ class Login extends Controller
         Auth::logout();
 
         // Redirect ke halaman login dengan pesan sukses
-        Alert::success('success', 'Logout berhasil.');
+        Alert::success('Selesai', 'Logout berhasil.');
         return redirect()->route('auth.login');
     }
 

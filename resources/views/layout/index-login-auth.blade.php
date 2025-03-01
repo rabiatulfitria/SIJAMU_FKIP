@@ -43,6 +43,7 @@
     <link rel="stylesheet" href="{{ asset('sneat/assets/css/demo.css') }}" />
     <script rel="stylesheet" src="{{ asset('sneat/assets/js/config.js') }}" ></script>
     <link rel="stylesheet" href="{{ asset('sneat/assets/css/styles.css') }}" />
+    <link rel="stylesheet" href="{{ asset('sneat/assets/css/custom.css') }}">
     <script rel="stylesheet" src="{{ asset('sneat/assets/js/scripts.js') }}" ></script>
 
     <!-- helpers -->
@@ -52,7 +53,6 @@
 </head>
 
 <body>
-    @include('_partials.alert')
         
     <!-- Background Video-->
     <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
