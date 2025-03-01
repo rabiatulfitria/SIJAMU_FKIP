@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Dokumen Perangkat SPMI</div>
+            <div class="nav-items d-flex align-item-center">Edit Dokumen Perangkat SPMI</div>
         </div>
     @endsection
 
@@ -22,7 +22,8 @@
                         <h5 class="mb-0"></h5>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('updateDokumenPerangkat', $oldData->id_dokspmi) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('updateDokumenPerangkat', $oldData->id_dokspmi) }}"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -30,9 +31,11 @@
                             <div class="mb-3">
                                 <label class="form-label" for="bx bx-file">Nama Dokumen</label>
                                 <div class="input-group input-group-merge">
-                                    <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-file"></i></span>
-                                    <input type="text" class="form-control" id="bx bx-file" name="nama_dokumenspmi" placeholder="Nama Dokumen" required
-                                        value="{{ old('namafile', $oldData->nama_dokumenspmi) }}" />
+                                    <span id="basic-icon-default-fullname2" class="input-group-text"><i
+                                            class="bx bx-file"></i></span>
+                                    <input type="text" class="form-control" id="bx bx-file" name="namafile"
+                                        placeholder="Nama Dokumen" required
+                                        value="{{ old('namafile', $oldData->namafile) }}" />
                                 </div>
                             </div>
 
@@ -41,10 +44,14 @@
                                 <label for="kategori" class="form-label">Kategori</label>
                                 <select class="form-select" id="kategori" name="kategori" required>
                                     <option value="">Pilih Kategori</option>
-                                    <option value="Kebijakan" {{ $oldData->kategori == 'Kebijakan' ? 'selected' : '' }}>Kebijakan</option>
-                                    <option value="Manual" {{ $oldData->kategori == 'Manual' ? 'selected' : '' }}>Manual</option>
-                                    <option value="Standar" {{ $oldData->kategori == 'Standar' ? 'selected' : '' }}>Standar</option>
-                                    <option value="Formulir" {{ $oldData->kategori == 'Formulir' ? 'selected' : '' }}>Formulir</option>
+                                    <option value="Kebijakan" {{ $oldData->kategori == 'Kebijakan' ? 'selected' : '' }}>
+                                        Kebijakan</option>
+                                    <option value="Manual" {{ $oldData->kategori == 'Manual' ? 'selected' : '' }}>Manual
+                                    </option>
+                                    <option value="Standar" {{ $oldData->kategori == 'Standar' ? 'selected' : '' }}>Standar
+                                    </option>
+                                    <option value="Formulir" {{ $oldData->kategori == 'Formulir' ? 'selected' : '' }}>
+                                        Formulir</option>
                                     <option value="SOP" {{ $oldData->kategori == 'SOP' ? 'selected' : '' }}>SOP</option>
                                 </select>
                             </div>
@@ -52,8 +59,9 @@
                             <!-- Tahun -->
                             <div class="mb-3">
                                 <label for="tahun" class="form-label">Tanggal Ditetapkan</label>
-                                <input type="date" class="form-control" id="tanggal_ditetapkan" name="tanggal_ditetapkan" placeholder="Tanggal Ditetapkan" required
-                                    value="{{ old('tanggal_ditetapkan', $oldData->tanggal_ditetapkan) }}" />
+                                <input type="date" class="form-control" id="tanggal_ditetapkan" name="tanggal_ditetapkan"
+                                    placeholder="Tanggal Ditetapkan" required
+                                    value="{{ old('tanggal_ditetapkan', $oldData->penetapan->tanggal_ditetapkan) }}" />
                             </div>
 
                             <!-- Nama Program Studi -->
@@ -61,7 +69,7 @@
                                 <label for="nama_prodi" class="form-label">Nama Program Studi</label>
                                 <select class="form-select" id="nama_prodi" name="nama_prodi" required>
                                     <option value="">Pilih Program Studi</option>
-                                    @foreach($prodi as $item)
+                                    @foreach ($prodi as $item)
                                         <option value="{{ $item->id_prodi }}" {{ $oldData->namaprodi == $item->id_prodi ? 'selected' : '' }}>
                                             {{ $item->nama_prodi }}
                                         </option>
@@ -72,9 +80,13 @@
                             <!-- Pilih Dokumen -->
                             <div class="mb-3">
                                 <label for="formFileMultiple" class="form-label">Pilih Dokumen</label>
-                                <input class="form-control" type="file" name="files[]" id="formFileMultiple" multiple />
-                                <p class="form-text text-muted">Unggah ulang dokumen jika ingin mengubah file yang sudah ada.</p>
-                                <p class="form-text" style="color: #7ebcfe">Maksimum 5120 KB (5 MB)</p>
+                                <input class="form-control" type="file" name="file" id="formFileMultiple" multiple />
+                                @if ($oldData->file)
+                                    <p>File sebelumnya: <a
+                                            href="{{ route('dokumenperangkat.tampil', ['id_dokspmi' => $oldData->id_dokspmi, 'namafile' => $oldData->namafile]) }}"
+                                            target="_blank">Buka File</a></p>
+                                @endif
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
 
                             <!-- Submit Button -->

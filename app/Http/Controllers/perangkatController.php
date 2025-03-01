@@ -4,196 +4,166 @@ namespace App\Http\Controllers;
 
 use App\Models\Penetapan;
 use App\Models\DokumenSPMI;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Console\StorageLinkCommand;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
-class perangkatController extends Controller
+class PerangkatController extends Controller
 {
     public function index()
     {
-        $dokumenp1 = DB::table('dokumen_spmi')
-            ->join('penetapans', 'dokumen_spmi.id_penetapan', '=', 'penetapans.id_penetapan')
-            ->select(
-                'dokumen_spmi.id_dokspmi',
-                'penetapans.id_penetapan as id_penetapan',
-                'dokumen_spmi.namafile as nama_dokumenspmi',
-                'dokumen_spmi.kategori as kategori',
-                'penetapans.tanggal_ditetapkan as tanggal_ditetapkan',
-                'dokumen_spmi.file as unggahan_dokumen' //unggahan_dokumen sebagai nama di $row
-            )
+        $dokumenp1 = DokumenSPMI::with('penetapan')
+            ->select('id_dokspmi', 'id_penetapan', 'namafile', 'kategori', 'file')
             ->get();
+        // dd($dokumenp1);    
 
         return view('User.admin.Penetapan.perangkatspmi', compact('dokumenp1'));
     }
 
-
-    public function create()  //tombol Tambah
+    public function create()
     {
-        $penetapans = DB::table('penetapans')->select('id_penetapan', 'tanggal_ditetapkan')->get();
-
-        // Mengirim data ke view
+        $penetapans = Penetapan::select('id_penetapan', 'tanggal_ditetapkan')->get();
         return view('User.admin.Penetapan.tambah_perangkatspmi', compact('penetapans'));
     }
 
     public function store(Request $request)
     {
-        // Validasi input
+        // dd($request->all());
         $validatedData = $request->validate([
-            'nama_dokumenspmi' => 'required|string|max:255', //semua nama dari models DokumenSPMI
+            'namafile' => 'required|string|max:255',
             'kategori' => 'required|string',
             'tanggal_ditetapkan' => 'nullable|date',
-            'files' => 'required',
-            'files.*' => 'file|mimes:pdf,doc,docx,xlsx,png,jpg,jpeg|max:5120' //Maksimum 5120 KB (5 MB)
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480'
         ]);
 
-        // Simpan data ke tabel penetapans menggunakan query builder
-        $idPenetapan = DB::table('penetapans')->insertGetId([
-            'tanggal_ditetapkan' => $validatedData['tanggal_ditetapkan'],
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        // Mengupload file dan simpan ke tabel dokumen_spmi
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
+            $penetapans = Penetapan::create(['tanggal_ditetapkan' => $validatedData['tanggal_ditetapkan']]);
 
-            foreach ($request->file('files') as $file) {
-                // Generate unique file name
-                $namaDokumen = time() . '-' . $file->getClientOriginalName();
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $path = $file->storeAs('perangkatspmi', $file->getClientOriginalName(), 'public');
 
-                // Store file in the 'public/perangkatspmi' directory
-                $path = $file->storeAs('perangkatspmi', $namaDokumen, 'public');
-
-                // Insert data into 'dokumen_spmi' table
-                DB::table('dokumen_spmi')->insert([
-                    'id_penetapan' => $idPenetapan,
-                    'namafile' => $request->nama_dokumenspmi,
-                    'kategori' => $request->kategori,
-                    'file' => $path,
-                    'created_at' => now(),
-                    'updated_at' => now()
+                DokumenSPMI::create([
+                    'id_penetapan' => $penetapans->id_penetapan,
+                    'namafile' => $validatedData['namafile'],
+                    'kategori' => $validatedData['kategori'],
+                    'file' => $path
                 ]);
             }
-    
+
+
+
+            // $emails = User::where('email', '!=', auth()->user()->email)->pluck('email');
+            // $emailBody = $request->hasFile('file') ?
+            //     'Ada Dokumen Perangkat SPMI Yang Dikirim Beserta File Dokumen.' :
+            //     'Ada Dokumen Perangkat SPMI Yang Dikirim Tanpa File Dokumen.';
+
+            // foreach ($emails as $email) {
+            //     Mail::raw($emailBody, function ($message) use ($email) {
+            //         $message->to($email)->subject('Pemberitahuan Dokumen Perangkat SPMI');
+            //     });
+            // }
+
             DB::commit();
-    
-            // Fetch all user emails except the authenticated user
-            $emails = DB::table('users')
-                ->where('email', '!=', auth()->user()->email)
-                ->pluck('email');
-
-            $hasFiles = $request->hasFile('files'); // Cek apakah ada file dalam request
-
-            // Prepare email details
-            $emailDetails = [
-                'subject' => 'Pemberitahuan Dokumen Perangkat SPMI',
-                'body' => $hasFiles 
-                    ? 'Ada Dokumen Perangkat SPMI Yang Dikirim Beserta File Dokumen.' 
-                    : 'Ada Dokumen Perangkat SPMI Yang Dikirim Tanpa File Dokumen.'
-            ];
-    
-            // Send email to each user
-            foreach ($emails as $email) {
-                Mail::raw($emailDetails['body'], function ($message) use ($emailDetails, $email) {
-                    $message->to($email)
-                        ->subject($emailDetails['subject']);
-                });
-            }
-    
             Alert::success('Selesai', 'Dokumen berhasil ditambahkan dan email telah dikirim.');
             return redirect()->route('penetapan.perangkat');
         } catch (\Exception $e) {
             DB::rollBack();
-            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
     }
 
-
     public function lihatdokumenperangkat($id_dokspmi)
     {
-        //$dokumenp1 mendefinisikan tabel dokumen_spmi = models DokumenSPMI (atribut di models penamaannya berbeda dengan tabel asli)
         $dokumenp1 = DokumenSPMI::findOrFail($id_dokspmi);
         $filePath = storage_path('app/public/' . $dokumenp1->file);
 
-        if (!file_exists($filePath)) {
-            abort(404, 'File tidak ditemukan di penyimpanan.');
+        // Cek apakah file ada
+        abort_if(!file_exists($filePath), 404, 'File tidak ditemukan.');
+
+        // Tentukan ekstensi file
+        $fileExtension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+        // Daftar MIME Types yang diizinkan
+        $mimeTypes = [
+            'pdf'  => 'application/pdf',
+            'doc'  => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls'  => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'png'  => 'image/png',
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+        ];
+
+        // Cek apakah ekstensi file didukung
+        if (!isset($mimeTypes[$fileExtension])) {
+            abort(403, 'Format file tidak didukung.');
         }
 
-        return response()->file($filePath);
+        // Jika file berupa DOC, DOCX, XLS, XLSX, langsung di-download
+        $forceDownloadExtensions = ['doc', 'docx', 'xls', 'xlsx'];
+
+        if (in_array($fileExtension, $forceDownloadExtensions)) {
+            return response()->streamDownload(function () use ($filePath) {
+                $handle = fopen($filePath, 'rb'); // Buka file dalam mode baca biner
+                fpassthru($handle); // Kirim file ke output tanpa buffer tambahan
+                fclose($handle); // Tutup file setelah selesai
+            }, $dokumenp1->namafile . '.' . $fileExtension, [
+                'Content-Type'              => $mimeTypes[$fileExtension],
+                'Content-Disposition'       => 'attachment; filename="' . $dokumenp1->namafile . '.' . $fileExtension . '"',
+                'X-Content-Type-Options'    => 'nosniff',
+                'Cache-Control'             => 'no-store, no-cache, must-revalidate, max-age=0',
+                'Pragma'                    => 'no-cache',
+                'Expires'                   => '0',
+                'Content-Transfer-Encoding' => 'binary',
+                'Content-Length'            => filesize($filePath) // Pastikan ukuran file dikirim
+            ]);
+        }
+
+
+        // Untuk PDF & gambar, tampilkan langsung di browser
+        return response()->file($filePath, [
+            'Content-Type' => $mimeTypes[$fileExtension],
+            'Content-Disposition' => 'inline; filename="' . $dokumenp1->namafile . '.' . $fileExtension . '"',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 
-    public function edit(String $id_dokspmi)
-    {
-        // Ambil data dokumen_spmi yang ingin diedit
-        $dokumenp1 = DB::table('dokumen_spmi')
-            ->join('penetapans', 'dokumen_spmi.id_penetapan', '=', 'penetapans.id_penetapan')
-            ->select(
-                'dokumen_spmi.id_dokspmi',
-                'penetapans.id_penetapan as id_penetapan',
-                'dokumen_spmi.namafile as nama_dokumenspmi',
-                'dokumen_spmi.kategori as kategori',
-                'penetapans.tanggal_ditetapkan as tanggal_ditetapkan',
-                'dokumen_spmi.file as unggahan_dokumen'
-            )
-            ->where('dokumen_spmi.id_dokspmi', '=', $id_dokspmi)
-            ->first();
-        return view('User.admin.Penetapan.edit_perangkatspmi', ['oldData' => $dokumenp1]);
 
+    public function edit($id_dokspmi)
+    {
+        $dokumenp1 = DokumenSPMI::with('penetapan')->findOrFail($id_dokspmi);
+        return view('User.admin.Penetapan.edit_perangkatspmi', ['oldData' => $dokumenp1]);
     }
 
     public function update(Request $request, $id_dokspmi)
     {
-        // Validasi input
         $validatedData = $request->validate([
-            'nama_dokumenspmi' => 'required|string|max:255',
+            'namafile' => 'required|string|max:255',
             'kategori' => 'required|string',
             'tanggal_ditetapkan' => 'nullable|date',
-            'files.*' => 'file|mimes:pdf,doc,docx,xlsx,png,jpg,jpeg|max:5120' //Maksimum 5120 KB (5 MB)
-            //ini yang dipakai sebagai properti dari variabel $oldData
-            // ex: $oldData->nama_dokumenspmi
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480'
         ]);
 
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
+            $dokumen = DokumenSPMI::findOrFail($id_dokspmi);
+            $dokumen->update(['namafile' => $validatedData['namafile'], 'kategori' => $validatedData['kategori']]);
+            $dokumen->penetapan()->update(['tanggal_ditetapkan' => $validatedData['tanggal_ditetapkan']]);
 
-            // Ambil data lama dari tabel
-            $dokumen = DB::table('dokumen_spmi')->where('id_dokspmi', $id_dokspmi)->first();
-
-            // Update tabel dokumen_spmi
-            DB::table('dokumen_spmi')->where('id_dokspmi', $id_dokspmi)->update([
-                'namafile' => $validatedData['nama_dokumenspmi'],
-                'kategori' => $validatedData['kategori'],
-                'updated_at' => now(),
-            ]);
-
-            // Update tabel penetapans
-            DB::table('penetapans')->where('id_penetapan', $dokumen->id_penetapan)->update([
-                'tanggal_ditetapkan' => $validatedData['tanggal_ditetapkan'],
-                'updated_at' => now(),
-            ]);
-
-            // Jika ada file baru, hapus file lama dan simpan file baru
-            if ($request->hasFile('files')) {
-                foreach ($request->file('files') as $file) {
-                    // Hapus file lama jika ada
-                    if ($dokumen->file && Storage::exists('public/' . $dokumen->file)) {
-                        Storage::delete('public/' . $dokumen->file);
-                    }
-
-                    // Simpan file baru
-                    $namaFile = time() . '-' . $file->getClientOriginalName();
-                    $path = $file->storeAs('perangkatspmi', $namaFile, 'public');
-
-                    // Update path file baru di tabel dokumen_spmi
-                    DB::table('dokumen_spmi')->where('id_dokspmi', $id_dokspmi)->update(['file' => $path]);
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                if ($dokumen->file && Storage::exists('public/' . $dokumen->file)) {
+                    Storage::delete('public/' . $dokumen->file);
                 }
+                $path = $file->storeAs('perangkatspmi', $file->getClientOriginalName(), 'public');
+                $dokumen->update(['file' => $path]);
             }
 
             DB::commit();
@@ -201,41 +171,40 @@ class perangkatController extends Controller
             return redirect()->route('penetapan.perangkat');
         } catch (\Exception $e) {
             DB::rollBack();
-            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
     }
 
-
     public function destroy(String $id_dokspmi)
     {
         try {
-            // Ambil data dokumen berdasarkan id
-            $dokumen = DB::table('dokumen_spmi')->where('id_dokspmi', $id_dokspmi)->first();
+            // Ambil data dokumen berdasarkan ID, dengan relasi penetapan
+            $dokumen = DokumenSPMI::with('penetapan')->findOrFail($id_dokspmi);
 
-            // Pastikan data dokumen ditemukan
-            if ($dokumen) {
-                // Hapus file dari storage
-                if ($dokumen->file && Storage::exists('public/' . $dokumen->file)) {
-                    Storage::delete('public/' . $dokumen->file);
-                }
-
-                // Hapus data dari tabel dokumen_spmi
-                DB::table('dokumen_spmi')->where('id_dokspmi', $id_dokspmi)->delete();
-
-
-                Alert::success('Selesai', 'Dokumen berhasil dihapus.');
-                return redirect()->route('penetapan.perangkat');
-            } else {
-
-                Alert::error('error', 'Dokumen gagal dihapus.');
+            if (!$dokumen) {
+                Alert::error('Error', 'Dokumen tidak ditemukan.');
                 return redirect()->route('penetapan.perangkat');
             }
-        } catch (\Exception $e) {
 
-            Alert::error('error', 'Dokumen gagal dihapus.');
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            // Hapus file jika ada
+            if ($dokumen->file && Storage::exists('public/' . $dokumen->file)) {
+                Storage::delete('public/' . $dokumen->file);
+            }
+
+            // Hapus data dokumen_spmi
+            $dokumen->delete();
+
+            // Hapus data relasi penetapan
+            if ($dokumen->penetapan) {
+                $dokumen->penetapan->delete();
+            }
+
+            Alert::success('Selesai', 'Dokumen berhasil dihapus.');
+            return redirect()->route('penetapan.perangkat');
+        } catch (\Exception $e) {
+            Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back();
         }
     }
-
 }

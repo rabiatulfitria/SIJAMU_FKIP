@@ -12,6 +12,7 @@ class DokumenSPMI extends Model
 
     // Pendefinisian primarykey secara khusus. Karena default laravel berupa 'id'
     protected $primaryKey = 'id_dokspmi';
+    public $timestamps = true;
 
      /**
      * Atribut diisi secara massal
@@ -20,9 +21,14 @@ class DokumenSPMI extends Model
      */
     protected $fillable = [
         'id_dokspmi',
-        'nama_dokumenspmi',
+        'namafile',
         'kategori',
-        'tanggal_ditetapkan',
-        'files'
+        'id_penetapan',
+        'file'
     ];
+    
+    public function penetapan()
+    {
+        return $this->belongsTo(Penetapan::class, 'id_penetapan', 'id_penetapan');
+    }
 }

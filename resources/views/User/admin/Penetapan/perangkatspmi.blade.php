@@ -88,14 +88,14 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($dokumenp1 as $row)
                         <tr>
-                            <td>{{ $row->nama_dokumenspmi }}</td>
+                            <td>{{ $row->namafile }}</td>
                             <td>{{ $row->kategori }}</td>
-                            <td>{{ $row->tanggal_ditetapkan }}</td>
+                            <td>{{ $row->penetapan->tanggal_ditetapkan }}</td>
                             {{-- <td>{{ $row->nama_prodi }}</td> --}}
                             <td>
-                                @if ($row->unggahan_dokumen)
+                                @if ($row->file)
                                     <!-- Link ke dokumen -->
-                                    <a href="{{ route('dokumenperangkat.tampil', ['id_dokspmi' => $row->id_dokspmi]) }}"
+                                    <a href="{{ route('dokumenperangkat.tampil', ['id_dokspmi' => $row->id_dokspmi, 'namafile' => $row->namafile]) }}"
                                         class="badge bg-label-info me-1" target="_blank">
                                         <i class="bi bi-link-45deg">Buka Dokumen</i>
                                     </a>
@@ -125,7 +125,8 @@
                                                     action="{{ route('hapusDokumenPerangkat', $row->id_dokspmi) }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="button" class="dropdown-item btn btn-outline-danger" onclick="confirmDelete({{ $row->id_dokspmi }})"><i
+                                                    <button type="button" class="dropdown-item btn btn-outline-danger"
+                                                        onclick="confirmDelete({{ $row->id_dokspmi }})"><i
                                                             class="bx bx-trash me-1"></i> Hapus</button>
                                                 </form>
                                             </div>

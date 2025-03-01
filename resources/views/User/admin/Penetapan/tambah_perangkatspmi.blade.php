@@ -22,14 +22,17 @@
                         <h5 class="mb-0"></h5>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ url('tambahDokumenPerangkatSPMI-2') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ url('tambahDokumenPerangkatSPMI-2') }}"
+                            enctype="multipart/form-data">
                             @csrf
                             <!-- Nama Dokumen -->
                             <div class="mb-3">
                                 <label class="form-label" for="bx bx-file">Nama Dokumen</label>
                                 <div class="input-group input-group-merge">
-                                    <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-file"></i></span>
-                                    <input type="text" class="form-control" id="bx bx-file" name="nama_dokumenspmi" placeholder="Nama Dokumen" required />
+                                    <span id="basic-icon-default-fullname2" class="input-group-text"><i
+                                            class="bx bx-file"></i></span>
+                                    <input type="text" class="form-control" id="bx bx-file" name="namafile"
+                                        placeholder="Nama Dokumen" required />
                                 </div>
                             </div>
 
@@ -48,18 +51,19 @@
 
                             <!-- Tanggal Ditetapkan -->
                             <div class="mb-3">
-                                <label for="tahun" class="form-label">Tanggal Ditetapkan</label>
-                                <input type="date" class="form-control" id="tanggal_ditetapkan" name="tanggal_ditetapkan" required />
+                                <label for="tanggal_ditetapkan" class="form-label">Tanggal Ditetapkan</label>
+                                <input type="date" class="form-control" id="tanggal_ditetapkan" name="tanggal_ditetapkan"
+                                    required />
                             </div>
 
                             <!-- Nama Program Studi -->
-                            
+
 
                             <!-- Pilih Dokumen -->
                             <div class="mb-3">
                                 <label for="formFileMultiple" class="form-label">Pilih Dokumen</label>
-                                <input class="form-control" type="file" name="files[]" id="formFileMultiple" multiple />
-                                <p class="form-text" style="color: #7ebcfe">Maksimum 5120 KB (5 MB)</p>
+                                <input class="form-control" type="file" name="file" id="formFileMultiple" multiple />
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
 
                             <!-- Kirim -->
