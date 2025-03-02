@@ -12,6 +12,7 @@ class pelaksanaan_fakultas extends Model
 
     // Pendefinisian primarykey secara khusus. Karena default laravel berupa 'id'
     protected $primaryKey = 'id_plks_fklts';
+    public $timestamps = true;
 
     /**
      * Atribut diisi secara massal

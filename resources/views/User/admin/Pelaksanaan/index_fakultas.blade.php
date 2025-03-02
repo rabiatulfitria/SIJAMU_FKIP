@@ -15,6 +15,7 @@
                     <th>No.</th>
                     <th>Nama Dokumen</th>
                     <th>Dokumen Renstra Fakultas</th>
+                    <th>Periode/TA</th>
                     @if (Auth::user() &&
                             (Auth::user()->role->role_name == 'Admin' ||
                                 Auth::user()->role->role_name == 'JMF' ||
@@ -24,13 +25,23 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($renstraFakultas as $index => $document)
+                @foreach ($renstraFakultas as $loop => $document)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td><a href="{{ asset('storage/' . $document->files) }}"
-                            target="_blank">{{ $document->namafile }}</a> 
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanFakultas.tampil', ['id_plks_fklts' => $document->id_plks_fklts, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
+                        </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
-                        
+
                         @if (Auth::user() &&
                                 (Auth::user()->role->role_name == 'Admin' ||
                                     Auth::user()->role->role_name == 'JMF' ||
@@ -60,6 +71,7 @@
                     <th>No.</th>
                     <th>Nama Dokumen</th>
                     <th>Dokumen Laporan Kinerja Fakultas</th>
+                    <th>Periode/TA</th>
                     @if (Auth::user() &&
                             (Auth::user()->role->role_name == 'Admin' ||
                                 Auth::user()->role->role_name == 'JMF' ||
@@ -69,11 +81,21 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($laporanKinerjaFakultas as $index => $document)
+                @foreach ($laporanKinerjaFakultas as $loop => $document)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->namafile }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" target="_blank">Buka Dokumen</a></td>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanFakultas.tampil', ['id_plks_fklts' => $document->id_plks_fklts, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
+                        </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
 
                         @if (Auth::user() &&
