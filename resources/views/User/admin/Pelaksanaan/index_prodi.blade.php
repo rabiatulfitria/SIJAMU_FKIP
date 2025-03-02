@@ -29,12 +29,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($renstraProgramStudi as $index => $document)
+                @foreach ($renstraProgramStudi as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -80,12 +88,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($laporanKinerjaProgramStudi as $index => $document)
+                @foreach ($laporanKinerjaProgramStudi as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -131,12 +147,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($dokumenKurikulum as $index => $document)
+                @foreach ($dokumenKurikulum as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -182,12 +206,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($rps as $index => $document)
+                @foreach ($rps as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -233,9 +265,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($monitoringMbkm as $index => $document)
+                @foreach ($monitoringMbkm as $loop => $document)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->nama_prodi }}</td>
                         <td><a href="{{ asset('storage/' . $document->files) }}"
                                 target="_blank">{{ $document->namafile }}</a>
@@ -282,12 +314,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($cpl as $index => $document)
+                @foreach ($cpl as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -332,12 +372,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($panduanRps as $index => $document)
+                @foreach ($panduanRps as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -382,12 +430,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($panduanMutuSoal as $index => $document)
+                @foreach ($panduanMutuSoal as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -432,12 +488,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($panduanKisiKisi as $index => $document)
+                @foreach ($panduanKisiKisi as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -482,12 +546,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($formulirKepuasan as $index => $document)
+                @foreach ($formulirKepuasan as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -532,12 +604,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($monitoringKemahasiswaan as $index => $document)
+                @foreach ($monitoringKemahasiswaan as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->file) }}" class="badge bg-label-info me-1"
-                                target="_blank"><i class="bi bi-link-45deg">{{ $document->namafile }}</i></a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&

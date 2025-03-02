@@ -102,19 +102,18 @@ class pelaksanaan1Controller extends Controller
         $kategori = kategori::select('id_kategori', 'nama_kategori')->get();
 
         // Mengirim data ke view
-        return view('User.admin.Pelaksanaan.tambah_dokumen_pelaksanaan_prodi', compact('prodi', 'kategori'));
+        return view('User.admin.Pelaksanaan.tambah_pelaksanaan_prodi', compact('prodi', 'kategori'));
     }
 
     public function store(Request $request)
     {
         try {
-
             $request->validate([
                 'namafile' => 'required|string|max:255',
                 'id_kategori' => 'required|exists:kategori,id_kategori',
                 'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
                 'periode_tahunakademik' => 'required|string|max:255',
-                'file' => 'file|mimes:pdf,doc,docx,xlsx|max:5120', // Maksimum 5120 KB (5 MB)
+                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480', // Maksimum 20 MB
             ]);
 
             $data = $request->all();
@@ -149,29 +148,59 @@ class pelaksanaan1Controller extends Controller
 
     public function lihatdokumenPlksprodi($id_plks_prodi)
     {
-        try {
-            // Cari data peningkatan berdasarkan ID
-            $plks_prodi = pelaksanaan_prodi::findOrFail($id_plks_prodi);
+        $dokumenplks_prodi = pelaksanaan_prodi::findOrFail($id_plks_prodi);
+        $filePath = storage_path('app/public/' . $dokumenplks_prodi->file);
 
-            // Ambil path file dari model
-            $filePath = $plks_prodi->file;
+        // Cek apakah file ada
+        abort_if(!file_exists($filePath), 404, 'File tidak ditemukan.');
 
-            // Jika filePath kosong, abort dengan pesan error
-            if (!$filePath) {
-                abort(404, 'File tidak ditemukan.');
-            }
+        // Tentukan ekstensi file
+        $fileExtension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
-            // Periksa apakah file ada di storage lokal
-            if (Storage::disk('public')->exists($filePath)) {
-                // Kirim file untuk ditampilkan di browser
-                return response()->file(storage_path('app/public/' . $filePath));
-            } else {
-                abort(404, 'File tidak ditemukan di penyimpanan.');
-            }
-        } catch (\Exception $e) {
-            // Menampilkan error jika terjadi kesalahan
-            abort(500, 'Terjadi kesalahan: ' . $e->getMessage());
+        // Daftar MIME Types yang diizinkan
+        $mimeTypes = [
+            'pdf'  => 'application/pdf',
+            'doc'  => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls'  => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'png'  => 'image/png',
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+        ];
+
+        // Cek apakah ekstensi file didukung
+        if (!isset($mimeTypes[$fileExtension])) {
+            abort(403, 'Format file tidak didukung.');
         }
+
+        // Jika file berupa DOC, DOCX, XLS, XLSX, langsung di-download
+        $forceDownloadExtensions = ['doc', 'docx', 'xls', 'xlsx'];
+
+        if (in_array($fileExtension, $forceDownloadExtensions)) {
+            return response()->streamDownload(function () use ($filePath) {
+                $handle = fopen($filePath, 'rb'); // Buka file dalam mode baca biner
+                fpassthru($handle); // Kirim file ke output tanpa buffer tambahan
+                fclose($handle); // Tutup file setelah selesai
+            }, $dokumenplks_prodi->namafile . '.' . $fileExtension, [
+                'Content-Type'              => $mimeTypes[$fileExtension],
+                'Content-Disposition'       => 'attachment; filename="' . $dokumenplks_prodi->namafile . '.' . $fileExtension . '"',
+                'X-Content-Type-Options'    => 'nosniff',
+                'Cache-Control'             => 'no-store, no-cache, must-revalidate, max-age=0',
+                'Pragma'                    => 'no-cache',
+                'Expires'                   => '0',
+                'Content-Transfer-Encoding' => 'binary',
+                'Content-Length'            => filesize($filePath) // Pastikan ukuran file dikirim
+            ]);
+        }
+
+
+        // Untuk PDF & gambar, tampilkan langsung di browser
+        return response()->file($filePath, [
+            'Content-Type' => $mimeTypes[$fileExtension],
+            'Content-Disposition' => 'inline; filename="' . $dokumenplks_prodi ->namafile . '.' . $fileExtension . '"',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 
     public function edit(String $id_plks_prodi)
@@ -203,21 +232,22 @@ class pelaksanaan1Controller extends Controller
                 'id_kategori' => 'required|exists:kategori,id_kategori',
                 'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
                 'periode_tahunakademik' => 'required|string|max:255',
-                'file' => 'file|mimes:pdf,doc,docx,xlsx|max:5120' // Maksimum 5120 KB (5 MB)
+                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480' // Maksimum 20MB
             ]);
 
-            // Ambil data pengendalian berdasarkan ID
+            // Ambil data berdasarkan ID
             $plks_prodi = pelaksanaan_prodi::findOrFail($id_plks_prodi);
 
             // Proses upload file baru jika ada
             if ($request->hasFile('file')) {
+                $file = $request->file('file');
                 // Hapus file lama jika ada
                 if ($plks_prodi->file && Storage::exists('public/' . $plks_prodi->file)) {
                     Storage::delete('public/' . $plks_prodi->file);
                 }
                 // Simpan file baru
-                $filePlksProdiPath = $request->file('file')->store('pelaksanaan/prodi', 'public');
-                $plks_prodi->file = $filePlksProdiPath;
+                $filePlksProdiPath = $file->storeAs('pelaksanaan/prodi', $file->getClientOriginalName(), 'public');
+                $plks_prodi->update(['file' => $filePlksProdiPath]);
             }
 
             // Perbarui data lainnya
