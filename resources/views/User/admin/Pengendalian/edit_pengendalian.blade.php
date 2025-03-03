@@ -65,7 +65,7 @@
                                             href="{{ route('lihatdokumenpengendalian', ['id_pengendalian' => $oldData->id_pengendalian, 'jenis_file' => 'rtm']) }}"
                                             target="_blank">Buka File RTM</a></p>
                                 @endif
-                                <p class="form-text" style="color: #7ebcfe">Maksimum 5120 KB (5 MB)</p>
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
 
                             <div class="mb-3">
@@ -76,7 +76,7 @@
                                             href="{{ route('lihatdokumenpengendalian', ['id_pengendalian' => $oldData->id_pengendalian, 'jenis_file' => 'rtl']) }}"
                                             target="_blank">Buka File RTL</a></p>
                                 @endif
-                                <p class="form-text" style="color: #7ebcfe">Maksimum 5120 KB (5 MB)</p>
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
                             <div>
                                 <button type="submit" class="btn btn-primary">Ubah</button>

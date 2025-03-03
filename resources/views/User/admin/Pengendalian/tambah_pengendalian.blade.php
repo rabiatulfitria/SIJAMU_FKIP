@@ -51,7 +51,7 @@
                                 <div class="input-group input-group-merge">
                                     <span id="basic-icon-default-fullname2" class="input-group-text"><i
                                             class="bx bx-file"></i></span>
-                                    <input type="text" class="form-control" id="bx bx-file" name="nama_filep4"
+                                    <input type="text" class="form-control" id="bx bx-file" name="nama_dokumen"
                                         placeholder="Nama Dokumen" required />
                                 </div>
                             </div>
@@ -75,17 +75,17 @@
                                 <label class="form-label" for="formFileMultiple">Dokumen RTM</label>
                                 <input type="file" class="form-control" id="formFileMultiple" multiple
                                     name="file_rtm" />
-                                <p class="form-text" style="color: #7ebcfe">Maksimum 5120 KB (5 MB)</p>
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="formFileMultiple">Dokumen RTL</label>
                                 <input type="file" class="form-control" id="formFileMultiple" multiple
                                     name="file_rtl" />
-                                <p class="form-text" style="color: #7ebcfe">Maksimum 5120 KB (5 MB)</p>
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-primary">{{ isset($pengendalian) }}Kirim</button>
+                                <button type="submit" class="btn btn-primary">Kirim</button>
                         </form>
                     </div>
                 </div>

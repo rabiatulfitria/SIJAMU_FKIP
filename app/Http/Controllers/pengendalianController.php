@@ -34,10 +34,8 @@ class pengendalianController extends Controller
             $request->validate([
                 'nama_dokumen' => 'required|string',
                 'tahun' => 'required|string',
-                // 'file_rtm' => 'nullable|mimes:doc,docx,xls,xlsx,pdf|max:5120',
-                // 'file_rtl' => 'nullable|mimes:doc,docx,xls,xlsx,pdf|max:5120',
-                'file_rtm' => 'file|mimes:doc,docx,xls,xlsx,pdf|max:5120',
-                'file_rtl' => 'file|mimes:doc,docx,xls,xlsx,pdf|max:5120',
+                'file_rtm' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:5120',
+                'file_rtl' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:5120',
                 'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
             ]);
 
@@ -135,12 +133,9 @@ class pengendalianController extends Controller
             $validatedData = $request->validate([
                 'nama_dokumen' => 'required|string',
                 'tahun' => 'required|string',
-                'id_prodi' => 'required|exists:tabel_prodi,id_prodi', // Validasi bahwa ID Prodi harus ada di tabel prodi
-                // 'file_rtm' => 'nullable|mimes:doc,docx,xls,xlsx,pdf|max:5120', // Validasi file RTM
-                // 'file_rtl' => 'nullable|mimes:doc,docx,xls,xlsx,pdf|max:5120', // Validasi file RTL
-                
-                'file_rtm' => 'file|mimes:doc,docx,xls,xlsx,pdf|max:5120', 
-                'file_rtl' => 'file|mimes:doc,docx,xls,xlsx,pdf|max:5120', 
+                'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
+                'file_rtm' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:5120', 
+                'file_rtl' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:5120', 
             ]);
 
             // Ambil data pengendalian berdasarkan ID
