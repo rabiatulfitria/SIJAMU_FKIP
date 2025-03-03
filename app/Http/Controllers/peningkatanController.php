@@ -25,18 +25,17 @@ class peningkatanController extends Controller
     public function create()
     {
         $prodi = Prodi::select('id_prodi', 'nama_prodi')->get();
-        return view('User.admin.Peningkatan.tambah_dokumen_peningkatan', compact('prodi'));
+        return view('User.admin.Peningkatan.tambah_peningkatan', compact('prodi'));
     }
 
     public function store(Request $request)
     {
         try {
-
             $request->validate([
                 'nama_dokumen' => 'required|string',
                 'bidang_standar' => 'required|string',
                 'tanggal_penetapan_baru' => 'required|string',
-                'file_peningkatan' => 'file|mimes:pdf,doc,docx,xlsx,url|max:5120',
+                'file_peningkatan' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:5120',
                 'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
             ]);
 
@@ -70,7 +69,7 @@ class peningkatanController extends Controller
         }
     }
 
-    public function lihatdokumenpeningkatan($id_peningkatan, $jenis_file)
+    public function lihatdokumenpeningkatan($id_peningkatan)
     {
         try {
             // Cari data peningkatan berdasarkan ID
@@ -129,7 +128,7 @@ class peningkatanController extends Controller
                 'nama_dokumen' => 'required|string',
                 'bidang_standar' => 'required|string',
                 'tanggal_penetapan_baru' => 'required|string',
-                'file_peningkatan' => 'file|mimes:pdf,doc,docx,xlsx|max:5120',
+                'file_peningkatan' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:5120',
                 'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
             ]);
 

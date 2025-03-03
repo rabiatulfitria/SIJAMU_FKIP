@@ -87,7 +87,7 @@
                                     multiple />
                                 <p class="form-text text-muted">Unggah ulang dokumen jika ingin mengubah file yang sudah
                                     ada.</p>
-                                <p class="form-text" style="color: #7ebcfe">Maksimum 5120 KB (5 MB)</p>
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Ubah</button>

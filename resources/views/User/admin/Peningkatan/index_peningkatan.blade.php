@@ -95,10 +95,11 @@
                             <td>
 
                                 @if ($row->file_peningkatan)
-                                    <!-- Hanya berlaku jika dihosting-->
-                                    {{-- <a href="https://docs.google.com/viewer?url=https://namadomain/storage/perangkatspmi/{{$row->files}}&embedded=true" --}}
-                                    <a href="{{ asset('storage/' . $row->file_peningkatan) }}" class="badge bg-label-info me-1"
-                                        target="_blank"><i class="bi bi-link-45deg">Buka Dokumen</i></a>
+                                    <!-- Link ke dokumen -->
+                                    <a href="{{ route('dokumenpeningkatan.tampil', ['id_peningkatan' => $row->id_peningkatan, 'nama_dokumen' => $row->nama_dokumen]) }}"
+                                        class="badge bg-label-info me-1" target="_blank">
+                                        <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                    </a>
                                 @else
                                     <p>Masih dalam proses</p>
                                 @endif
