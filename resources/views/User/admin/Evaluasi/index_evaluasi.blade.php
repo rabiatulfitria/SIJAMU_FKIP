@@ -53,7 +53,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{route('logout')}}">
+                        <a class="dropdown-item" href="{{ route('logout') }}">
                             <i class="bx bx-power-off me-2"></i>
                             <span class="align-middle">Log Out</span>
                         </a>
@@ -98,57 +98,55 @@
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ($evaluasi as $row)
-                                            <tr>
-                            <td><i></i>{{ $row->namaDokumen_evaluasi }}</td>
-                            <td><i></i>{{ $row->namaprodi }}</td>
-                            <td><i></i>{{ $row->tanggal_terakhir_dilakukan }}</td>
-                            <td><i></i>{{ $row->tanggal_diperbarui }}</td>
-                            <td>
-                                @if ($row->unggahan)
-                                    <!-- Hanya berlaku jika dihosting-->
-                                    {{-- <a href="https://docs.google.com/viewer?url=https://namadomain/storage/perangkatspmi/{{$row->files}}&embedded=true" --}}
-                                    <a href="../storage/evaluasi/{{ $row->unggahan }}" class="badge bg-label-info me-1"
-                                        target="_blank">
-                                        <i class="bi bi-link-45deg">Buka Dokumen</i>
-                                    </a>
-                                @else
-                                    <p>Masih dalam proses</p>
-                                @endif
-                            </td>
-                            @if (
-                                (Auth::user() && Auth::user()->role->role_name == 'Admin') ||
-                                    Auth::user()->role->role_name == 'JMF' ||
-                                    Auth::user()->role->role_name == 'Ketua Jurusan' ||
-                                    Auth::user()->role->role_name == 'Koordinator Prodi')
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <div>
-                                                <a class="dropdown-item"
-                                                    href="{{ route('editDokumenEvaluasi', $row->id_evaluasi) }}"><i
-                                                        class="bx bx-edit-alt me-1"></i>
-                                                    Editt</a>
-                                            </div>
-                                            <div>
-                                                <form id="delete-form-{{ $row->id_evaluasi }}" method="POST"
-                                                    action="{{ route('hapusDokumenEvaluasi', $row->id_evaluasi) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="dropdown-item btn btn-outline-danger"
-                                                        onclick="confirmDelete({{ $row->id_evaluasi }})"><i
-                                                            class="bx bx-trash me-1"></i>
-                                                        Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
+                    <tr>
+                        <td><i></i>{{ $row->nama_fileeval }}</td>
+                        <td><i></i>{{ $row->prodi->nama_prodi }}</td>
+                        <td><i></i>{{ $row->evaluasi->tanggal_terakhir_dilakukan }}</td>
+                        <td><i></i>{{ $row->evaluasi->tanggal_diperbarui }}</td>
+                        <td>
+                            @forelse($row->fileEval as $file)
+                            <a href="{{ route('dokumenevaluasi.tampil', ['id_feval' => $row->fileEval->first()->id_feval ?? '', 'nama_fileeval' => $file->namaFileEval->first()->nama_fileeval]) }}" class="badge bg-label-info me-1" target="_blank">
+                                <i class="bi bi-link-45deg"></i> Buka Dokumen
+                            </a><br>
+                            @empty
+                            <p>Masih dalam proses</p>
+                            @endforelse
+                        </td>
+    
+                        @if (
+                        (Auth::user() && Auth::user()->role->role_name == 'Admin') ||
+                        Auth::user()->role->role_name == 'JMF' ||
+                        Auth::user()->role->role_name == 'Ketua Jurusan' ||
+                        Auth::user()->role->role_name == 'Koordinator Prodi')
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                    data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <div>
+                                        <a class="dropdown-item"
+                                            href="{{ route('editDokumenEvaluasi', $row->id_evaluasi) }}"><i
+                                                class="bx bx-edit-alt me-1"></i>
+                                            Edit</a>
                                     </div>
-                                </td>
-                            @endif
-                        </tr>
+                                    <div>
+                                        <form id="delete-form-{{ $row->id_evaluasi }}" method="POST"
+                                            action="{{ route('hapusDokumenEvaluasi', $row->id_evaluasi) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="dropdown-item btn btn-outline-danger"
+                                                onclick="confirmDelete({{ $row->id_evaluasi }})"><i
+                                                    class="bx bx-trash me-1"></i>
+                                                Hapus</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        @endif
+                    </tr>
                     @endforeach
                 </tbody>
             </table>

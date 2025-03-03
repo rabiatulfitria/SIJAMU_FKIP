@@ -55,7 +55,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label" for="">Program Studi</label>
-                                <select class="form-select" id="namaprodi" name="namaprodi" required>
+                                <select class="form-select" id="namaprodi" name="id_prodi" required>
                                     <option value="" disabled>Pilih Program Studi</option>
                                     <!-- ambil data sebelumnya di tabel nama_file_eval yang terdapat kolom id_evaluasi dan namaprodi -->
                                     @foreach($prodi as $item) 
@@ -81,11 +81,11 @@
                             <div class="mb-3">
                                 <label class="form-label" for="formFileMultiple">Pilih Dokumen</label>
                                 <input type="file" class="form-control" value="" id="formFileMultiple" multiple
-                                    name="unggahan_dokumen[]" />
-                                <p class="form-text" style="color: #7ebcfe">Maksimum 5120 KB (5 MB)</p>
+                                    name="file" />
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-primary">{{ isset($evaluasi) }}Kirim</button>
+                                <button type="submit" class="btn btn-primary">Ubah</button>
                         </form>
                     </div>
                 </div>

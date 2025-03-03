@@ -24,7 +24,7 @@
                         <form method="POST" action="{{ url('tambahDokumenEvaluasi-2') }}" enctype="multipart/form-data">
                             @csrf
                             <label class="form-label" for="">Nama Dokumen</label>
-                            <select class="form-select" id="namaDokumen_evaluasi" name="namaDokumen_evaluasi" required
+                            <select class="form-select" id="namaDokumen_evaluasi" name="nama_fileeval" required
                                 onchange="toggleManualInput()">
                                 <option value="" disabled selected>Pilih Nama Dokumen</option>
                                 <option value="Laporan Isian AMI">Isian Laporan AMI</option>
@@ -42,8 +42,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="">Nama Program Studi</label>
-                                <select class="form-select" id="namaprodi" name="namaprodi" required>
+                                <label class="form-label" for="nama_prodi">Nama Program Studi</label>
+                                <select class="form-select" id="nama_prodi" name="id_prodi" required>
                                     <option value="">Pilih Program Studi</option>
                                     @foreach($prodi as $item)
                                         <option value="{{ $item->id_prodi }}">{{ $item->nama_prodi }}</option>
@@ -66,11 +66,11 @@
                             <div class="mb-3">
                                 <label class="form-label" for="formFileMultiple">Pilih Dokumen</label>
                                 <input type="file" class="form-control" id="formFileMultiple" multiple
-                                    name="unggahan_dokumen[]" />
-                                <p class="form-text" style="color: #7ebcfe">Maksimum 5120 KB (5 MB)</p>
+                                    name="file" />
+                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-primary">{{ isset($evaluasi) }}Kirim</button>
+                                <button type="submit" class="btn btn-primary">Kirim</button>
                         </form>
                     </div>
                 </div>

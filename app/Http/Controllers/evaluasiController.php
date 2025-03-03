@@ -3,254 +3,185 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evaluasi;
+use App\Models\NamaFileEval;
+use App\Models\FileEval;
+use App\Models\Prodi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\DB;
 
-class evaluasiController extends Controller
+class EvaluasiController extends Controller
 {
     public function index()
     {
-        // Ambil data gabungan dari tabel nama_file_eval, evaluasi, dan file_eval
-        $evaluasi = DB::table('nama_file_eval')
-            ->join('tabel_prodi', 'nama_file_eval.namaprodi', '=', 'tabel_prodi.id_prodi')
-            ->join('evaluasis', 'nama_file_eval.id_evaluasi', '=', 'evaluasis.id_evaluasi')
-            ->join('file_eval', 'nama_file_eval.id_nfeval', '=', 'file_eval.id_nfeval')
-            ->select(
-                'tabel_prodi.nama_prodi as namaprodi',
-                'nama_file_eval.nama_fileeval as namaDokumen_evaluasi',
-                'evaluasis.id_evaluasi as id_evaluasi',
-                'evaluasis.tanggal_terakhir_dilakukan as tanggal_terakhir_dilakukan',
-                'evaluasis.tanggal_diperbarui as tanggal_diperbarui',
-                'file_eval.files as unggahan' //nama 'unggahan' ini harus sama dengan nama row di blade.
-            )
+        $evaluasi = NamaFileEval::with(['prodi', 'evaluasi', 'fileEval']) //function yg menunjukkan relasi
             ->get();
 
-        // Kembalikan data ke view
         return view('User.admin.Evaluasi.index_evaluasi', compact('evaluasi'));
     }
 
     public function create()
     {
-        // Mengambil data nama_prodi dari tabel_prodi
-        $prodi = DB::table('tabel_prodi')->select('id_prodi', 'nama_prodi')->get();
+        $prodi = Prodi::select('id_prodi', 'nama_prodi')->get();
         return view('User.admin.Evaluasi.tambah_evaluasi', compact('prodi'));
     }
 
     public function store(Request $request)
     {
+        DB::beginTransaction(); // Mulai transaksi database
+
         try {
             // Validasi input
             $validatedData = $request->validate([
-                'namaDokumen_evaluasi' => 'required|string',
+                'nama_fileeval' => 'required|string',
                 'manual_namaDokumen' => 'nullable|string',
-                'namaprodi' => 'required|exists:tabel_prodi,id_prodi',
+                'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
                 'tanggal_terakhir_dilakukan' => 'nullable|date',
                 'tanggal_diperbarui' => 'nullable|date',
-                'unggahan_dokumen.*' => 'nullable|mimes:doc,docx,xls,xlsx,pdf|max:5120', // Maksimum 5120 KB (5 MB)
+                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480',
             ]);
 
-            // Menentukan nama dokumen, apakah dari dropdown atau input manual
-            $namaDokumen = $validatedData['namaDokumen_evaluasi'];
-            if ($namaDokumen === 'Dokumen Lainnya' && $request->filled('manual_namaDokumen')) {
-                $namaDokumen = $request->input('manual_namaDokumen');
-            }
+            // Menentukan nama dokumen
+            $namaDokumen = $validatedData['nama_fileeval'] === 'Dokumen Lainnya'
+                ? $request->input('manual_namaDokumen')
+                : $validatedData['nama_fileeval'];
 
-            // Simpan data ke tabel evaluasi menggunakan query builder
-            $idEvaluasi = DB::table('evaluasis')->insertGetId([
+            // Simpan data ke tabel Evaluasi
+            $evaluasi = Evaluasi::create([
                 'tanggal_terakhir_dilakukan' => $validatedData['tanggal_terakhir_dilakukan'],
-                'tanggal_diperbarui' => $validatedData['tanggal_diperbarui'],
-                'created_at' => now(),
-                'updated_at' => now(),
+                'tanggal_diperbarui' => $validatedData['tanggal_diperbarui']
             ]);
 
-            // Simpan nama dokumen ke tabel nama_file_eval dengan id dari evaluasi
-            $idNfeval = DB::table('nama_file_eval')->insertGetId([
-                'nama_fileeval' => $namaDokumen,  // Nama dokumen yang disimpan
-                'namaprodi' => $validatedData['namaprodi'],
-                'id_evaluasi' => $idEvaluasi,     // Mengambil id_evaluasi dari tabel evaluasi
-                'created_at' => now(),
-                'updated_at' => now(),
+            // Simpan data ke tabel namaFileEval
+            $namaFileEval = $evaluasi->namaFileEval()->create([
+                'nama_fileeval' => $namaDokumen,
+                'id_prodi' => $validatedData['id_prodi']
             ]);
 
-            // Mengupload file dan simpan ke tabel file_eval
-            if ($request->hasFile('unggahan_dokumen')) { //apakah request HTTP (form) memiliki nama input unggahan_dokumen
-                foreach ($request->file('unggahan_dokumen') as $file) {
-                    // Simpan file
-                    $namaFile = time() . '-' . $file->getClientOriginalName();
-                    $file->storeAs('evaluasi', $namaFile, 'public');
+            // Simpan file jika ada
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $namaFile = time() . '-' . $file->getClientOriginalName();
+                $file->storeAs('evaluasi', $namaFile, 'public');
 
-                    // Simpan nama file ke tabel file_eval
-                    DB::table('file_eval')->insert([
-                        'files' => $namaFile,       // Nama file yang diunggah
-                        'id_nfeval' => $idNfeval,   // ID dari nama_file_eval
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
+                $namaFileEval->fileEval()->create(['file' => $namaFile]);
             } else {
-                // Jika tidak ada file yang diunggah, simpan data dengan field files kosong
-                DB::table('file_eval')->insert([
-                    'files' => '',            // Field file kosong
-                    'id_nfeval' => $idNfeval, // ID dari nama_file_eval
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                $namaFileEval->fileEval()->create(['file' => '']);
             }
 
-            // Tampilkan pesan sukses
+            DB::commit(); // Simpan transaksi ke database
+
             Alert::success('Selesai', 'Data evaluasi dan dokumen berhasil ditambahkan.');
             return redirect()->route('evaluasi');
-
         } catch (\Exception $e) {
-            // Menangkap semua error dan menampilkan pesan kesalahan
-            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            DB::rollBack(); // Kembalikan data jika terjadi error
+            Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
     }
 
-
     public function lihatdokumenevaluasi($id_evaluasi)
     {
-        $evaluasi = Evaluasi::findOrFail($id_evaluasi);
-        $filePaths = json_decode($evaluasi->unggahan_dokumen, true);
+        // Ambil data file berdasarkan id_evaluasi
+        $dokumenEval = FileEval::whereHas('namaFileEval.evaluasi', function ($query) use ($id_evaluasi) {
+            $query->where('id_evaluasi', $id_evaluasi);
+        })->firstOrFail();
 
-        if (is_array($filePaths) && !empty($filePaths)) {
-            $file = $filePaths[0];
+        $filePath = storage_path('app/public/evaluasi/' . $dokumenEval->file);
 
-            if (Storage::disk('local')->exists($file)) {
-                return response()->file(storage_path('app' . $file));
-            } else {
-                abort(404, 'File tidak ditemukan.');
-            }
+        // Cek apakah file ada
+        abort_if(!file_exists($filePath), 404, 'File tidak ditemukan.');
+
+        // Tentukan ekstensi file
+        $fileExtension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+        // Daftar MIME Types yang diizinkan
+        $mimeTypes = [
+            'pdf'  => 'application/pdf',
+            'doc'  => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls'  => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'png'  => 'image/png',
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+        ];
+
+        // Cek apakah ekstensi file didukung
+        if (!isset($mimeTypes[$fileExtension])) {
+            abort(403, 'Format file tidak didukung.');
         }
-    }
 
-    public function edit(String $id_evaluasi)
-    {
-        try {
-            // Ambil data evaluasi berdasarkan id_evaluasi
-            $dataEvaluasi = DB::table('evaluasis')
-                ->where('id_evaluasi', $id_evaluasi)
-                ->first();
+        // Jika file berupa DOC, DOCX, XLS, XLSX, langsung di-download
+        $forceDownloadExtensions = ['doc', 'docx', 'xls', 'xlsx'];
 
-            // Ambil data nama_file_eval berdasarkan id_evaluasi
-            $namaFileEval = DB::table('nama_file_eval')
-                ->where('id_evaluasi', $id_evaluasi)
-                ->first();
-
-            // Ambil data nama_file_eval berdasarkan id_nfeval di tabel fileeval
-            $fileevalnya = null;
-            if ($namaFileEval) {
-                $fileevalnya = DB::table('file_eval')
-                    ->where('id_nfeval', $namaFileEval->id_nfeval)
-                    ->first();
-            }
-
-            if (!$namaFileEval) {
-                $namaFileEval = (object) ['nama_fileeval' => ''];
-            }
-
-            // Ambil daftar program studi untuk dropdown
-            $prodi = DB::table('tabel_prodi')->select('id_prodi', 'nama_prodi')->get();
-            
-            // Pastikan untuk mengembalikan data lengkap (data evaluasi + nama file evaluasi)
-            return view('User.admin.Evaluasi.edit_evaluasi', [
-                'oldData' => $dataEvaluasi, 'prodi' => $prodi, // Data evaluasi yang diambil dari tabel evaluasis
-                'files' => $fileevalnya ? $fileevalnya->files : null,
-                'namaFileEval' => $namaFileEval->nama_fileeval,  // Mengembalikan nama_fileeval
-                'namaprodi' => $namaFileEval->namaprodi,
-                'tanggal_terakhir_dilakukan' => $dataEvaluasi->tanggal_terakhir_dilakukan,  // Tanggal terakhir dilakukan
-                'tanggal_diperbarui' => $dataEvaluasi->tanggal_diperbarui,  // Tanggal diperbarui
+        if (in_array($fileExtension, $forceDownloadExtensions)) {
+            return response()->streamDownload(function () use ($filePath) {
+                $handle = fopen($filePath, 'rb'); // Buka file dalam mode baca biner
+                fpassthru($handle); // Kirim file ke output tanpa buffer tambahan
+                fclose($handle); // Tutup file setelah selesai
+            }, $dokumenEval->nama_fileeval . '.' . $fileExtension, [
+                'Content-Type'              => $mimeTypes[$fileExtension],
+                'Content-Disposition'       => 'attachment; filename="' . $dokumenEval->nama_fileeval . '.' . $fileExtension . '"',
+                'X-Content-Type-Options'    => 'nosniff',
+                'Cache-Control'             => 'no-store, no-cache, must-revalidate, max-age=0',
+                'Pragma'                    => 'no-cache',
+                'Expires'                   => '0',
+                'Content-Transfer-Encoding' => 'binary',
+                'Content-Length'            => filesize($filePath) // Pastikan ukuran file dikirim
             ]);
-
-        } catch (\Exception $e) {
-            // Menangkap error jika terjadi masalah
-            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
-            return redirect()->back();
         }
+
+        // Untuk PDF & gambar, tampilkan langsung di browser
+        return response()->file($filePath, [
+            'Content-Type' => $mimeTypes[$fileExtension],
+            'Content-Disposition' => 'inline; filename="' . $dokumenEval->nama_fileeval . '.' . $fileExtension . '"',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 
     public function update(Request $request, $id_evaluasi)
     {
+        $validatedData = $request->validate([
+            'nama_fileeval' => 'required|string',
+            'manual_namaDokumen' => 'nullable|string',
+            'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
+            'tanggal_terakhir_dilakukan' => 'nullable|date',
+            'tanggal_diperbarui' => 'nullable|date',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480',
+        ]);
+
+
+        DB::beginTransaction();
         try {
-            // Validasi input dari form
-            $validatedData = $request->validate([
-                'nama_fileeval' => 'required|string',
-                'manual_namaDokumen' => 'nullable|string',
-                'namaprodi' => 'required|exists:tabel_prodi,id_prodi',
-                'tanggal_terakhir_dilakukan' => 'nullable|date',
-                'tanggal_diperbarui' => 'nullable|date',
-                'unggahan_dokumen.*' => 'nullable|mimes:doc,docx,xls,xlsx,pdf|max:5120', //Maksimum 5120 KB (5 MB)
+            $evaluasi = Evaluasi::findOrFail($id_evaluasi);
+            $evaluasi->update([
+                'tanggal_terakhir_dilakukan' => $validatedData['tanggal_terakhir_dilakukan'],
+                'tanggal_diperbarui' => $validatedData['tanggal_diperbarui'],
+                'updated_at' => now(),
             ]);
 
-            // Cek apakah nama dokumen menggunakan dropdown atau input manual
-            $namaDokumen = $validatedData['nama_fileeval'];
-            if ($namaDokumen === 'Dokumen Lainnya' && $request->filled('manual_namaDokumen')) {
-                $namaDokumen = $request->input('manual_namaDokumen');
-            }
+            $namaDokumen = $validatedData['nama_fileeval'] === 'Dokumen Lainnya' && $request->filled('manual_namaDokumen')
+                ? $request->input('manual_namaDokumen')
+                : $validatedData['nama_fileeval'];
 
-            // Update data evaluasi di tabel evaluasis
-            DB::table('evaluasis')
-                ->where('id_evaluasi', $id_evaluasi)
-                ->update([
-                    'tanggal_terakhir_dilakukan' => $validatedData['tanggal_terakhir_dilakukan'],
-                    'tanggal_diperbarui' => $validatedData['tanggal_diperbarui'],
-                    'updated_at' => now(),
-                ]);
-
-            // Update nama dokumen di tabel nama_file_eval
-            $namaFileEval = DB::table('nama_file_eval')
-                ->where('id_evaluasi', $id_evaluasi)
-                ->first();
-
-            if ($namaFileEval) {
-                DB::table('nama_file_eval')
-                    ->where('id_evaluasi', $id_evaluasi)
-                    ->update([
-                        'nama_fileeval' => $namaDokumen,  // Update nama dokumen
-                        'namaprodi' => $validatedData['namaprodi'],
-                        'updated_at' => now(),
-                    ]);
-            } else {
-                // Jika tidak ada data di nama_file_eval, buat baru
-                DB::table('nama_file_eval')->insert([
+            $namaFileEval = NamaFileEval::updateOrCreate(
+                ['id_evaluasi' => $id_evaluasi],
+                [
                     'nama_fileeval' => $namaDokumen,
-                    'namaprodi' => $validatedData['namaprodi'],
-                    'id_evaluasi' => $id_evaluasi,
-                    'created_at' => now(),
+                    'id_prodi' => $validatedData['id_prodi'],
                     'updated_at' => now(),
-                ]);
-            }
+                ]
+            );
 
-            // Cek apakah ada file baru yang diunggah
-            if ($request->hasFile('unggahan_dokumen')) {
-                // Hapus file lama jika ada
-                DB::table('file_eval')->where('id_nfeval', $namaFileEval->id_nfeval)->delete();
-
-                foreach ($request->file('unggahan_dokumen') as $file) {
-                    // Simpan file baru
+            if ($request->hasFile('file')) {
+                $namaFileEval->fileEval()->delete();
+                foreach ($request->file('file') as $file) {
                     $namaFile = time() . '-' . $file->getClientOriginalName();
                     $file->storeAs('evaluasi', $namaFile, 'public');
-
-                    // Simpan nama file ke tabel file_eval
-                    DB::table('file_eval')->insert([
-                        'files' => $namaFile,       // Nama file yang diunggah
-                        'id_nfeval' => $namaFileEval->id_nfeval,   // ID dari nama_file_eval
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-            } else {
-                // Jika tidak ada file baru yang diunggah, file lama tetap digunakan
-                $existingFiles = DB::table('file_eval')->where('id_nfeval', $namaFileEval->id_nfeval)->get();
-
-                if ($existingFiles->isEmpty()) {
-                    // Jika tidak ada file sebelumnya, masukkan data dengan file kosong
-                    DB::table('file_eval')->insert([
-                        'files' => '',  // Field file kosong
+                    FileEval::create([
+                        'file' => $namaFile,
                         'id_nfeval' => $namaFileEval->id_nfeval,
                         'created_at' => now(),
                         'updated_at' => now(),
@@ -258,12 +189,10 @@ class evaluasiController extends Controller
                 }
             }
 
-            // Jika update berhasil
             Alert::success('Selesai', 'Data evaluasi dan dokumen berhasil diperbarui.');
-            return redirect()->route('evaluasi');  // Ubah dengan route yang sesuai
-
+            return redirect()->route('evaluasi');
         } catch (\Exception $e) {
-            // Jika ada error, tampilkan pesan error
+            DB::rollBack();
             Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
@@ -272,40 +201,27 @@ class evaluasiController extends Controller
     public function destroy($id_evaluasi)
     {
         try {
-            // Ambil data nama_file_eval dan file_eval yang terkait dengan evaluasi ini
-            $namaFileEval = DB::table('nama_file_eval')->where('id_evaluasi', $id_evaluasi)->first();
+            $evaluasi = Evaluasi::with('namaFileEval.fileEval')->findOrFail($id_evaluasi);
 
-            if ($namaFileEval) {
-                // Ambil semua file yang terkait dengan nama_file_eval ini
-                $files = DB::table('file_eval')->where('id_nfeval', $namaFileEval->id_nfeval)->get();
-
-                // Hapus file dari folder penyimpanan
-                foreach ($files as $file) {
-                    if (!empty($file->files)) {
-                        // Pastikan file tidak kosong sebelum dihapus
-                        Storage::disk('public')->delete('evaluasi/' . $file->files);
+            if ($evaluasi->namaFileEval->isNotEmpty()) { // Pastikan ada data sebelum mengakses
+                foreach ($evaluasi->namaFileEval as $namaFileEval) { // Looping pada koleksi namaFileEval
+                    foreach ($namaFileEval->fileEval as $file) { // Looping pada koleksi fileEval
+                        if (!empty($file->file)) {
+                            Storage::disk('public')->delete('evaluasi/' . $file->file);
+                        }
                     }
+                    $namaFileEval->fileEval()->delete(); // Hapus file_eval terkait
+                    $namaFileEval->delete(); // Hapus nama_file_eval terkait
                 }
-
-                // Hapus data dari tabel file_eval
-                DB::table('file_eval')->where('id_nfeval', $namaFileEval->id_nfeval)->delete();
-
-                // Hapus data dari tabel nama_file_eval
-                DB::table('nama_file_eval')->where('id_evaluasi', $id_evaluasi)->delete();
             }
 
-            // Hapus data dari tabel evaluasis
-            DB::table('evaluasis')->where('id_evaluasi', $id_evaluasi)->delete();
+            $evaluasi->delete(); // Hapus evaluasi utama
 
-            // Tampilkan pesan sukses
             Alert::success('Selesai', 'Data evaluasi dan dokumen berhasil dihapus.');
-            return redirect()->route('evaluasi');  // Ubah dengan route yang sesuai
-
+            return redirect()->route('evaluasi');
         } catch (\Exception $e) {
-            // Tampilkan pesan error jika terjadi kesalahan
             Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back();
         }
     }
-
 }
