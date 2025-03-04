@@ -26,7 +26,8 @@
                             @csrf
                             @method('PUT')
                             <label class="form-label" for="">Nama Dokumen</label>
-                            <select class="form-select" id="nama_fileeval" name="nama_fileeval" required onchange="toggleManualInput()">
+                            <select class="form-select" id="nama_fileeval" name="nama_fileeval" required
+                                onchange="toggleManualInput()">
                                 <option value="" disabled>Pilih Nama Dokumen</option>
                                 <option value="Isian Laporan AMI"
                                     {{ isset($namaFileEval) && $namaFileEval === 'Isian Laporan AMI' ? 'selected' : '' }}>
@@ -57,9 +58,10 @@
                                 <label class="form-label" for="">Program Studi</label>
                                 <select class="form-select" id="namaprodi" name="id_prodi" required>
                                     <option value="" disabled>Pilih Program Studi</option>
-                                    <!-- ambil data sebelumnya di tabel nama_file_eval yang terdapat kolom id_evaluasi dan namaprodi -->
-                                    @foreach($prodi as $item) 
-                                        <option value="{{ $item->id_prodi }}" {{ $oldData->id_evaluasi == $item->id_prodi ? 'selected' : '' }}>
+                                    <!-- ambil data sebelumnya di tabel nama_file_eval yang terdapat kolom id_evaluasi dan id_prodi -->
+                                    @foreach ($prodi as $item)
+                                        <option value="{{ $item->id_prodi }}"
+                                            {{ old('id_prodi', $id_prodi ?? null) == $item->id_prodi ? 'selected' : '' }}>
                                             {{ $item->nama_prodi }}
                                         </option>
                                     @endforeach
@@ -69,13 +71,14 @@
                             <div class="mb-3">
                                 <label class="form-label" for="">Tanggal Terakhir Dilakukan</label>
                                 <input type="date" class="form-control" id="tanggal_terakhir_dilakukan"
-                                    name="tanggal_terakhir_dilakukan" value="{{ old('tanggal_terakhir_dilakukan', $tanggal_terakhir_dilakukan) }}" />
+                                    name="tanggal_terakhir_dilakukan"
+                                    value="{{ old('tanggal_terakhir_dilakukan', $oldData->tanggal_terakhir_dilakukan) }}" />
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="">Tanggal Diperbarui</label>
-                                <input type="date" class="form-control" id="tanggal_diperbarui"
-                                    name="tanggal_diperbarui" value="{{ old('tanggal_diperbarui', $tanggal_diperbarui) }}"/>
+                                <input type="date" class="form-control" id="tanggal_diperbarui" name="tanggal_diperbarui"
+                                    value="{{ old('tanggal_diperbarui', $oldData->tanggal_diperbarui) }}" />
                             </div>
 
                             <div class="mb-3">

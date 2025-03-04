@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -12,10 +11,10 @@ class Evaluasi extends Model
 
     protected $table = 'evaluasis';
     protected $primaryKey = 'id_evaluasi';
-    protected $dates = ['tanggal_terakhir_dilakukan', 'tanggal_diperbarui'];
     public $timestamps = true; // Karena ada created_at & updated_at
 
     protected $fillable = [
+        'id_evaluasi',
         'tanggal_terakhir_dilakukan',
         'tanggal_diperbarui',
     ];
@@ -31,14 +30,4 @@ class Evaluasi extends Model
         return $this->hasMany(FileEval::class, 'id_evaluasi', 'id_evaluasi');
     }
 
-    // Accessor untuk menampilkan format tanggal yang diinginkan
-    public function getTanggalTerakhirDilakukanFormattedAttribute()
-    {
-        return $this->tanggal_terakhir_dilakukan->format('d/m/Y');
-    }
-
-    public function getTanggalDiperbaruiFormattedAttribute()
-    {
-        return $this->tanggal_diperbarui->format('d/m/Y');
-    }
 }

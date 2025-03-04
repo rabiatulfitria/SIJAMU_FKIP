@@ -115,7 +115,7 @@ use App\Http\Controllers\pengendalianController;
     Route::get('/Evaluasi/AuditMutuInternal',[evaluasiController::class, 'index'])->name('evaluasi');
     Route::get('/Evaluasi/tambahDokumenEvaluasi',[evaluasiController::class, 'create'])->name('tambahDokumenAMI');
     Route::resource('/tambahDokumenEvaluasi-2', evaluasiController::class);
-    Route::get('/dokumenEvaluasi/{id_feval}/buka/{nama_fileeval}', [evaluasiController::class, 'lihatdokumenevaluasi'])->name('dokumenevaluasi.tampil');
+    Route::get('/dokumenEvaluasi/{id_evaluasi}/buka/{nama_fileeval}', [evaluasiController::class, 'lihatdokumenevaluasi'])->name('dokumenevaluasi.tampil');
     Route::delete('/Evaluasi/PerangkatSPMI{id_evaluasi}', [evaluasiController::class, 'destroy'])->name('hapusDokumenEvaluasi');
     Route::get('/Evaluasi/editDokumenPerangkatSPMI/{id_evaluasi}', [evaluasiController::class, 'edit'])->name('editDokumenEvaluasi');
     Route::put('Evaluasi/updateDokumenEvaluasi/{id_evaluasi}', [evaluasiController::class, 'update'])->name('updateDokumenEvaluasi');

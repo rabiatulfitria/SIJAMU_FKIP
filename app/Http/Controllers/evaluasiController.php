@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Evaluasi;
-use App\Models\NamaFileEval;
-use App\Models\FileEval;
+use Carbon\Carbon;
 use App\Models\Prodi;
+use App\Models\Evaluasi;
+use App\Models\FileEval;
+use App\Models\NamaFileEval;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\DB;
 
 class EvaluasiController extends Controller
 {
@@ -49,8 +50,8 @@ class EvaluasiController extends Controller
 
             // Simpan data ke tabel Evaluasi
             $evaluasi = Evaluasi::create([
-                'tanggal_terakhir_dilakukan' => $validatedData['tanggal_terakhir_dilakukan'],
-                'tanggal_diperbarui' => $validatedData['tanggal_diperbarui']
+                'tanggal_terakhir_dilakukan' => $validatedData['tanggal_terakhir_dilakukan'] ? Carbon::parse($validatedData['tanggal_terakhir_dilakukan'])->format('Y-m-d') : null,
+                'tanggal_diperbarui' => $validatedData['tanggal_diperbarui'] ? Carbon::parse($validatedData['tanggal_diperbarui'])->format('Y-m-d') : null,
             ]);
 
             // Simpan data ke tabel namaFileEval
@@ -141,8 +142,33 @@ class EvaluasiController extends Controller
         ]);
     }
 
+    public function edit(String $id_evaluasi)
+    {
+        try {
+            // Ambil data evaluasi berdasarkan id_evaluasi
+            $dataEvaluasi = Evaluasi::with(['namaFileEval.fileEval'])->findOrFail($id_evaluasi);
+
+            // Ambil daftar program studi untuk dropdown
+            $prodi = Prodi::select('id_prodi', 'nama_prodi')->get();
+
+            return view('User.admin.Evaluasi.edit_evaluasi', [
+                'oldData' => $dataEvaluasi, //Menampilkan Halaman Edit dengan Data Sebelumnya
+                'prodi' => $prodi,
+                'file' => optional(optional($dataEvaluasi->namaFileEval->first())->fileEval->first())->file, // optional() mencegah error jika ada data yang null
+                'namaFileEval' => optional($dataEvaluasi->namaFileEval->first())->nama_fileeval ?? '',
+                'id_prodi' => optional($dataEvaluasi->namaFileEval->first())->id_prodi,
+                'tanggal_terakhir_dilakukan' => $dataEvaluasi->tanggal_terakhir_dilakukan,
+                'tanggal_diperbarui' => $dataEvaluasi->tanggal_diperbarui,
+            ]);
+        } catch (\Exception $e) {
+            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
     public function update(Request $request, $id_evaluasi)
     {
+        // dd($request->all());
         $validatedData = $request->validate([
             'nama_fileeval' => 'required|string',
             'manual_namaDokumen' => 'nullable|string',
@@ -157,8 +183,8 @@ class EvaluasiController extends Controller
         try {
             $evaluasi = Evaluasi::findOrFail($id_evaluasi);
             $evaluasi->update([
-                'tanggal_terakhir_dilakukan' => $validatedData['tanggal_terakhir_dilakukan'],
-                'tanggal_diperbarui' => $validatedData['tanggal_diperbarui'],
+                'tanggal_terakhir_dilakukan' => $validatedData['tanggal_terakhir_dilakukan'] ? Carbon::parse($validatedData['tanggal_terakhir_dilakukan'])->format('Y-m-d') : null,
+                'tanggal_diperbarui' => $validatedData['tanggal_diperbarui'] ? Carbon::parse($validatedData['tanggal_diperbarui'])->format('Y-m-d') : null,
                 'updated_at' => now(),
             ]);
 
@@ -188,8 +214,9 @@ class EvaluasiController extends Controller
                     ]);
                 }
             }
-
+            DB::commit();
             Alert::success('Selesai', 'Data evaluasi dan dokumen berhasil diperbarui.');
+            // dd(Evaluasi::find($id_evaluasi));
             return redirect()->route('evaluasi');
         } catch (\Exception $e) {
             DB::rollBack();
