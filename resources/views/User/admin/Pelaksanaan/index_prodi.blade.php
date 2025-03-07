@@ -16,6 +16,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen Renstra</th>
                     <th>Periode/TA</th>
@@ -32,11 +33,12 @@
                 @foreach ($renstraProgramStudi as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -75,6 +77,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen Laporan Kinerja</th>
                     <th>Periode/TA</th>
@@ -91,11 +94,12 @@
                 @foreach ($laporanKinerjaProgramStudi as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -134,6 +138,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen Kurikulum</th>
                     <th>Periode/TA</th>
@@ -150,11 +155,12 @@
                 @foreach ($dokumenKurikulum as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -193,6 +199,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen RPS</th>
                     <th>Periode/TA</th>
@@ -209,11 +216,12 @@
                 @foreach ($rps as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -252,6 +260,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen Monev MBKM</th>
                     <th>Periode/TA</th>
@@ -268,9 +277,18 @@
                 @foreach ($monitoringMbkm as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->nama_prodi }}</td>
-                        <td><a href="{{ asset('storage/' . $document->files) }}"
-                                target="_blank">{{ $document->namafile }}</a>
+                        <td>
+                            @if ($document->file)
+                                <!-- Link ke dokumen -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
+                                    class="badge bg-label-info me-1" target="_blank">
+                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
+                                </a>
+                            @else
+                                <p>Masih dalam proses</p>
+                            @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
                         @if (Auth::user() &&
@@ -301,6 +319,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen CPL</th>
                     <th>Periode/TA</th>
@@ -317,11 +336,12 @@
                 @foreach ($cpl as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -359,6 +379,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen Panduan RPS</th>
                     <th>Periode/TA</th>
@@ -375,11 +396,12 @@
                 @foreach ($panduanRps as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -417,6 +439,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen Panduan Mutu Soal</th>
                     <th>Periode/TA</th>
@@ -433,11 +456,12 @@
                 @foreach ($panduanMutuSoal as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -475,6 +499,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen Panduan Kisi Kisi Soal</th>
                     <th>Periode/TA</th>
@@ -491,11 +516,12 @@
                 @foreach ($panduanKisiKisi as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -533,6 +559,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Tautan Formulir Kepuasan</th>
                     <th>Periode/TA</th>
@@ -549,11 +576,12 @@
                 @foreach ($formulirKepuasan as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -591,6 +619,7 @@
             <thead class="table-purple">
                 <tr>
                     <th>No.</th>
+                    <th>Nama Dokumen</th>
                     <th>Program Studi</th>
                     <th>Dokumen Monev Standar Layanan Kemahasiswaan</th>
                     <th>Periode/TA</th>
@@ -607,11 +636,12 @@
                 @foreach ($monitoringKemahasiswaan as $loop => $document)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $document->namafile }}</td>
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
-                                <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile]) }}"
+                                <!-- Link ke dokumen dengan timestamp untuk menghindari cache -->
+                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>

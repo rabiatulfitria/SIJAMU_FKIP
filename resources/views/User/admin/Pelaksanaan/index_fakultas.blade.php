@@ -32,7 +32,7 @@
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanFakultas.tampil', ['id_plks_fklts' => $document->id_plks_fklts, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanFakultas.tampil', ['id_plks_fklts' => $document->id_plks_fklts, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>
@@ -49,7 +49,8 @@
                             <td>
                                 <a href="{{ route('editPelaksanaanFakultas', $document->id_plks_fklts) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('deletePelaksanaanFakultas', $document->id_plks_fklts) }}"
+                                <form id="delete-form-{{ $document->id_plks_fklts }}"
+                                    action="{{ route('deletePelaksanaanFakultas', $document->id_plks_fklts) }}"
                                     method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -88,7 +89,7 @@
                         <td>
                             @if ($document->file)
                                 <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanFakultas.tampil', ['id_plks_fklts' => $document->id_plks_fklts, 'namafile' => $document->namafile]) }}"
+                                <a href="{{ route('dokumenpelaksanaanFakultas.tampil', ['id_plks_fklts' => $document->id_plks_fklts, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
                                 </a>

@@ -88,12 +88,17 @@ class pelaksanaan2Controller extends Controller
         }
     }
 
-    public function lihatdokumenPlksFakultas($id_plks_fklts)
+    public function lihatdokumenPlksFakultas($id_plks_fklts, $namafile)
     {
-        $dokumenplks_fklts = pelaksanaan_fakultas::findOrFail($id_plks_fklts);
+        // Cari dokumen berdasarkan ID dan nama file
+        $dokumenplks_fklts = pelaksanaan_fakultas::where('id_plks_fklts', $id_plks_fklts)
+            ->where('namafile', $namafile)
+            ->firstOrFail();
+
+        // Tentukan path file
         $filePath = storage_path('app/public/' . $dokumenplks_fklts->file);
 
-        // Cek apakah file ada
+        // Cek apakah file ada di penyimpanan
         abort_if(!file_exists($filePath), 404, 'File tidak ditemukan.');
 
         // Tentukan ekstensi file
@@ -112,19 +117,13 @@ class pelaksanaan2Controller extends Controller
         ];
 
         // Cek apakah ekstensi file didukung
-        if (!isset($mimeTypes[$fileExtension])) {
-            abort(403, 'Format file tidak didukung.');
-        }
+        abort_if(!isset($mimeTypes[$fileExtension]), 403, 'Format file tidak didukung.');
 
         // Jika file berupa DOC, DOCX, XLS, XLSX, langsung di-download
         $forceDownloadExtensions = ['doc', 'docx', 'xls', 'xlsx'];
 
         if (in_array($fileExtension, $forceDownloadExtensions)) {
-            return response()->streamDownload(function () use ($filePath) {
-                $handle = fopen($filePath, 'rb'); // Buka file dalam mode baca biner
-                fpassthru($handle); // Kirim file ke output tanpa buffer tambahan
-                fclose($handle); // Tutup file setelah selesai
-            }, $dokumenplks_fklts->namafile . '.' . $fileExtension, [
+            return response()->download($filePath, $dokumenplks_fklts->namafile . '.' . $fileExtension, [
                 'Content-Type'              => $mimeTypes[$fileExtension],
                 'Content-Disposition'       => 'attachment; filename="' . $dokumenplks_fklts->namafile . '.' . $fileExtension . '"',
                 'X-Content-Type-Options'    => 'nosniff',
@@ -132,16 +131,16 @@ class pelaksanaan2Controller extends Controller
                 'Pragma'                    => 'no-cache',
                 'Expires'                   => '0',
                 'Content-Transfer-Encoding' => 'binary',
-                'Content-Length'            => filesize($filePath) // Pastikan ukuran file dikirim
+                'Content-Length'            => filesize($filePath)
             ]);
         }
 
-
-        // Untuk PDF & gambar, tampilkan langsung di browser
+        // Jika bukan dokumen office, tampilkan langsung di browser
         return response()->file($filePath, [
             'Content-Type' => $mimeTypes[$fileExtension],
-            'Content-Disposition' => 'inline; filename="' . $dokumenplks_fklts ->namafile . '.' . $fileExtension . '"',
-            'X-Content-Type-Options' => 'nosniff',
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
         ]);
     }
 
@@ -155,7 +154,7 @@ class pelaksanaan2Controller extends Controller
         // Ambil daftar kategori
         $kategori = kategori::select('id_kategori', 'nama_kategori')->get();
 
-        return view('User.admin.Pelaksanaan.edit_dokumen_pelaksanaan_fakultas', [
+        return view('User.admin.Pelaksanaan.edit_pelaksanaan_fakultas', [
             'oldData' => $plks_fklts,
             'kategori' => $kategori,
         ]);
@@ -169,37 +168,54 @@ class pelaksanaan2Controller extends Controller
                 'namafile' => 'required|string|max:255',
                 'id_kategori' => 'required|exists:kategori,id_kategori',
                 'periode_tahunakademik' => 'required|string|max:255',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480'
+                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480' // Maksimum 20MB
             ]);
-
-            // Ambil data pengendalian berdasarkan ID
+    
+            // Ambil data berdasarkan ID
             $plks_fklts = pelaksanaan_fakultas::findOrFail($id_plks_fklts);
-
+    
+            // Persiapkan data untuk diupdate
+            $updateData = [
+                'namafile' => $validatedData['namafile'],
+                'id_kategori' => $validatedData['id_kategori'],
+                'periode_tahunakademik' => $validatedData['periode_tahunakademik'],
+            ];
+    
             // Proses upload file baru jika ada
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $extension = $file->getClientOriginalExtension();
+    
+                // Buat nama file unik agar tidak ditimpa oleh cache browser
+                $newFileName = $originalName;
+                $counter = 1;
+                while (Storage::exists('public/pelaksanaan/fakultas/' . $newFileName . '.' . $extension)) {
+                    $newFileName = $originalName . '_' . $counter;
+                    $counter++;
+                }
+    
                 // Hapus file lama jika ada
                 if ($plks_fklts->file && Storage::exists('public/' . $plks_fklts->file)) {
                     Storage::delete('public/' . $plks_fklts->file);
                 }
-                // Simpan file baru
-                $filePlksFkltsPath = $file->storeAs('pelaksanaan/fakultas', $file->getClientOriginalName(), 'public');
-                $plks_fklts->update(['file' => $filePlksFkltsPath]);
+    
+                // Simpan file baru dengan nama unik
+                $filePlksFakultasPath = $file->storeAs('pelaksanaan/fakultas', $newFileName . '.' . $extension, 'public');
+    
+                // Tambahkan path file baru ke data yang akan diperbarui
+                $updateData['file'] = $filePlksFakultasPath;
             }
-
-            // Perbarui data lainnya
-            $plks_fklts->update([
-                'namafile' => $validatedData['namafile'],
-                'id_kategori' => $validatedData['id_kategori'],
-                'periode_tahunakademik' => $validatedData['periode_tahunakademik'],
-            ]);
-
+    
+            // Update semua data sekaligus
+            $plks_fklts->update($updateData);
+    
             // Tampilkan pesan sukses
             Alert::success('Selesai', 'Data berhasil diperbarui.');
             return redirect()->route('pelaksanaan.fakultas');
         } catch (\Exception $e) {
             // Menangkap semua error dan menampilkan pesan kesalahan
-            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
     }
