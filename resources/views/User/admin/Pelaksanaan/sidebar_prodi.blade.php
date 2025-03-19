@@ -88,26 +88,48 @@
                                     <div class="section-title"><b>Strategi Pencapaian</b></div>
                                     <ul>
                                         <li class="menu-itemm active" style="font-size: 12px">
-                                            <a href="javascript:void(0);" data-title="Tambah Dokumen Renstra Program Studi" onclick="showTable('DatatablesRenstraProgramStudinya')">Renstra Program Studi</a>
+                                            <a href="javascript:void(0);"
+                                                onclick="setMenu('Renstra Program Studi', 'DatatablesRenstraProgramStudinya')">Renstra
+                                                Program Studi</a>
                                         </li>
                                         <li class="menu-itemm" style="font-size: 12px">
-                                            <a href="javascript:void(0);" data-title="Tambah Dokumen Laporan Kinerja Program Studi" onclick="showTable('DatatablesKinerjaProgramStudinya')">Laporan Kinerja Program Studi</a>
+                                            <a href="javascript:void(0);"
+                                                onclick="setMenu('Kinerja Program Studi', 'DatatablesKinerjaProgramStudinya')">Laporan
+                                                Kinerja Program Studi</a>
                                         </li>
                                     </ul>
                                     <div class="section-title"><b>Standar Proses Pembelajaran</b></div>
                                     <ul>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" data-title="Tambah Dokumen Kurikulum" onclick="showTable('DatatablesKurikulum')">Dokumen Kurikulum</a></li>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" data-title="Tambah Dokumen RPS" onclick="showTable('DatatablesRPS')">Rencana Pembelajaran Semester (RPS)</a></li>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" data-title="Tambah Dokumen Monev Kegiatan Program MBKM" onclick="showTable('DatatablesMonitoring')">Dokumen Monitoring dan Evaluasi Kegiatan Program MBKM</a></li>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" data-title="Tambah Dokumen CPL" onclick="showTable('DatatablesCPL')">Capaian Pembelajaran Lulusan (CPL)</a></li>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" data-title="Tambah Dokumen Panduan RPS" onclick="showTable('DatatablesPanduanRPS')">Panduan RPS</a></li>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" data-title="Tambah Dokumen Panduan Mutu Soal" onclick="showTable('DatatablesPanduanMutuSoal')">Panduan Mutu Soal</a></li>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" data-title="Tambah Dokumen Panduan Kisi Kisi Soal" onclick="showTable('DatatablesPanduanKisi')">Panduan Kisi Kisi Soal</a></li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Dokumen Kurikulum', 'DatatablesKurikulum')">Dokumen
+                                                Kurikulum</a></li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Rencana Pembelajaran Semester (RPS)', 'DatatablesRPS')">Rencana
+                                                Pembelajaran Semester (RPS)</a></li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Dokumen Monitoring dan Evaluasi Kegiatan Program MBKM', 'DatatablesMonitoring')">Dokumen
+                                                Monitoring dan Evaluasi Kegiatan Program MBKM</a></li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Capaian Pembelajaran Lulusan (CPL)', 'DatatablesCPL')">Capaian
+                                                Pembelajaran Lulusan (CPL)</a></li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Panduan RPS', 'DatatablesPanduanRPS')">Panduan RPS</a>
+                                        </li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Panduan Mutu Soal', 'DatatablesPanduanMutuSoal')">Panduan
+                                                Mutu Soal</a></li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Panduan Kisi Kisi Soal', 'DatatablesPanduanKisi')">Panduan
+                                                Kisi Kisi Soal</a></li>
                                     </ul>
                                     <div class="section-title"><b>Standar Layanan Kemahasiswaan</b></div>
                                     <ul>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" data-title="Tambah Tautan Formulir Kepuasan Mahasiswa" onclick="showTable('DatatablesFormulirKepuasan')">Formulir Kepuasan Mahasiswa</a></li>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" data-title="Tambah Dokumen Monev Ketercapaian Standar Layanan Kemahasiswaan" onclick="showTable('DatatablesMonitoringLayanan')">Dokumen Monitoring dan Evaluasi Ketercapaian Standar Layanan Kemahasiswaan</a></li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Formulir Kepuasan Mahasiswa', 'DatatablesFormulirKepuasan')">Formulir
+                                                Kepuasan Mahasiswa</a></li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Dokumen Monitoring dan Evaluasi Ketercapaian Standar Layanan Kemahasiswaan', 'DatatablesMonitoringLayanan')">Dokumen
+                                                Monitoring dan Evaluasi Ketercapaian Standar Layanan Kemahasiswaan</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -143,5 +165,22 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        function setMenu(menuName, tableId) {
+            // Ubah tabel yang ditampilkan
+            showTable(tableId);
+
+            // Ambil tombol "Tambah Dokumen"
+            let tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
+
+            // Ubah href berdasarkan menu yang dipilih
+            if (menuName === "Formulir Kepuasan Mahasiswa") {
+                tambahDokumenBtn.href = "/tambahdata-pelaksanaan-prodi-formulirkepuasanmhs";
+            } else {
+                tambahDokumenBtn.href = "/tambahdata-dokumen-pelaksanaan-prodi";
+            }
+        }
     </script>
 @endsection

@@ -64,11 +64,12 @@
                                 </select>
                             </div>
 
-                            <!-- Pilih Dokumen -->
+                            <!-- Input URL Dokumen -->
                             <div class="mb-3">
-                                <label for="formFileMultiple" class="form-label">Pilih Dokumen</label>
-                                <input class="form-control" type="file" name="file" id="formFileMultiple" multiple />
-                                <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
+                                <label for="dokumenUrl" class="form-label">Masukkan URL</label>
+                                <input class="form-control" type="url" name="url" id="dokumenUrl"
+                                    placeholder="https://example.com/forms" required />
+                                <p class="form-text" style="color: #7ebcfe">Masukkan link yang valid</p>
                             </div>
 
                             <!-- Kirim -->
@@ -80,5 +81,3 @@
         </div>
     </div>
 @endsection
-
-

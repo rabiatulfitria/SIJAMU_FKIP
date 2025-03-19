@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Edit Dokumen Pelaksanaan Prodi</div>
+            <div class="nav-items d-flex align-item-center">Pengisian Data Dokumen Pelaksanaan (Program Studi)</div>
         </div>
     @endsection
 
@@ -62,12 +62,12 @@
 
                             <!-- Nama Program Studi -->
                             <div class="mb-3">
-                                <label for="nama_prodi" class="form-label">Nama Program Studi</label>
-                                <select class="form-select" id="nama_prodi" name="id_prodi" required>
+                                <label class="form-label" for="namaprodi">Program Studi</label>
+                                <select class="form-select" id="namaprodi" name="id_prodi" required>
                                     <option value="" disabled>Pilih Program Studi</option>
                                     @foreach ($prodi as $item)
                                         <option value="{{ $item->id_prodi }}"
-                                            {{ old('id_prodi', $id_prodi ?? null) == $item->id_prodi ? 'selected' : '' }}>
+                                            {{ old('id_prodi', $oldData->id_prodi) == $item->id_prodi ? 'selected' : '' }}>
                                             {{ $item->nama_prodi }}
                                         </option>
                                     @endforeach
@@ -84,7 +84,7 @@
                             </div>
 
                             <!-- Kirim -->
-                            <button type="submit" class="btn btn-primary">Ubah</button>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </form>
                     </div>
 

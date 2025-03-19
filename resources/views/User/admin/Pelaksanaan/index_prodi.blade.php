@@ -5,7 +5,7 @@
                 Auth::user()->role->role_name == 'JMF' ||
                 Auth::user()->role->role_name == 'Dosen' ||
                 Auth::user()->role->role_name == 'Koordinator Prodi'))
-        <a href="/tambah-dokumen-pelaksanaan-prodi" class="btn btn-primary mb-3">Tambah Dokumen</a>
+        <a id="tambahDokumenBtn" href="/tambahdata-dokumen-pelaksanaan-prodi" class="btn btn-primary mb-3">Tambah Dokumen</a>
     @endif
     <!-- Tabel yang akan ditampilkan -->
     <!-- id="DatatablesRenstraProgramStudinya" dipanggil di sidebar_prodi-->
@@ -54,7 +54,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -115,7 +115,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -176,7 +176,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -237,7 +237,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -298,7 +298,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ url('/edit-dokumen-pelaksanaan/' . $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form action="{{ route('deletePelaksanaan', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
@@ -357,7 +357,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -417,7 +417,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
@@ -477,7 +477,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
@@ -537,7 +537,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
@@ -561,7 +561,7 @@
                     <th>No.</th>
                     <th>Nama Dokumen</th>
                     <th>Program Studi</th>
-                    <th>Tautan Formulir Kepuasan</th>
+                    <th>Tautan Formulir</th>
                     <th>Periode/TA</th>
                     @if (Auth::user() &&
                             (Auth::user()->role->role_name == 'Admin' ||
@@ -580,13 +580,12 @@
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
-                                <!-- Link ke dokumen -->
-                                <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
-                                    class="badge bg-label-info me-1" target="_blank">
-                                    <i class="bi bi-link-45deg">Buka Dokumen</i>
-                                </a>
-                            @else
-                                <p>Masih dalam proses</p>
+                                @if (filter_var($document->file, FILTER_VALIDATE_URL))
+                                    <a href="{{ $document->file }}" class="badge bg-label-info me-1" target="_blank"
+                                        class="bi bi-link-45deg">Buka Link</a>
+                                @else
+                                    <p>Masih dalam proses</p>
+                                @endif
                             @endif
                         </td>
                         <td>{{ $document->periode_tahunakademik }}</td>
@@ -596,8 +595,8 @@
                                     Auth::user()->role->role_name == 'Dosen' ||
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
-                                <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{{ route('editPelaksanaanProdi-Form', $document->id_plks_prodi) }}"
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
@@ -640,7 +639,6 @@
                         <td>{{ $document->prodi->nama_prodi }}</td>
                         <td>
                             @if ($document->file)
-                                <!-- Link ke dokumen dengan timestamp untuk menghindari cache -->
                                 <a href="{{ route('dokumenpelaksanaanProdi.tampil', ['id_plks_prodi' => $document->id_plks_prodi, 'namafile' => $document->namafile, 'file' => basename($document->file)]) }}"
                                     class="badge bg-label-info me-1" target="_blank">
                                     <i class="bi bi-link-45deg">Buka Dokumen</i>
@@ -657,7 +655,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
