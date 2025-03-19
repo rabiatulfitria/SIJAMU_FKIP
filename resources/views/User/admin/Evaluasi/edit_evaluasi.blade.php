@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Edit Dokumen Audit Mutu Internal (AMI)</div>
+            <div class="nav-items d-flex align-item-center">Pengisian Data Dokumen Audit Mutu Internal (AMI)</div>
         </div>
     @endsection
 
@@ -21,47 +21,52 @@
                         <h5 class="mb-0"></h5>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('updateDokumenEvaluasi', $oldData->id_evaluasi) }}"
+                        <form method="POST" action="{{ route('updateDokumenEvaluasi', $oldData->id_dokumeneval) }}"
                             enctype="multipart/form-data">
+                            {{-- @dump($oldData) --}}
+
                             @csrf
                             @method('PUT')
-                            <label class="form-label" for="">Nama Dokumen</label>
-                            <select class="form-select" id="nama_fileeval" name="nama_fileeval" required
+                            <div class="mb-3">
+                                <label class="form-label" for="nama_dokumen">Nama Dokumen</label>
+                                <input type="text" class="form-control" id="nama_dokumen" name="nama_dokumen"
+                                    value="{{ old('nama_dokumen', $oldData->nama_dokumen) }}" required placeholder="Masukkan Nama Dokumen">
+                            </div>
+                            
+                            {{-- <select class="form-select" id="nama_dokumen" name="nama_dokumen" required
                                 onchange="toggleManualInput()">
                                 <option value="" disabled>Pilih Nama Dokumen</option>
                                 <option value="Isian Laporan AMI"
-                                    {{ isset($namaFileEval) && $namaFileEval === 'Isian Laporan AMI' ? 'selected' : '' }}>
+                                    {{ $oldData->nama_dokumen === 'Isian Laporan AMI' ? 'selected' : '' }}>
                                     Isian Laporan AMI
                                 </option>
                                 <option value="Berkas Audit (AMI)"
-                                    {{ isset($namaFileEval) && $namaFileEval === 'Berkas Audit (AMI)' ? 'selected' : '' }}>
+                                    {{ $oldData->nama_dokumen === 'Berkas Audit (AMI)' ? 'selected' : '' }}>
                                     Berkas Audit (AMI)
                                 </option>
-                                <option value="Dokumen Lainnya"
-                                    {{ isset($namaFileEval) && $namaFileEval === 'Dokumen Lainnya' ? 'selected' : '' }}>
-                                    Dokumen Lainnya
+                                <option value="Lainnya"
+                                    {{ !in_array($oldData->nama_dokumen, ['Isian Laporan AMI', 'Berkas Audit (AMI)']) ? 'selected' : '' }}>
+                                    Lainnya
                                 </option>
                             </select>
-
                             <div class="mb-3" id="manualNamaDokumen"
-                                style="display: {{ isset($namaFileEval->nama_fileeval) && $namaFileEval->nama_fileeval == 'Dokumen Lainnya' ? 'block' : 'none' }}; padding-top:8px">
-                                <label class="form-label" for="manual_namaDokumen">Ketikan Nama Dokumen</label>
+                                style="display: {{ !in_array($oldData->nama_dokumen, ['Isian Laporan AMI', 'Berkas Audit (AMI)']) ? 'block' : 'none' }}; padding-top:8px">
+                                <label class="form-label" for="manual_namaDokumen">Ketik Nama Dokumen</label>
                                 <input type="text" class="form-control" id="manual_namaDokumen" name="manual_namaDokumen"
+                                    value="{{ !in_array($oldData->nama_dokumen, ['Isian Laporan AMI', 'Berkas Audit (AMI)']) ? $oldData->nama_dokumen : '' }}"
                                     placeholder="Nama Dokumen Lainnya" />
-                            </div>
-
-                            <div class="divider text-start">
+                            </div> --}}
+                            {{-- <div class="divider text-start">
                                 <div class="divider-text">Keterangan</div>
-                            </div>
+                            </div> --}}
 
                             <div class="mb-3">
-                                <label class="form-label" for="">Program Studi</label>
+                                <label class="form-label" for="namaprodi">Program Studi</label>
                                 <select class="form-select" id="namaprodi" name="id_prodi" required>
                                     <option value="" disabled>Pilih Program Studi</option>
-                                    <!-- ambil data sebelumnya di tabel nama_file_eval yang terdapat kolom id_evaluasi dan id_prodi -->
                                     @foreach ($prodi as $item)
                                         <option value="{{ $item->id_prodi }}"
-                                            {{ old('id_prodi', $id_prodi ?? null) == $item->id_prodi ? 'selected' : '' }}>
+                                            {{ old('id_prodi', $oldData->id_prodi) == $item->id_prodi ? 'selected' : '' }}>
                                             {{ $item->nama_prodi }}
                                         </option>
                                     @endforeach
@@ -72,23 +77,32 @@
                                 <label class="form-label" for="">Tanggal Terakhir Dilakukan</label>
                                 <input type="date" class="form-control" id="tanggal_terakhir_dilakukan"
                                     name="tanggal_terakhir_dilakukan"
-                                    value="{{ old('tanggal_terakhir_dilakukan', $oldData->tanggal_terakhir_dilakukan) }}" />
+                                    value="{{ old('tanggal_terakhir_dilakukan', $oldData->evaluasi->tanggal_terakhir_dilakukan) }}" />
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="">Tanggal Diperbarui</label>
                                 <input type="date" class="form-control" id="tanggal_diperbarui" name="tanggal_diperbarui"
-                                    value="{{ old('tanggal_diperbarui', $oldData->tanggal_diperbarui) }}" />
+                                    value="{{ old('tanggal_diperbarui', $oldData->evaluasi->tanggal_diperbarui) }}" />
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="formFileMultiple">Pilih Dokumen</label>
                                 <input type="file" class="form-control" value="" id="formFileMultiple" multiple
-                                    name="file" />
+                                    name="file_eval" />
+                                @if ($oldData->file)
+                                    <p>File sebelumnya:
+                                        <a href="{{ route('dokumenevaluasi.tampil', [
+                                            'id_dokumeneval' => $oldData->id_dokumeneval,
+                                            'nama_dokumen' => $oldData->nama_dokumen,
+                                        ]) }}"
+                                            target="_blank">Buka File</a>
+                                    </p>
+                                @endif
                                 <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-primary">Ubah</button>
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </form>
                     </div>
                 </div>
@@ -100,7 +114,7 @@
 
 <script>
     function toggleManualInput() {
-        var namaDokumenSelect = document.getElementById("nama_fileeval");
+        var namaDokumenSelect = document.getElementById("inputmanual");
         var manualInputDiv = document.getElementById("manualNamaDokumen");
 
         if (namaDokumenSelect.value === "Dokumen Lainnya") {
@@ -108,7 +122,7 @@
             document.getElementById("manual_namaDokumen").required = true;
         } else {
             manualInputDiv.style.display = "none";
-            document.getElementById("manual_namaDokumen").required = false;
+            document.getElementById("manual_namaDokumen").value = ''; // Kosongkan input jika bukan "Dokumen Lainnya
         }
     }
 </script>

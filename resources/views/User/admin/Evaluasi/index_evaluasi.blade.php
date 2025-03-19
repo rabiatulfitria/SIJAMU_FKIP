@@ -89,55 +89,60 @@
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ($evaluasi as $row)
-                    <tr>
-                        <td><i></i>{{ $row->nama_fileeval }}</td>
-                        <td><i></i>{{ $row->prodi->nama_prodi }}</td>
-                        <td><i></i>{{ $row->evaluasi->tanggal_terakhir_dilakukan }}</td>
-                        <td><i></i>{{ $row->evaluasi->tanggal_diperbarui }}</td>
-                        <td>
-                            @forelse($row->fileEval as $file)
-                            <a href="{{ route('dokumenevaluasi.tampil', ['id_evaluasi' => $row->evaluasi->first()->id_evaluasi ?? '', 'nama_fileeval' => $file->namaFileEval->first()->nama_fileeval]) }}" class="badge bg-label-info me-1" target="_blank">
-                                <i class="bi bi-link-45deg"></i> Buka Dokumen
-                            </a><br>
-                            @empty
-                            <p>Masih dalam proses</p>
-                            @endforelse
-                        </td>
-    
-                        @if (
-                        (Auth::user() && Auth::user()->role->role_name == 'Admin') ||
-                        Auth::user()->role->role_name == 'JMF' ||
-                        Auth::user()->role->role_name == 'Ketua Jurusan' ||
-                        Auth::user()->role->role_name == 'Koordinator Prodi')
-                        <td>
-                            <div class="dropdown">
-                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                    data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <div>
-                                        <a class="dropdown-item"
-                                            href="{{ route('editDokumenEvaluasi', $row->id_evaluasi) }}"><i
-                                                class="bx bx-edit-alt me-1"></i>
-                                            Edit</a>
+                        <tr>
+                            <td><i></i>{{ $row->nama_dokumen }}</td>
+                            <td><i></i>{{ $row->prodi->nama_prodi }}</td>
+                            <td><i></i>{{ $row->evaluasi->tanggal_terakhir_dilakukan }}</td>
+                            <td><i></i>{{ $row->evaluasi->tanggal_diperbarui }}</td>
+                            <td>
+                                @if ($row->file_eval)
+                                    <a href="{{ route('dokumenevaluasi.tampil', [
+                                        'id_dokumeneval' => $row->id_dokumeneval,
+                                        'nama_dokumen' => $row->nama_dokumen,
+                                        'file_eval' => basename($row->file_eval),
+                                    ]) }}"
+                                        class="badge bg-label-info me-1" target="_blank">
+                                        <i class="bi bi-link-45deg"></i> Buka Dokumen
+                                    </a><br>
+                                @else
+                                    <p>Masih dalam proses</p>
+                                @endif
+                            </td>
+
+                            @if (
+                                (Auth::user() && Auth::user()->role->role_name == 'Admin') ||
+                                    Auth::user()->role->role_name == 'JMF' ||
+                                    Auth::user()->role->role_name == 'Ketua Jurusan' ||
+                                    Auth::user()->role->role_name == 'Koordinator Prodi')
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                            data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <div>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('editDokumenEvaluasi', $row->id_evaluasi) }}"><i
+                                                        class="bx bx-edit-alt me-1"></i>
+                                                    Ubah</a>
+                                            </div>
+                                            <div>
+                                                <form id="delete-form-{{ $row->id_evaluasi }}" method="POST"
+                                                    action="{{ route('hapusDokumenEvaluasi', $row->id_evaluasi) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="dropdown-item btn btn-outline-danger"
+                                                        onclick="confirmDelete({{ $row->id_evaluasi }})"><i
+                                                            class="bx bx-trash me-1"></i>
+                                                        Hapus</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <form id="delete-form-{{ $row->id_evaluasi }}" method="POST"
-                                            action="{{ route('hapusDokumenEvaluasi', $row->id_evaluasi) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="dropdown-item btn btn-outline-danger"
-                                                onclick="confirmDelete({{ $row->id_evaluasi }})"><i
-                                                    class="bx bx-trash me-1"></i>
-                                                Hapus</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        @endif
-                    </tr>
+                                </td>
+                            @endif
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
