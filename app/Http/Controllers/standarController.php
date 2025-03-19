@@ -113,8 +113,6 @@ class StandarController extends Controller
             ]);
         }
 
-
-        // Untuk PDF & gambar, tampilkan langsung di browser
         return response()->file($filePath, [
             'Content-Type' => $mimeTypes[$fileExtension],
             'Content-Disposition' => 'inline; filename="' . $dokumenp1->namafile . '.' . $fileExtension . '"',
@@ -131,43 +129,72 @@ class StandarController extends Controller
 
     public function update(Request $request, $id_standarinstitut)
     {
-        $validatedData = $request->validate([
-            'namafile' => 'required|string|max:255',
-            'kategori' => 'required|string',
-            'tanggal_ditetapkan' => 'nullable|date',
-            'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480'
-        ]);
-
-        DB::beginTransaction();
+        DB::beginTransaction(); // Memulai transaksi database
         try {
+            // Validasi input
+            $validatedData = $request->validate([
+                'namafile' => 'required|string|max:255',
+                'kategori' => 'required|string',
+                'tanggal_ditetapkan' => 'nullable|date',
+                'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
+                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480' // Maksimum 20MB
+            ]);
+    
+            // Ambil data berdasarkan ID
             $dokumen = StandarInstitut::findOrFail($id_standarinstitut);
-            $dokumen->update([
+    
+            // Persiapkan data untuk diupdate
+            $updateData = [
                 'namafile' => $validatedData['namafile'],
                 'kategori' => $validatedData['kategori'],
-                'id_prodi' => $validatedData['id_prodi']
-            ]);
-
-            $dokumen->penetapan->update(['tanggal_ditetapkan' => $validatedData['tanggal_ditetapkan']]);
-
+                'id_prodi' => $validatedData['id_prodi'],
+            ];
+    
+            // Update tanggal_ditetapkan pada relasi penetapan
+            $dokumen->penetapan()->update(['tanggal_ditetapkan' => $validatedData['tanggal_ditetapkan']]);
+    
+            // Proses upload file baru jika ada
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $extension = $file->getClientOriginalExtension();
+    
+                // Buat nama file unik agar tidak ditimpa oleh cache browser
+                $newFileName = $originalName;
+                $counter = 1;
+                while (Storage::exists('public/standar/' . $newFileName . '.' . $extension)) {
+                    $newFileName = $originalName . '_' . $counter;
+                    $counter++;
+                }
+    
+                // Hapus file lama jika ada
                 if ($dokumen->file && Storage::exists('public/' . $dokumen->file)) {
                     Storage::delete('public/' . $dokumen->file);
                 }
-                $namaFile = time() . '-' . $file->getClientOriginalName();
-                $path = $file->storeAs('standar', $namaFile, 'public');
-                $dokumen->update(['file' => $path]);
+    
+                // Simpan file baru dengan nama unik
+                $filePath = $file->storeAs('standar', $newFileName . '.' . $extension, 'public');
+    
+                // Tambahkan path file baru ke data yang akan diperbarui
+                $updateData['file'] = $filePath;
             }
+    
+            // Update semua data sekaligus
+            $dokumen->update($updateData);
+    
+            // Commit transaksi
             DB::commit();
+    
+            // Tampilkan pesan sukses
             Alert::success('Selesai', 'Dokumen berhasil diperbarui.');
             return redirect()->route('penetapan.standar');
         } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
             DB::rollBack();
             Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
-    }
+    }    
 
     public function destroy($id_standarinstitut)
     {

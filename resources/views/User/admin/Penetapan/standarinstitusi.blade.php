@@ -119,7 +119,7 @@
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item"
                                                 onclick="window.location.href='{{ route('editDataStandar', $row->id_standarinstitut) }}'">
-                                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                                <i class="bx bx-edit-alt me-1"></i> Ubah
                                             </a>
                                             <div>
                                                 <form id="delete-form-{{ $row->id_standarinstitut }}" method="POST"
