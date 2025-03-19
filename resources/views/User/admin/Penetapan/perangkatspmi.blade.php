@@ -94,8 +94,7 @@
                             {{-- <td>{{ $row->nama_prodi }}</td> --}}
                             <td>
                                 @if ($row->file)
-                                    <!-- Link ke dokumen -->
-                                    <a href="{{ route('dokumenperangkat.tampil', ['id_dokspmi' => $row->id_dokspmi, 'namafile' => $row->namafile]) }}"
+                                    <a href="{{ route('dokumenperangkat.tampil', ['id_dokspmi' => $row->id_dokspmi, 'namafile' => $row->namafile, 'file' => basename($row->file)]) }}"
                                         class="badge bg-label-info me-1" target="_blank">
                                         <i class="bi bi-link-45deg">Buka Dokumen</i>
                                     </a>
@@ -118,7 +117,7 @@
                                             <div>
                                                 <a class="dropdown-item"
                                                     href="{{ route('editDokumenPerangkat', $row->id_dokspmi) }}"><i
-                                                        class="bx bx-edit-alt me-1"></i> Edit</a>
+                                                        class="bx bx-edit-alt me-1"></i>Ubah</a>
                                             </div>
                                             <div>
                                                 <form id="delete-form-{{ $row->id_dokspmi }}" method="POST"

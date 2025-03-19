@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Edit Dokumen Perangkat SPMI</div>
+            <div class="nav-items d-flex align-item-center">Pengisian Data Dokumen Perangkat SPMI</div>
         </div>
     @endsection
 
@@ -90,7 +90,7 @@
                             </div>
 
                             <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary">Ubah</button>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </form>
                     </div>
                 </div>

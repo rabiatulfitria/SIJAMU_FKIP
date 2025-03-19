@@ -78,12 +78,17 @@ class PerangkatController extends Controller
         }
     }
 
-    public function lihatdokumenperangkat($id_dokspmi)
+    public function lihatdokumenperangkat($id_dokspmi, $namafile)
     {
-        $dokumenp1 = DokumenSPMI::findOrFail($id_dokspmi);
+        // Cari dokumen berdasarkan ID dan nama file
+        $dokumenp1 = DokumenSPMI::where('id_dokspmi', $id_dokspmi)
+            ->where('namafile', $namafile)
+            ->firstOrFail();
+
+        // Tentukan path file
         $filePath = storage_path('app/public/' . $dokumenp1->file);
 
-        // Cek apakah file ada
+        // Cek apakah file ada di penyimpanan
         abort_if(!file_exists($filePath), 404, 'File tidak ditemukan.');
 
         // Tentukan ekstensi file
@@ -102,19 +107,13 @@ class PerangkatController extends Controller
         ];
 
         // Cek apakah ekstensi file didukung
-        if (!isset($mimeTypes[$fileExtension])) {
-            abort(403, 'Format file tidak didukung.');
-        }
+        abort_if(!isset($mimeTypes[$fileExtension]), 403, 'Format file tidak didukung.');
 
         // Jika file berupa DOC, DOCX, XLS, XLSX, langsung di-download
         $forceDownloadExtensions = ['doc', 'docx', 'xls', 'xlsx'];
 
         if (in_array($fileExtension, $forceDownloadExtensions)) {
-            return response()->streamDownload(function () use ($filePath) {
-                $handle = fopen($filePath, 'rb'); // Buka file dalam mode baca biner
-                fpassthru($handle); // Kirim file ke output tanpa buffer tambahan
-                fclose($handle); // Tutup file setelah selesai
-            }, $dokumenp1->namafile . '.' . $fileExtension, [
+            return response()->download($filePath, $dokumenp1->namafile . '.' . $fileExtension, [
                 'Content-Type'              => $mimeTypes[$fileExtension],
                 'Content-Disposition'       => 'attachment; filename="' . $dokumenp1->namafile . '.' . $fileExtension . '"',
                 'X-Content-Type-Options'    => 'nosniff',
@@ -122,19 +121,18 @@ class PerangkatController extends Controller
                 'Pragma'                    => 'no-cache',
                 'Expires'                   => '0',
                 'Content-Transfer-Encoding' => 'binary',
-                'Content-Length'            => filesize($filePath) // Pastikan ukuran file dikirim
+                'Content-Length'            => filesize($filePath)
             ]);
         }
 
-
-        // Untuk PDF & gambar, tampilkan langsung di browser
+        // Jika bukan dokumen office, tampilkan langsung di browser
         return response()->file($filePath, [
             'Content-Type' => $mimeTypes[$fileExtension],
-            'Content-Disposition' => 'inline; filename="' . $dokumenp1->namafile . '.' . $fileExtension . '"',
-            'X-Content-Type-Options' => 'nosniff',
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
         ]);
     }
-
 
     public function edit($id_dokspmi)
     {
@@ -144,32 +142,63 @@ class PerangkatController extends Controller
 
     public function update(Request $request, $id_dokspmi)
     {
-        $validatedData = $request->validate([
-            'namafile' => 'required|string|max:255',
-            'kategori' => 'required|string',
-            'tanggal_ditetapkan' => 'nullable|date',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480'
-        ]);
-
         DB::beginTransaction();
+
         try {
+            // Validasi input
+            $validatedData = $request->validate([
+                'namafile' => 'required|string|max:255',
+                'kategori' => 'required|string',
+                'tanggal_ditetapkan' => 'nullable|date',
+                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480' // Maksimum 20MB
+            ]);
+
+            // Ambil data berdasarkan ID
             $dokumen = DokumenSPMI::findOrFail($id_dokspmi);
-            $dokumen->update(['namafile' => $validatedData['namafile'], 'kategori' => $validatedData['kategori']]);
+
+            // Persiapkan data untuk diupdate
+            $updateData = [
+                'namafile' => $validatedData['namafile'],
+                'kategori' => $validatedData['kategori'],
+            ];
+
+            // Update tanggal_ditetapkan pada relasi penetapan
             $dokumen->penetapan()->update(['tanggal_ditetapkan' => $validatedData['tanggal_ditetapkan']]);
 
+            // Proses upload file baru jika ada
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $extension = $file->getClientOriginalExtension();
+
+                // Buat nama file unik agar tidak ditimpa oleh cache browser
+                $newFileName = $originalName;
+                $counter = 1;
+                while (Storage::exists('public/perangkatspmi/' . $newFileName . '.' . $extension)) {
+                    $newFileName = $originalName . '_' . $counter;
+                    $counter++;
+                }
+
+                // Hapus file lama jika ada
                 if ($dokumen->file && Storage::exists('public/' . $dokumen->file)) {
                     Storage::delete('public/' . $dokumen->file);
                 }
-                $path = $file->storeAs('perangkatspmi', $file->getClientOriginalName(), 'public');
-                $dokumen->update(['file' => $path]);
+
+                // Simpan file baru dengan nama unik
+                $filePath = $file->storeAs('perangkatspmi', $newFileName . '.' . $extension, 'public');
+
+                // Tambahkan path file baru ke data yang akan diperbarui
+                $updateData['file'] = $filePath;
             }
+
+            // Update semua data sekaligus
+            $dokumen->update($updateData);
 
             DB::commit();
             Alert::success('Selesai', 'Dokumen berhasil diperbarui.');
             return redirect()->route('penetapan.perangkat');
         } catch (\Exception $e) {
+            // Rollback jika terjadi kesalahan
             DB::rollBack();
             Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
