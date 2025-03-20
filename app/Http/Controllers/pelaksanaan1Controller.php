@@ -105,6 +105,16 @@ class pelaksanaan1Controller extends Controller
         return view('User.admin.Pelaksanaan.tambah_pelaksanaan_prodi', compact('prodi', 'kategori'));
     }
 
+    public function create_FormKepuasanMhs() //untuk URL formulir kepuasan mahasiswa
+    {
+        // Mengambil data prodi dan kategori menggunakan model
+        $prodi = Prodi::select('id_prodi', 'nama_prodi')->get();
+        $kategori = kategori::select('id_kategori', 'nama_kategori')->get();
+
+        // Mengirim data ke view
+        return view('User.admin.Pelaksanaan.tambah_pelaksanaanprodi_form', compact('prodi', 'kategori'));
+    }
+
     public function store(Request $request)
     {
         try {
@@ -114,16 +124,19 @@ class pelaksanaan1Controller extends Controller
                 'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
                 'periode_tahunakademik' => 'required|string|max:255',
                 'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480', // Maksimum 20 MB
+                'url' => 'nullable|url', // Pastikan URL juga divalidasi
             ]);
 
             $data = $request->all();
+            $filePath = null;
 
             // Proses upload file 
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
-                $fileName = $file->getClientOriginalName(); // nama file unik
-                $path = $file->storeAs('pelaksanaan/prodi', $fileName, 'public'); // Simpan file dengan nama asli
-                $data['file'] = $path;
+                $fileName = time() . '_' . $file->getClientOriginalName(); // Tambahkan timestamp agar unik
+                $filePath = $file->storeAs('pelaksanaan/prodi', $fileName, 'public'); // Simpan file dengan nama asli
+            } elseif ($request->filled('url')) {
+                $filePath = $request->input('url'); // Simpan URL jika diberikan
             }
 
             // Simpan data ke database
@@ -132,16 +145,15 @@ class pelaksanaan1Controller extends Controller
                 'id_kategori' => $data['id_kategori'],
                 'id_prodi' => $data['id_prodi'],
                 'periode_tahunakademik' => $data['periode_tahunakademik'],
-                'file' => $data['file'],
+                'file' => $filePath, // Menyimpan path file atau URL di kolom yang sama
             ]);
-
 
             // Tampilkan pesan sukses
             Alert::success('Selesai', 'Data dan dokumen berhasil ditambahkan.');
             return redirect()->route('pelaksanaan.prodi');
         } catch (\Exception $e) {
             // Menangkap semua error dan menampilkan pesan kesalahan
-            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
     }
@@ -222,6 +234,30 @@ class pelaksanaan1Controller extends Controller
         ]);
     }
 
+    public function edit_FormKepuasanMhs(String $id_plks_prodi)
+    {
+        // Ambil data pelaksanaan_prodi yang ingin diedit dengan relasi terkait
+        $pelaksanaanprodi = pelaksanaan_prodi::with(['prodi', 'kategori'])
+            ->where('id_plks_prodi', $id_plks_prodi)
+            ->firstOrFail();
+
+        // Ambil daftar program studi
+        $prodi = Prodi::select('id_prodi', 'nama_prodi')->get();
+
+        // Ambil daftar kategori
+        $kategori = kategori::select('id_kategori', 'nama_kategori')->get();
+
+        // Cek apakah kolom 'file' menyimpan URL atau bukan/false
+        filter_var($pelaksanaanprodi->file, FILTER_VALIDATE_URL) !== false;
+
+        return view('User.admin.Pelaksanaan.edit_pelaksanaanprodi_form', [
+            'oldData' => $pelaksanaanprodi,
+            'prodi' => $prodi,
+            'kategori' => $kategori,
+        ]);
+    }
+
+
     public function update(Request $request, $id_plks_prodi)
     {
         try {
@@ -231,12 +267,13 @@ class pelaksanaan1Controller extends Controller
                 'id_kategori' => 'required|exists:kategori,id_kategori',
                 'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
                 'periode_tahunakademik' => 'required|string|max:255',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480' // Maksimum 20MB
+                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480', // Maksimum 20MB
+                'url' => 'nullable|url', // Validasi URL
             ]);
-    
+
             // Ambil data berdasarkan ID
             $plks_prodi = pelaksanaan_prodi::findOrFail($id_plks_prodi);
-    
+
             // Persiapkan data untuk diupdate
             $updateData = [
                 'namafile' => $validatedData['namafile'],
@@ -244,36 +281,52 @@ class pelaksanaan1Controller extends Controller
                 'id_prodi' => $validatedData['id_prodi'],
                 'periode_tahunakademik' => $validatedData['periode_tahunakademik'],
             ];
-    
-            // Proses upload file baru jika ada
+
+            $filePath = $plks_prodi->file; // Gunakan file lama jika tidak ada perubahan
+
+            // Jika ada file baru yang diunggah
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $extension = $file->getClientOriginalExtension();
-    
-                // Buat nama file unik agar tidak ditimpa oleh cache browser
+
+                // Buat nama file unik agar tidak ditimpa
                 $newFileName = $originalName;
                 $counter = 1;
                 while (Storage::exists('public/pelaksanaan/prodi/' . $newFileName . '.' . $extension)) {
                     $newFileName = $originalName . '_' . $counter;
                     $counter++;
                 }
-    
-                // Hapus file lama jika ada
-                if ($plks_prodi->file && Storage::exists('public/' . $plks_prodi->file)) {
-                    Storage::delete('public/' . $plks_prodi->file);
+
+                // Hapus file lama jika sebelumnya adalah file
+                if ($filePath && !filter_var($filePath, FILTER_VALIDATE_URL)) {
+                    Storage::delete('public/' . $filePath);
                 }
-    
+
                 // Simpan file baru dengan nama unik
-                $filePlksProdiPath = $file->storeAs('pelaksanaan/prodi', $newFileName . '.' . $extension, 'public');
-    
-                // Tambahkan path file baru ke data yang akan diperbarui
-                $updateData['file'] = $filePlksProdiPath;
+                $filePath = $file->storeAs('pelaksanaan/prodi', $newFileName . '.' . $extension, 'public');
             }
-    
+            // Jika diberikan URL baru
+            elseif ($request->filled('url')) {
+                // Hapus file lama jika sebelumnya berupa file
+                if ($filePath && !filter_var($filePath, FILTER_VALIDATE_URL)) {
+                    Storage::delete('public/' . $filePath);
+                }
+
+                $filePath = $request->input('url'); // Simpan URL baru
+            }
+
+            // Validasi agar tidak menyimpan NULL di kolom file
+            if (!$filePath) {
+                return redirect()->back()->withInput()->withErrors(['file' => 'Harus mengunggah file atau mengisi URL.']);
+            }
+
+            // Tambahkan path file atau URL ke data yang akan diperbarui
+            $updateData['file'] = $filePath;
+
             // Update semua data sekaligus
             $plks_prodi->update($updateData);
-    
+
             // Tampilkan pesan sukses
             Alert::success('Selesai', 'Data berhasil diperbarui.');
             return redirect()->route('pelaksanaan.prodi');
@@ -282,17 +335,22 @@ class pelaksanaan1Controller extends Controller
             Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
-    }    
+    }
 
     public function destroy($id_plks_prodi)
     {
         try {
-            // Ambil data dokumen berdasarkan ID menggunakan Eloquent
+            // Ambil data dokumen berdasarkan ID
             $dokumen = pelaksanaan_prodi::findOrFail($id_plks_prodi);
 
-            // Hapus file dari storage jika file ada
-            if ($dokumen->file && Storage::exists('public/' . $dokumen->file)) {
-                Storage::delete('public/' . $dokumen->file);
+            // Cek apakah 'file' berisi URL atau path file di storage
+            if ($dokumen->file) {
+                $isUrl = filter_var($dokumen->file, FILTER_VALIDATE_URL) !== false;
+
+                // Jika bukan URL (berarti file), maka hapus dari storage
+                if (!$isUrl && Storage::exists('public/' . $dokumen->file)) {
+                    Storage::delete('public/' . $dokumen->file);
+                }
             }
 
             // Hapus data dari database
@@ -303,11 +361,11 @@ class pelaksanaan1Controller extends Controller
             return redirect()->route('pelaksanaan.prodi');
         } catch (ModelNotFoundException $e) {
             // Jika dokumen tidak ditemukan
-            Alert::error('error', 'Dokumen tidak ditemukan.');
+            Alert::error('Error', 'Dokumen tidak ditemukan.');
             return redirect()->route('pelaksanaan.prodi');
         } catch (\Exception $e) {
             // Jika terjadi kesalahan lain
-            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }

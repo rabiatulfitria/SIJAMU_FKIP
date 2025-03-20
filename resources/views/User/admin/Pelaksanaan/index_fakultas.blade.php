@@ -4,7 +4,7 @@
             (Auth::user()->role->role_name == 'Admin' ||
                 Auth::user()->role->role_name == 'JMF' ||
                 Auth::user()->role->role_name == 'Koordinator Prodi'))
-        <a href="/tambah-dokumen-pelaksanaan-fakultas" class="btn btn-primary mb-3">Tambah Dokumen</a>
+        <a href="/tambahdata-dokumen-pelaksanaan-fakultas" class="btn btn-primary mb-3">Tambah Dokumen</a>
     @endif
 
     <div id="DatatablesRenstraProgramStudinya">
@@ -48,7 +48,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanFakultas', $document->id_plks_fklts) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_fklts }}"
                                     action="{{ route('deletePelaksanaanFakultas', $document->id_plks_fklts) }}"
                                     method="POST" style="display: inline;">
@@ -105,7 +105,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanFakultas', $document->id_plks_fklts) }}"
-                                    class="btn btn-warning btn-sm">Edit</a>
+                                    class="btn btn-warning btn-sm">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_fklts }}"
                                     action="{{ route('deletePelaksanaanFakultas', $document->id_plks_fklts) }}"
                                     method="POST" style="display: inline;">

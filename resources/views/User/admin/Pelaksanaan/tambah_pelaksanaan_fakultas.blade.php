@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Tambah Dokumen</div>
+            <div class="nav-items d-flex align-item-center">Pengisian Data Dokumen Pelaksanaan (Fakultas)</div>
         </div>
     @endsection
 
@@ -59,7 +59,7 @@
                             </div>
 
                             <!-- Kirim -->
-                            <button type="submit" class="btn btn-primary">Kirim</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
                 </div>

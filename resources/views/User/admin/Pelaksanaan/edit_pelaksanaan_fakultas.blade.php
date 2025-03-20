@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Edit Dokumen Pelaksanaan Fakultas</div>
+            <div class="nav-items d-flex align-item-center">Pengisian Data Dokumen Pelaksanaan Fakultas</div>
         </div>
     @endsection
 
@@ -57,7 +57,7 @@
                             </div>
 
                             <!-- Pilih Dokumen -->
-                            <div class="mb-3">
+                            <div class="mb-3"> 
                                 <label for="formFileMultiple" class="form-label">Pilih Dokumen</label>
                                 <input class="form-control" type="file" name="file" id="formFileMultiple" multiple />
                                 <p class="form-text">Unggah ulang dokumen jika ingin mengubah file yang sudah ada.</p>
@@ -65,7 +65,7 @@
                             </div>
 
                             <!-- Kirim -->
-                            <button type="submit" class="btn btn-primary">Ubah</button>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </form>
                     </div>
 
