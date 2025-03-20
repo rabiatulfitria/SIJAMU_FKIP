@@ -87,7 +87,7 @@
                                     <div class="dropdown-menu">
                                         <div>
                                             <a class="dropdown-item" href="{{ route('editDataPengguna', $user->id) }}">
-                                                <i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                                <i class="bx bx-edit-alt me-1"></i> Ubah</a>
                                         </div>
                                         <div>
                                             <form method="POST" action="{{ route('hapusDataPengguna', $user->id) }}">

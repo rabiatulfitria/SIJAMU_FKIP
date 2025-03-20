@@ -66,7 +66,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">{{ isset($users) }}Kirim</button>
+                        <button type="submit" class="btn btn-primary">{{ isset($users) }}Simpan</button>
                     </form>
                 </div>
             </div>
