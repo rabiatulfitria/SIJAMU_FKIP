@@ -73,7 +73,7 @@
                                     aria-describedby="basic-icon-default-fullname2" />
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Ubah</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
