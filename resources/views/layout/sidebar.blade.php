@@ -7,10 +7,9 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <title>SIJAMU FKIP | Sistem Penjaminan Mutu Internal FKIP</title>
 
@@ -55,9 +54,11 @@
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             font-size: 12px;
         }
+
         .dataTables_wrapper .dataTables_filter label {
             font-size: 12px;
         }
+
         .dataTables_wrapper .dataTables_length label {
             font-size: 12px;
         }
@@ -97,14 +98,15 @@
                             <div data-i18n="Home">Beranda</div>
                         </a>
                     </li>
-                    
-                    @if(Auth::user() && Auth::user()->role->role_name == 'Admin')
-                    <li class="menu-item {{ \Route::is('DataPengguna') ? 'active' : '' }}">
-                        <a href="{{ route('DataPengguna') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bxs-group bx-flip-horizontal bx-border-circle bx-xs"></i>
-                            <div data-i18n="Data Pengguna">Data Pengguna</div>
-                        </a>
-                    </li>
+
+                    @if (Auth::user() && Auth::user()->role->role_name == 'Admin')
+                        <li class="menu-item {{ \Route::is('DataPengguna') ? 'active' : '' }}">
+                            <a href="{{ route('DataPengguna') }}" class="menu-link">
+                                <i
+                                    class="menu-icon tf-icons bx bxs-group bx-flip-horizontal bx-border-circle bx-xs"></i>
+                                <div data-i18n="Data Pengguna">Data Pengguna</div>
+                            </a>
+                        </li>
                     @endif
 
                     <!-- Tim Penjaminan Mutu -->
@@ -194,7 +196,8 @@
                                 <script>
                                     document.write(new Date().getFullYear());
                                 </script>
-                                | SI-Sistem Penjaminan Mutu Internal Fakultas Keguruan dan Ilmu Pendidikan Universitas Trunojoyo
+                                | SI-Sistem Penjaminan Mutu Internal Fakultas Keguruan dan Ilmu Pendidikan Universitas
+                                Trunojoyo
                                 Madura
                             </div>
                         </div>
@@ -215,7 +218,7 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{ asset('sneat/assets/vendor/libs/jquery/jquery.js') }}"></script>
+    {{-- <script src="{{ asset('sneat/assets/vendor/libs/jquery/jquery.js') }}"></script> --}}
     <script src="{{ asset('sneat/assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('sneat/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
@@ -297,7 +300,7 @@
         }
     </script>
 
-    
+
     <!-- Script SweetAlert konfirmasi penghapusan -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
