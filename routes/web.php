@@ -95,15 +95,17 @@ use App\Http\Controllers\pengendalianController;
 
     // route untuk halaman menu Pelaksanaan CRUD
     Route::get('/Pelaksanaan/Prodi', [pelaksanaan1Controller::class, 'index'])->name('pelaksanaan.prodi');
-    Route::get('/tambah-dokumen-pelaksanaan-prodi', [pelaksanaan1Controller::class, 'create'])->name('tambahPelaksanaanProdi');
+    Route::get('/tambahdata-dokumen-pelaksanaan-prodi', [pelaksanaan1Controller::class, 'create'])->name('tambahPelaksanaanProdi');
+    Route::get('/tambahdata-pelaksanaan-prodi-formulirkepuasanmhs', [pelaksanaan1Controller::class, 'create_FormKepuasanMhs'])->name('tambahPelaksanaanProdi-Form');
     Route::resource('/simpanPelaksanaanProdi', pelaksanaan1Controller::class);
     Route::get('/Pelaksanaan/Prodi/editPelaksanaanProdi/{id_plks_prodi}', [pelaksanaan1Controller::class, 'edit'])->name('editPelaksanaanProdi');
+    Route::get('/Pelaksanaan/Prodi/editPelaksanaanProdi/FormulirKepuasanMahasiswa/{id_plks_prodi}', [pelaksanaan1Controller::class, 'edit_FormKepuasanMhs'])->name('editPelaksanaanProdi-Form');
     Route::get('/dokumen/pelaksanaanprodi/{id_plks_prodi}/buka/{namafile}', [pelaksanaan1Controller::class, 'lihatdokumenPlksProdi'])->name('dokumenpelaksanaanProdi.tampil');
     Route::put('Pelaksanaan/Prodi/update-dokumen-pelaksanaan/{id_plks_prodi}', [pelaksanaan1Controller::class, 'update'])->name('updatePelaksanaanProdi');
     Route::delete('/hapus-dokumen-pelaksanaan{id_plks_prodi}', [pelaksanaan1Controller::class, 'destroy'])->name('deletePelaksanaanProdi');
 
     Route::get('/Pelaksanaan/Fakultas', [pelaksanaan2Controller::class, 'index'])->name('pelaksanaan.fakultas');
-    Route::get('/tambah-dokumen-pelaksanaan-fakultas', [pelaksanaan2Controller::class, 'create'])->name('tambahPelaksanaanFakultas');
+    Route::get('/tambahdata-dokumen-pelaksanaan-fakultas', [pelaksanaan2Controller::class, 'create'])->name('tambahPelaksanaanFakultas');
     Route::resource('/simpanPelaksanaanFakultas', pelaksanaan2Controller::class);
     Route::get('/Pelaksanaan/Fakultas/editPelaksanaanFakultas/{id_plks_fklts}', [pelaksanaan2Controller::class, 'edit'])->name('editPelaksanaanFakultas');
     Route::get('/dokumen/pelaksanaanfakultas/{id_plks_fklts}/buka/{namafile}', [pelaksanaan2Controller::class, 'lihatdokumenPlksFakultas'])->name('dokumenpelaksanaanFakultas.tampil');
@@ -115,9 +117,9 @@ use App\Http\Controllers\pengendalianController;
     Route::get('/Evaluasi/AuditMutuInternal',[evaluasiController::class, 'index'])->name('evaluasi');
     Route::get('/Evaluasi/tambahDokumenEvaluasi',[evaluasiController::class, 'create'])->name('tambahDokumenAMI');
     Route::resource('/tambahDokumenEvaluasi-2', evaluasiController::class);
-    Route::get('/dokumenEvaluasi/{id_evaluasi}/buka/{nama_fileeval}', [evaluasiController::class, 'lihatdokumenevaluasi'])->name('dokumenevaluasi.tampil');
-    Route::delete('/Evaluasi/PerangkatSPMI{id_evaluasi}', [evaluasiController::class, 'destroy'])->name('hapusDokumenEvaluasi');
-    Route::get('/Evaluasi/editDokumenPerangkatSPMI/{id_evaluasi}', [evaluasiController::class, 'edit'])->name('editDokumenEvaluasi');
+    Route::get('/dokumenEvaluasi/{id_dokumeneval}/buka/{nama_dokumen}', [evaluasiController::class, 'lihatdokumenevaluasi'])->name('dokumenevaluasi.tampil');
+    Route::delete('/Evaluasi/hapusEvaluasi{id_evaluasi}', [evaluasiController::class, 'destroy'])->name('hapusDokumenEvaluasi');
+    Route::get('/Evaluasi/editDokumenEvaluasi/{id_evaluasi}', [evaluasiController::class, 'edit'])->name('editDokumenEvaluasi');
     Route::put('Evaluasi/updateDokumenEvaluasi/{id_evaluasi}', [evaluasiController::class, 'update'])->name('updateDokumenEvaluasi');
 
     // route untuk halaman menu Pengendalian CRUD
@@ -133,7 +135,7 @@ use App\Http\Controllers\pengendalianController;
     Route::get('Peningkatan/StandarInstitusi',[peningkatanController::class, 'index'])->name('peningkatan');
     Route::get('/Peningkatan/tambahDokumenPeningkatan',[peningkatanController::class, 'create'])->name('tambahDokumenPeningkatan');
     Route::resource('/tambahDokumenPeningkatan-2', peningkatanController::class);
-    Route::get('/dokumenPeningkatan({id_peningkatan})',[peningkatanController::class, 'lihatdokumenpeningkatan'])->name('dokumenpeningkatan.tampil');
+    Route::get('/dokumenPeningkatan/{id_peningkatan}/buka/{nama_dokumen}', [peningkatanController::class, 'lihatdokumenpeningkatan'])->name('dokumenpeningkatan.tampil');
     Route::delete('/Peningkatan/hapusPeningkatan{id_peningkatan}', [peningkatanController::class, 'destroy'])->name('hapusDokumenPeningkatan');
     Route::get('/Peningkatan/editDokumenPeningkatan/{id_peningkatan}', [peningkatanController::class, 'edit'])->name('editDokumenPeningkatan');
     Route::put('Peningkatan/updateDokumenPeningkatan/{id_peningkatan}', [peningkatanController::class, 'update'])->name('updateDokumenPeningkatan');
