@@ -85,7 +85,7 @@
                                 <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-primary">Kirim</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
                 </div>

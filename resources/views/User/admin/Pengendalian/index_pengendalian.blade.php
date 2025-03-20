@@ -106,7 +106,7 @@
                             <td>
 
                                 @if ($row->file_rtm)
-                                    <a href="{{ route('dokumenpengendalian', ['id_pengendalian' => $row->id_pengendalian, 'jenis_file' => 'rtm']) }}"
+                                    <a href="{{ route('dokumenpengendalian.tampil', ['id_pengendalian' => $row->id_pengendalian, 'jenis_file' => 'rtm', 'file_rtm' => basename($row->file_rtm)]) }}"
                                         class="badge bg-label-info me-1" target="_blank">
                                         <i class="bi bi-link-45deg">Buka Dokumen RTM</i>
                                     </a>
@@ -118,7 +118,7 @@
                             <td>
 
                                 @if ($row->file_rtl)
-                                    <a href="{{ route('dokumenpengendalian', ['id_pengendalian' => $row->id_pengendalian, 'jenis_file' => 'rtl']) }}"
+                                    <a href="{{ route('dokumenpengendalian.tampil', ['id_pengendalian' => $row->id_pengendalian, 'jenis_file' => 'rtl', 'file_rtl' => basename($row->file_rtl)]) }}"
                                         class="badge bg-label-info me-1" target="_blank">
                                         <i class="bi bi-link-45deg">Buka Dokumen RTL</i>
                                     </a>

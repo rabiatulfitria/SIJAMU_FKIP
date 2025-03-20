@@ -71,7 +71,7 @@ class pengendalianController extends Controller
             return redirect()->route('pengendalian');
         } catch (\Exception $e) {
             // Menangkap semua error dan menampilkan pesan kesalahan
-            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage())->persistent();
             return redirect()->back()->withInput();
         }
     }
@@ -108,22 +108,12 @@ class pengendalianController extends Controller
         }
     }
 
-    public function edit(String $id_pengendalian)
+    public function edit($id_pengendalian)
     {
-        try {
-            // Cari data pengendalian berdasarkan ID
-            $pengendalian = Pengendalian::with('prodi') // Mengambil relasi dengan tabel prodi jika ada
-                ->findOrFail($id_pengendalian);
+        $pengendalian = Pengendalian::with('prodi')->findOrFail($id_pengendalian);
+        $prodi = Prodi::select('id_prodi', 'nama_prodi')->get();
 
-            // Kembalikan data ke view edit_pengendalian
-            return view('User.admin.Pengendalian.edit_pengendalian', [
-                'oldData' => $pengendalian, // Data pengendalian
-            ]);
-        } catch (\Exception $e) {
-            // Menangkap error jika terjadi masalah
-            Alert::error('error', 'Terjadi kesalahan: ' . $e->getMessage());
-            return redirect()->back();
-        }
+        return view('User.admin.Pengendalian.edit_pengendalian', ['oldData' => $pengendalian, 'prodi' => $prodi]);
     }
 
     public function update(Request $request, $id_pengendalian)

@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Edit Pengendalian Standar SPMI Perguruan Tinggi</div>
+            <div class="nav-items d-flex align-item-center">Pengisian Data Pengendalian Standar SPMI Perguruan Tinggi</div>
         </div>
     @endsection
 
@@ -42,16 +42,13 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="nama_prodi">Nama Program Studi</label>
-                                <select class="form-select" id="id_prodi" name="id_prodi" required>
-                                    <option value="" disabled
-                                        {{ old('id_prodi', $id_prodi ?? null) === null ? 'selected' : '' }}>
-                                        Pilih Program Studi
-                                    </option>
-                                    @foreach ($prodi as $opsi)
-                                        <option value="{{ $opsi->id_prodi }}"
-                                            {{ old('id_prodi', $id_prodi ?? null) == $opsi->id_prodi ? 'selected' : '' }}>
-                                            {{ $opsi->nama_prodi }}
+                                <label class="form-label" for="namaprodi">Program Studi</label>
+                                <select class="form-select" id="namaprodi" name="id_prodi" required>
+                                    <option value="" disabled>Pilih Program Studi</option>
+                                    @foreach ($prodi as $item)
+                                        <option value="{{ $item->id_prodi }}"
+                                            {{ old('id_prodi', $oldData->id_prodi) == $item->id_prodi ? 'selected' : '' }}>
+                                            {{ $item->nama_prodi }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -59,10 +56,10 @@
 
                             <div class="mb-3">
                                 <label class="form-label" for="formFileMultiple">Laporan RTM</label>
-                                <input type="file" name="file_rtm" id="file_rtm">
+                                <input type="file" class="form-control" id="formFileMultiple" multiple="" name="file_rtm" id="file_rtm">
                                 @if ($oldData->file_rtm)
                                     <p>File sebelumnya: <a
-                                            href="{{ route('lihatdokumenpengendalian', ['id_pengendalian' => $oldData->id_pengendalian, 'jenis_file' => 'rtm']) }}"
+                                            href="{{ route('dokumenpengendalian.tampil', ['id_pengendalian' => $oldData->id_pengendalian, 'jenis_file' => 'rtm', 'file_rtm' => basename($oldData->file_rtm)]) }}"
                                             target="_blank">Buka File RTM</a></p>
                                 @endif
                                 <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
@@ -70,23 +67,22 @@
 
                             <div class="mb-3">
                                 <label class="form-label" for="formFileMultiple">Laporan RTL</label>
-                                <input type="file" name="file_rtl" id="file_rtl">
+                                <input type="file" class="form-control" id="formFileMultiple" multiple="" name="file_rtl" id="file_rtl">
                                 @if ($oldData->file_rtl)
                                     <p>File sebelumnya: <a
-                                            href="{{ route('lihatdokumenpengendalian', ['id_pengendalian' => $oldData->id_pengendalian, 'jenis_file' => 'rtl']) }}"
+                                            href="{{ route('dokumenpengendalian.tampil', ['id_pengendalian' => $oldData->id_pengendalian, 'jenis_file' => 'rtl', 'file_rtl' => basename($oldData->file_rtl)]) }}"
                                             target="_blank">Buka File RTL</a></p>
                                 @endif
                                 <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-primary">Ubah</button>
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 
