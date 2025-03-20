@@ -73,7 +73,6 @@
                         <th>Nama Dokumen</th>
                         <th>Nama Bidang Pengaturan Standar</th>
                         <th>Program Studi</th>
-                        <th>Dokumen Peningkatan</th>
                         <th>Tanggal Penetapan Baru</th>
                         <th>Dokumen Peningkatan</th>
                         @if (Auth::user() &&
@@ -96,7 +95,7 @@
 
                                 @if ($row->file_peningkatan)
                                     <!-- Link ke dokumen -->
-                                    <a href="{{ route('dokumenpeningkatan.tampil', ['id_peningkatan' => $row->id_peningkatan, 'nama_dokumen' => $row->nama_dokumen]) }}"
+                                    <a href="{{ route('dokumenpeningkatan.tampil', ['id_peningkatan' => $row->id_peningkatan, 'nama_dokumen' => $row->nama_dokumen, 'file_peningkatan' => basename($row->file_peningkatan)]) }}"
                                         class="badge bg-label-info me-1" target="_blank">
                                         <i class="bi bi-link-45deg">Buka Dokumen</i>
                                     </a>
@@ -120,7 +119,7 @@
                                                 <a class="dropdown-item"
                                                     href="{{ route('editDokumenPeningkatan', $row->id_peningkatan) }}"><i
                                                         class="bx bx-edit-alt me-1"></i>
-                                                    Edit</a>
+                                                    Ubah</a>
                                             </div>
                                             <div>
                                                 <form id="delete-form-{{ $row->id_peningkatan }}" method="POST"

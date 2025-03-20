@@ -64,7 +64,7 @@
 
                             <div class="mb-3">
                                 <label for="tahun" class="form-label">Tanggal Penetapan Baru</label>
-                                <input type="text" class="form-control" id="tanggal_penetapan_baru"
+                                <input type="date" class="form-control" id="tanggal_penetapan_baru"
                                     name="tanggal_penetapan_baru" placeholder="mm/dd/yyyy" required />
                             </div>
 
@@ -75,7 +75,7 @@
                                 <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-primary">Kirim</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
                 </div>
