@@ -12,7 +12,7 @@ class Panduanpengguna extends Controller
     public function index()
     {
         $pdfExists = Storage::exists($this->pdfPath);
-        return view('halamanLogin.Panduanpengguna', ['pdfExists' => $pdfExists, 'pdfPath' => $this->pdfPath]);
+        return view('User.menulain_halamanLogin.Panduanpengguna', ['pdfExists' => $pdfExists, 'pdfPath' => $this->pdfPath]);
     }
 
     public function upload(Request $request)

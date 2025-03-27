@@ -29,22 +29,25 @@ use App\Http\Controllers\pengendalianController;
 */
 
 //AUTH
-    Route::middleware('guest')->group(function () {
+Route::middleware('guest')->group(function () {
     Route::get('/auth/login', [Login::class, 'index'])->name('auth.login');
     Route::post('/login', [Login::class, 'login'])->name('login');
 });
 
-    Route::get('/logout', [Login::class, 'logout'])->name('logout');
-    Route::get('/send-email', [EmailController::class, 'sendEmail']);
+Route::get('/logout', [Login::class, 'logout'])->name('logout');
+// Route::get('/send-email', [EmailController::class, 'sendEmail']);
 
 // Grup route dengan middleware 'ceklogin'
     Route::middleware(['cekLogin'])->group(function () {
     Route::get('/', function () {
         return view('User.admin.index');
     });
-    
+
     // route untuk menu Sign Up, Unduh Panduan Pengguna, Info
-    Route::get('/Sign Up', [Register::class, 'index'])->name('form-signup');
+    // Route::get('/auth/Registrasi', [Register::class, 'index'])->name('auth.register');
+    Route::get('/Registrasi-akun-pengguna', [Register::class, 'create'])->name('daftar');
+    Route::post('/Registrasi', [Register::class, 'store'])->name('simpanDataRegistrasi');
+
     Route::get('/PanduanPengguna', [Panduanpengguna::class, 'index'])->name('FilePanduanPangguna');
     Route::get('/Info', [Info::class, 'index'])->name('info');
 
@@ -70,7 +73,7 @@ use App\Http\Controllers\pengendalianController;
 
     // route untuk halaman menu Penetapan CRUD -> Dokumen Perangkat SPMI
     Route::get('/Penetapan/DokumenSPMI', [perangkatController::class, 'index'])->name('penetapan.perangkat');
-    Route::get('/Penetapan/tambahDokumenPerangkatSPMI',[perangkatController::class, 'create'])->name('tambahDokumenPerangkat');
+    Route::get('/Penetapan/tambahDokumenPerangkatSPMI', [perangkatController::class, 'create'])->name('tambahDokumenPerangkat');
     Route::get('/Penetapan/editDokumenPerangkatSPMI/{id_dokspmi}', [perangkatController::class, 'edit'])->name('editDokumenPerangkat');
     Route::resource('/tambahDokumenPerangkatSPMI-2', perangkatController::class);
     Route::get('/dokumenPerangkatSPMI/{id_dokspmi}/buka/{namafile}', [perangkatController::class, 'lihatdokumenperangkat'])->name('dokumenperangkat.tampil');
@@ -114,8 +117,8 @@ use App\Http\Controllers\pengendalianController;
 
 
     // route untuk halaman menu Evaluasi CRUD
-    Route::get('/Evaluasi/AuditMutuInternal',[evaluasiController::class, 'index'])->name('evaluasi');
-    Route::get('/Evaluasi/tambahDokumenEvaluasi',[evaluasiController::class, 'create'])->name('tambahDokumenAMI');
+    Route::get('/Evaluasi/AuditMutuInternal', [evaluasiController::class, 'index'])->name('evaluasi');
+    Route::get('/Evaluasi/tambahDokumenEvaluasi', [evaluasiController::class, 'create'])->name('tambahDokumenAMI');
     Route::resource('/tambahDokumenEvaluasi-2', evaluasiController::class);
     Route::get('/dokumenEvaluasi/{id_dokumeneval}/buka/{nama_dokumen}', [evaluasiController::class, 'lihatdokumenevaluasi'])->name('dokumenevaluasi.tampil');
     Route::delete('/Evaluasi/hapusEvaluasi{id_evaluasi}', [evaluasiController::class, 'destroy'])->name('hapusDokumenEvaluasi');
@@ -123,8 +126,8 @@ use App\Http\Controllers\pengendalianController;
     Route::put('Evaluasi/updateDokumenEvaluasi/{id_evaluasi}', [evaluasiController::class, 'update'])->name('updateDokumenEvaluasi');
 
     // route untuk halaman menu Pengendalian CRUD
-    Route::get('/Pengendalian/Standar/RTM',[pengendalianController::class, 'index'])->name('pengendalian');
-    Route::get('/Pengendalian/tambahDokumenPengendalian',[pengendalianController::class, 'create'])->name('tambahDokumenPengendalian');
+    Route::get('/Pengendalian/Standar/RTM', [pengendalianController::class, 'index'])->name('pengendalian');
+    Route::get('/Pengendalian/tambahDokumenPengendalian', [pengendalianController::class, 'create'])->name('tambahDokumenPengendalian');
     Route::resource('/tambahDokumenPengendalian-2', pengendalianController::class);
     Route::get('/dokumenPengendalian/{id_pengendalian}/buka/{jenis_file}', [pengendalianController::class, 'lihatdokumenpengendalian'])->name('dokumenpengendalian.tampil');
     Route::delete('/Pengendalian/hapusPengendalian{id_pengendalian}', [pengendalianController::class, 'destroy'])->name('hapusDokumenPengendalian');
@@ -132,12 +135,11 @@ use App\Http\Controllers\pengendalianController;
     Route::put('Pengendalian/updateDokumenPengendalian/{id_pengendalian}', [pengendalianController::class, 'update'])->name('updateDokumenPengendalian');
 
     // route untuk halaman menu Peningkatan CRUD
-    Route::get('Peningkatan/StandarInstitusi',[peningkatanController::class, 'index'])->name('peningkatan');
-    Route::get('/Peningkatan/tambahDokumenPeningkatan',[peningkatanController::class, 'create'])->name('tambahDokumenPeningkatan');
+    Route::get('Peningkatan/StandarInstitusi', [peningkatanController::class, 'index'])->name('peningkatan');
+    Route::get('/Peningkatan/tambahDokumenPeningkatan', [peningkatanController::class, 'create'])->name('tambahDokumenPeningkatan');
     Route::resource('/tambahDokumenPeningkatan-2', peningkatanController::class);
     Route::get('/dokumenPeningkatan/{id_peningkatan}/buka/{nama_dokumen}', [peningkatanController::class, 'lihatdokumenpeningkatan'])->name('dokumenpeningkatan.tampil');
     Route::delete('/Peningkatan/hapusPeningkatan{id_peningkatan}', [peningkatanController::class, 'destroy'])->name('hapusDokumenPeningkatan');
     Route::get('/Peningkatan/editDokumenPeningkatan/{id_peningkatan}', [peningkatanController::class, 'edit'])->name('editDokumenPeningkatan');
     Route::put('Peningkatan/updateDokumenPeningkatan/{id_peningkatan}', [peningkatanController::class, 'update'])->name('updateDokumenPeningkatan');
-
 });

@@ -8,7 +8,7 @@ class Info extends Controller
 {
     public function index()
     {
-        return view('halamanLogin.Info');
+        return view('User.menulain_halamanLogin.Info');
     }
 
     
