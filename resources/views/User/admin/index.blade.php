@@ -9,10 +9,14 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Penjaminan Mutu Internal - Fakultas Keguruan dan Ilmu Pendidikan</div>
+            <div class="nav-items d-none d-md-flex align-items-center" style="margin-left: 15px;">
+                SI - Sistem Penjaminan Mutu Internal - Fakultas Keguruan dan Ilmu Pendidikan
+            </div>
         </div>
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <h5 class="card-title mb-1" style="margin-right: 10px">{{ Auth::user()->nama }}</h5>
+
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -32,27 +36,34 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                <!-- Tampilkan nama pengguna -->
-                                     <span class="fw-semibold d-block">{{ Auth::User()->nama }}</span>
-                                     <small class="text-muted">{{ Auth::User()->role->role_name }}</small>
+                                    <!-- Tampilkan nama pengguna -->
+                                    <span class="fw-semibold d-block">{{ Auth::User()->nama }}</span>
+                                    <small class="text-muted">{{ Auth::User()->role->role_name }}</small>
                                 </div>
                             </div>
                         </a>
                     </li>
-                    <!--<li>-->
-                    <!--    <div class="dropdown-divider"></div>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                    <!--    <a class="dropdown-item" href="#">-->
-                    <!--        <i class="bx bx-user me-2"></i>-->
-                    <!--        <span class="align-middle">Profil Pengguna</span>-->
-                    <!--    </a>-->
-                    <!--</li>-->
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{route('logout')}}">
+                        <a class="dropdown-item" href="{{ route('profilpengguna.edit') }}">
+                            <i class="bx bx-user me-2"></i>
+                            <span class="align-middle">Profil Akun Pengguna</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('pengaturan') }}">
+                            <i class="bx bx-cog me-2"></i>
+                            <span class="align-middle">Pengaturan</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('logout') }}">
                             <i class="bx bx-power-off me-2"></i>
                             <span class="align-middle">Log Out</span>
                         </a>
@@ -65,14 +76,23 @@
 @endsection
 
 @section('content')
+    <!-- Card khusus untuk mobile -->
+    <div class="d-block d-md-none mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <strong>SI - Sistem Penjaminan Mutu Internal - Fakultas Keguruan dan Ilmu Pendidikan</strong>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-4 col-md-12 col-6 mb-4">
             <div class="card">
                 <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                         <!--<div class="avatar flex-shrink-0" style="width: 25px; height: 25px;">-->
-                            <!--<img src="{{ asset('sneat/assets/img/icons/unicons/checklist.png') }}" alt="Credit Card"-->
-                            <!--    class="rounded" />-->
+                        <!--<img src="{{ asset('sneat/assets/img/icons/unicons/checklist.png') }}" alt="Credit Card"-->
+                        <!--    class="rounded" />-->
                         <!--</div>-->
                         <!--<div class="dropdown">-->
                         <!--    <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown"-->
@@ -86,7 +106,8 @@
                     </div>
                     <span style="color: #007bff; font-size: 20px; font-weight:bold;">Penetapan</span>
                     <h1 class="card-title text-nowrap mb-1"></h1>
-                    <small class="text-gray fw-semibold">Dokumen Terkait Standar SPMI Yang Ditetapkan Perguruan Tinggi</small>
+                    <small class="text-gray fw-semibold">Dokumen Terkait Standar SPMI Yang Ditetapkan Perguruan
+                        Tinggi</small>
                 </div>
             </div>
         </div>
@@ -95,8 +116,8 @@
                 <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                         <!--<div class="avatar flex-shrink-0" style="width: 25px; height: 25px;">-->
-                            <!--<img src="{{ asset('sneat/assets/img/icons/unicons/checklist.png') }}" alt="Credit Card"-->
-                            <!--    class="rounded" />-->
+                        <!--<img src="{{ asset('sneat/assets/img/icons/unicons/checklist.png') }}" alt="Credit Card"-->
+                        <!--    class="rounded" />-->
                         <!--</div>-->
                         <!--<div class="dropdown">-->
                         <!--    <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown"-->
@@ -119,8 +140,8 @@
                 <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                         <!--<div class="avatar flex-shrink-0" style="width: 25px; height: 25px;">-->
-                            <!--<img src="{{ asset('sneat/assets/img/icons/unicons/caution-alert.png') }}" alt="Credit Card"-->
-                            <!--    class="rounded" />-->
+                        <!--<img src="{{ asset('sneat/assets/img/icons/unicons/caution-alert.png') }}" alt="Credit Card"-->
+                        <!--    class="rounded" />-->
                         <!--</div>-->
                         <!--<div class="dropdown">-->
                         <!--    <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown"-->
@@ -134,7 +155,8 @@
                     </div>
                     <span style="color: #007bff; font-size: 20px; font-weight:bold;">Evaluasi</span>
                     <h1 class="card-title text-nowrap mb-1"></h1>
-                    <small class="text-gray fw-semibold">Dokumen Terkait Evaluasi Pelaksanaan Standar SPMI Perguruan Tinggi</small>
+                    <small class="text-gray fw-semibold">Dokumen Terkait Evaluasi Pelaksanaan Standar SPMI Perguruan
+                        Tinggi</small>
                 </div>
             </div>
         </div>
@@ -143,8 +165,8 @@
                 <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                         <!--<div class="avatar flex-shrink-0" style="width: 25px; height: 25px;">-->
-                            <!--<img src="{{ asset('sneat/assets/img/icons/unicons/checklist.png') }}" alt="Credit Card"-->
-                            <!--    class="rounded" />-->
+                        <!--<img src="{{ asset('sneat/assets/img/icons/unicons/checklist.png') }}" alt="Credit Card"-->
+                        <!--    class="rounded" />-->
                         <!--</div>-->
                         <!--<div class="dropdown">-->
                         <!--    <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown"-->
@@ -167,8 +189,8 @@
                 <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                         <!--<div class="avatar flex-shrink-0" style="width: 25px; height: 25px;">-->
-                            <!--<img src="{{ asset('sneat/assets/img/icons/unicons/caution-alert.png') }}" alt="Credit Card"-->
-                            <!--    class="rounded" />-->
+                        <!--<img src="{{ asset('sneat/assets/img/icons/unicons/caution-alert.png') }}" alt="Credit Card"-->
+                        <!--    class="rounded" />-->
                         <!--</div>-->
                         <!--<div class="dropdown">-->
                         <!--    <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown"-->

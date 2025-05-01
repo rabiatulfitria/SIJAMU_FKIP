@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Data Pengguna</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Data Pengguna</div>
         </div>
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -36,6 +36,21 @@
                                     <small class="text-muted">{{ Auth::User()->role->role_name }}</small>
                                 </div>
                             </div>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{route('profilpengguna.edit')}}">
+                            <i class="bx bx-user me-2"></i>
+                            <span class="align-middle">Profil Akun Pengguna</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{route('pengaturan')}}">
+                            <i class="bx bx-cog me-2"></i>
+                            <span class="align-middle">Pengaturan</span>
                         </a>
                     </li>
                     <li>

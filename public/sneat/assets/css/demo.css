@@ -13,6 +13,11 @@
   height: 38px;
 }
 
+.app-brand-logo.img {
+  max-width: 80px; /* Ubah sesuai kebutuhan */
+  height: auto;
+}
+
 .app-brand-text.demo {
   font-size: 1.75rem;
   letter-spacing: -0.5px;

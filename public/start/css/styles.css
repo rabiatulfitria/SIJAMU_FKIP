@@ -10940,9 +10940,89 @@ video.bg-video {
 }
 @media (min-width: 1200px) {
   .masthead {
-    width: 65vw;
+    width: 45vw;
   }
 }
+
+/* CSS halaman registrasi */
+/* .registhead {
+  position: relative;
+  overflow-x: hidden;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.registhead:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+.registhead .registhead-content {
+  position: relative;
+  max-width: 20rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+.registhead .registhead-content h1, .registhead .registhead-content .h1 {
+  font-size: 2.5rem;
+}
+.registhead .registhead-content p {
+  font-size: 1.2rem;
+}
+.registhead .registhead-content p strong {
+  font-weight: 700;
+}
+.registhead .registhead-content .input-group-newsletter input {
+  height: auto;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1rem;
+}
+.registhead .registhead-content .input-group-newsletter button {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: calc(1rem + 2px);
+}
+
+@media (min-width: 992px) {
+  .registhead {
+    height: 100%;
+    width: 75vw;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+  .registhead:before {
+    transform: skewX(-9deg);
+    transform-origin: top right;
+  }
+  .registhead .registhead-content {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 2rem;
+    padding-right: 9rem;
+  }
+  .registhead .registhead-content h1, .registhead .registhead-content .h1 {
+    font-size: 3.5rem;
+  }
+  .registhead .registhead-content p {
+    font-size: 1.3rem;
+  }
+}
+@media (min-width: 1200px) {
+  .registhead {
+    width: 45vw;
+  }
+} */
+
 .social-icons {
   position: relative;
   z-index: 2;

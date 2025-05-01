@@ -6,10 +6,10 @@
                 Auth::user()->role->role_name == 'Dosen' ||
                 Auth::user()->role->role_name == 'Koordinator Prodi'))
         <a id="tambahDokumenBtn" href="/tambahdata-dokumen-pelaksanaan-prodi" class="btn btn-primary mb-3">Tambah Dokumen</a>
+        <input type="hidden" id="isFormulirKepuasan" value="0">
+        <!--jika menu yang diklik adalah Formulir Kepasan Mhs, teks button berubah-->
     @endif
     <!-- Tabel yang akan ditampilkan -->
-    <!-- id="DatatablesRenstraProgramStudinya" dipanggil di sidebar_prodi-->
-
     <div id="DatatablesRenstraProgramStudinya">
         <!-- Tabel Renstra Program Studi di sini -->
         <table class="table table-bordered custom-table-sm">
@@ -54,7 +54,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -115,7 +115,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -176,7 +176,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -237,7 +237,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -298,7 +298,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ url('/edit-dokumen-pelaksanaan/' . $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form action="{{ route('deletePelaksanaan', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
@@ -357,7 +357,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
@@ -417,7 +417,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
@@ -477,7 +477,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
@@ -537,7 +537,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
@@ -582,7 +582,7 @@
                             @if ($document->file)
                                 @if (filter_var($document->file, FILTER_VALIDATE_URL))
                                     <a href="{{ $document->file }}" class="badge bg-label-info me-1" target="_blank"
-                                        class="bi bi-link-45deg">Buka Link</a>
+                                        class="bi bi-link-45deg">Buka Tautan Formulir</a>
                                 @else
                                     <p>Masih dalam proses</p>
                                 @endif
@@ -596,14 +596,14 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi-Form', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger btn-sm"
-                                        onclick="confirmDelete({{ $document->id_plks_prodi }})">Hapus</button>
+                                        onclick="confirmDeleteForm({{ $document->id_plks_prodi }})">Hapus</button>
                                 </form>
                             </td>
                         @endif
@@ -655,7 +655,7 @@
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanProdi', $document->id_plks_prodi) }}"
-                                    class="btn btn-warning btn-sm">Ubah</a>
+                                    class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
                                 <form id="delete-form-{{ $document->id_plks_prodi }}"
                                     action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}"
                                     method="POST" style="display: inline;">
@@ -671,4 +671,77 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll(".btn-ubah-pelaksanaan");
+    
+            editButtons.forEach(function (btn) {
+                btn.addEventListener("click", function (e) {
+                    e.preventDefault(); // cegah redirect langsung
+    
+                    const originalHref = btn.getAttribute("href");
+    
+                    // Ambil menuName dari tombol Tambah Dokumen
+                    const tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
+                    const menuName = tambahDokumenBtn?.getAttribute("data-menu") || "";
+    
+                    // Susun ulang URL dengan query ?menu=...
+                    const url = new URL(originalHref, window.location.origin);
+                    if (menuName) {
+                        url.searchParams.set("menu", menuName);
+                    }
+    
+                    // Redirect ke URL baru
+                    window.location.href = url.toString();
+                });
+            });
+        });
+    </script>
+    
+
+    {{-- <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
+
+            if (tambahDokumenBtn) {
+                tambahDokumenBtn.addEventListener("click", function(e) {
+                    e.preventDefault(); // Mencegah href default langsung jalan
+
+                    let menuName = tambahDokumenBtn.getAttribute('data-menu') || '';
+                    let baseHref = tambahDokumenBtn.getAttribute('href') || '#';
+
+                    // Redirect dengan tambahan query menu (kalau menuName tidak kosong)
+                    if (menuName) {
+                        window.location.href = baseHref + "?menu=" + encodeURIComponent(menuName);
+                    } else {
+                        window.location.href = baseHref; // Kalau tidak ada menuName, biasa saja
+                    }
+                });
+            }
+        });
+    </script> --}}
+
+    {{-- <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Set menuName default jika halaman baru dimuat
+            let isFormulirKepuasanInput = document.getElementById("isFormulirKepuasan");
+            let tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
+    
+            // Jika tidak ada menu lain yang diklik, anggap "Renstra Program Studi" sebagai default
+            let defaultMenu = "Renstra Program Studi";
+            tambahDokumenBtn.addEventListener("click", function (e) {
+                e.preventDefault(); // Cegah redirect langsung
+                let url = "";
+    
+                if (isFormulirKepuasanInput.value === "1") {
+                    url = "/tambahdata-pelaksanaan-prodi-formulirkepuasanmhs";
+                } else {
+                    url = "/tambahdata-dokumen-pelaksanaan-prodi?menu=" + encodeURIComponent(defaultMenu);
+                }
+    
+                window.location.href = url;
+            });
+        });
+    </script>     --}}
 @endsection

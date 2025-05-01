@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Pengisian Data Dokumen Pelaksanaan Fakultas</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Ubah Data Dokumen Pelaksanaan (Fakultas)</div>
         </div>
     @endsection
 
@@ -66,6 +66,7 @@
 
                             <!-- Kirim -->
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/Pelaksanaan/Fakultas'">Batal</button>                            
                         </form>
                     </div>
 

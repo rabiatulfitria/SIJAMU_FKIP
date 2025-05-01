@@ -38,15 +38,22 @@
                             </div>
                         </a>
                     </li>
-                    <!--<li>-->
-                    <!--    <div class="dropdown-divider"></div>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                    <!--    <a class="dropdown-item" href="#">-->
-                    <!--        <i class="bx bx-user me-2"></i>-->
-                    <!--        <span class="align-middle">Profil Pengguna</span>-->
-                    <!--    </a>-->
-                    <!--</li>-->
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('profilpengguna.edit') }}">
+                            <i class="bx bx-user me-2"></i>
+                            <span class="align-middle">Profil Akun Pengguna</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('pengaturan') }}">
+                            <i class="bx bx-cog me-2"></i>
+                            <span class="align-middle">Pengaturan</span>
+                        </a>
+                    </li>
+
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
@@ -94,7 +101,7 @@
                                         </li>
                                         <li class="menu-itemm" style="font-size: 12px">
                                             <a href="javascript:void(0);"
-                                                onclick="setMenu('Kinerja Program Studi', 'DatatablesKinerjaProgramStudinya')">Laporan
+                                                onclick="setMenu('Laporan Kinerja Program Studi', 'DatatablesKinerjaProgramStudinya')">Laporan
                                                 Kinerja Program Studi</a>
                                         </li>
                                     </ul>
@@ -166,21 +173,47 @@
             });
         });
     </script>
-
     <script>
         function setMenu(menuName, tableId) {
-            // Ubah tabel yang ditampilkan
             showTable(tableId);
 
-            // Ambil tombol "Tambah Dokumen"
             let tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
+            let isFormulirKepuasanInput = document.getElementById("isFormulirKepuasan");
 
-            // Ubah href berdasarkan menu yang dipilih
+            if (!tambahDokumenBtn || !isFormulirKepuasanInput) return;
+
+            // Simpan nama menu di attribute tombol, supaya bisa diambil nanti
+            tambahDokumenBtn.setAttribute('data-menu', menuName);
+
             if (menuName === "Formulir Kepuasan Mahasiswa") {
+                tambahDokumenBtn.textContent = "Tambah Tautan Formulir";
                 tambahDokumenBtn.href = "/tambahdata-pelaksanaan-prodi-formulirkepuasanmhs";
+                isFormulirKepuasanInput.value = "1";
             } else {
+                tambahDokumenBtn.textContent = "Tambah Dokumen";
                 tambahDokumenBtn.href = "/tambahdata-dokumen-pelaksanaan-prodi";
+                isFormulirKepuasanInput.value = "0";
             }
         }
     </script>
+
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tambahDokumenBtn = document.getElementById('tambahDokumenBtn');
+            const isFormulirInput = document.getElementById('isFormulirKepuasan');
+
+            // Fungsi untuk ubah tombol
+            function updateTambahButton(isFormulir) {
+                if (isFormulir) {
+                    tambahDokumenBtn.textContent = 'Tambah Link Formulir';
+                    tambahDokumenBtn.href = '/tambahdata-pelaksanaan-prodi-formulirkepuasanmhs';
+                    isFormulirInput.value = '1';
+                } else {
+                    tambahDokumenBtn.textContent = 'Tambah Dokumen';
+                    tambahDokumenBtn.href = '/tambahdata-dokumen-pelaksanaan-prodi';
+                    isFormulirInput.value = '0';
+                }
+            }
+        });
+    </script> --}}
 @endsection

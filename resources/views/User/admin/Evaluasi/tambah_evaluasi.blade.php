@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Tambah Dokumen Audit Mutu Internal (AMI)</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Tambah Dokumen Audit Mutu Internal (AMI)</div>
         </div>
     @endsection
 

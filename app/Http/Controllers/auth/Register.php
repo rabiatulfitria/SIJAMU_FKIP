@@ -2,43 +2,58 @@
 
 namespace App\Http\Controllers\auth;
 
+use App\Models\role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User; // Pastikan model User diimport
-use App\Models\role;
+// use Illuminate\Auth\Events\Registered;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash; // Untuk fungsi Hash::make
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Session;
 
-class Register extends Controller
-{
-    // public function index()
+
+// class Register extends Controller
+//{
+    // public function create()
     // {
-    //     $users = User::with('role')->get();
-    //     $role = role::select('role_id', 'role_name')->get(); // Ambil daftar role
+    //     $roles = role::select('role_id', 'role_name')->get();
+    //     return view('auth.index-register', compact('roles'));
+    // }
+
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'nama' => 'required|string',
+    //         'nip' => 'required|string|unique:users,nip',
+    //         'email' => 'required|email|unique:users,email',
+    //         'password' => 'required|min:6',
+    //         'role_id' => 'required',
+    //     ]);
     
-    //     return view('auth.index-register', compact('users', 'role'));    }
-
-    public function create()
-    {
-        $roles = role::select('role_id', 'role_name')->get();
-        return view('auth.index-register', compact('roles'));
-    }
+        // Simpan ke DB
+        // $user = \App\Models\User::create([
+        //     'nama' => $request->nama,
+        //     'nip' => $request->nip,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        //     'role_id' => $request->role_id,
+        //     'status' => 'pending', // akun belum aktif
+        // ]);
     
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
-            'role_id' => 'required|exists:roles,role_id',
-        ]);
+        // Buat link WhatsApp otomatis
+        // $adminWa = '6281234567890'; // Ganti dengan nomor admin kamu
+        // $pesan = "Kepada Admin SIJAMU FKIP,%0AMohon kesediaannya untuk mengaktifkan akun pengguna berikut:%0ANama: {$user->nama}%0ANIP: {$user->nip}%0AEmail: {$user->email}";
+        // $linkWa = "https://wa.me/{$adminWa}?text=" . $pesan;
 
-        User::create([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'password' => Hash::make($request->password), // buat hashing password
-            'role_id' => $request->role_id,
-        ]);
+        // return redirect()->route('auth.register')->with('whatsappLink', $linkWa);
 
-        return redirect()->route('auth.login')->with('Selesai', 'Akun berhasil dibuat.');
-    }
-}
+        
+                // Kirim email verifikasi
+        //  event(new Registered($user));
+        //  return redirect()->route('auth.login')->with('status', 'Silakan login setelah verifikasi email!');
+
+        //  return redirect('/email/verify')->with('message', 'Silakan cek email Anda untuk verifikasi.');
+        // return redirect()->route('auth.login')->with('Selesai', 'Akun berhasil dibuat.');
+
+    //}
+//}

@@ -41,7 +41,8 @@
 
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
-    <!-- Page CSS -->
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Helpers -->
     <script src="{{ asset('sneat/assets/vendor/js/helpers.js') }}"></script>
@@ -92,8 +93,8 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Home -->
-                    <li class="menu-item {{ \Route::is('BerandaSIJAMUFIP') ? 'active' : '' }}">
-                        <a href="{{ route('BerandaSIJAMUFIP') }}" class="menu-link">
+                    <li class="menu-item {{ \Route::is('BerandaSIJAMUFKIP') ? 'active' : '' }}">
+                        <a href="{{ route('BerandaSIJAMUFKIP') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Home">Beranda</div>
                         </a>
@@ -192,10 +193,10 @@
                         <div
                             class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                             <div class="mb-2 mb-md-0" style="font-size: small">
-                                ©
-                                <script>
+                                © 2024
+                                {{-- <script>
                                     document.write(new Date().getFullYear());
-                                </script>
+                                </script> --}}
                                 | SI-Sistem Penjaminan Mutu Internal Fakultas Keguruan dan Ilmu Pendidikan Universitas
                                 Trunojoyo
                                 Madura
@@ -308,6 +309,25 @@
             Swal.fire({
                 title: 'Apakah Anda yakin?',
                 text: "Anda tidak dapat mengembalikan dokumen ini setelah dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + documentId).submit();
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function confirmDeleteForm(documentId) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda tidak dapat mengembalikan data formulir ini setelah dihapus!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

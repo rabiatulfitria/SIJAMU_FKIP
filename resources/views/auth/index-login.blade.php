@@ -1,7 +1,7 @@
 @extends('layout.index-login-auth')
 
 @section('index-content')
-    {{-- @include('sweetalert::alert') --}}
+    @include('sweetalert::alert')
     {{-- @include('_partials.alert') --}}
 
     <style>
@@ -21,6 +21,13 @@
             /* Izinkan teks terpotong otomatis */
             word-wrap: break-word;
             /* Bungkus kata panjang */
+        }
+
+        a:hover {
+            color: #0d6efd;
+            /* Ganti dengan warna yang kamu inginkan */
+            text-decoration: underline;
+            /* Opsional, untuk efek garis bawah saat hover */
         }
     </style>
 
@@ -46,17 +53,21 @@
             <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan Email"
                 autofocus />
         </div>
-        <div class="mb-3 form-password-toggle">
+        <div class="mb-3">
             <label class="form-label" for="basic-default-password32">Password</label>
             <div class="input-group input-group-merge">
                 <input type="password" id="basic-default-password32" class="form-control" name="password"
                     placeholder="Masukkan Password" aria-describedby="basic-default-password" />
-                <span class="input-group-text cursor-pointer" id="basic-default-password"><i class="bx bx-hide"
-                        style="z-index: 15"></i></span>
+                {{-- <span class="input-group-text cursor-pointer" id="basic-default-password"><i class="bx bx-hide"
+                        style="z-index: 15"></i></span> --}}
             </div>
         </div>
         <div class="mb-3">
             <button class="btn btn-primary d-grid w-100" type="submit">LOGIN</button>
+            @if (session('success'))
+                <div>{{ @session('success') }}</div>
+            @endif
         </div>
+        <a href="{{ route('lupa-password') }}">Lupa Password</a>
     </form>
 @endsection

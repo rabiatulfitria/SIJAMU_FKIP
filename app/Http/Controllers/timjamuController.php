@@ -36,7 +36,7 @@ class timjamuController extends Controller
         $dataBaru->jabatan = $request['jabatan'];
         $dataBaru->save();
 
-        Alert::success('Selesai', 'Tim JAMU berhasil ditambahkan.');
+        Alert::success('Selesai', 'Data Tim JAMU berhasil ditambahkan.');
         return redirect()->route('TimJAMU');
     }
 
@@ -65,7 +65,7 @@ class timjamuController extends Controller
         $dataUpdate->jabatan = $request['jabatan'];
         $dataUpdate->save();
 
-        Alert::success('Selesai', 'Tim JAMU berhasil diperbarui.');
+        Alert::success('Selesai', 'Data Tim JAMU berhasil diperbarui.');
         return redirect()->route('TimJAMU');
     }
 
@@ -74,7 +74,7 @@ class timjamuController extends Controller
         $dataDelete = TimJamu::findOrfail($id);
         $dataDelete->delete();
 
-        Alert::success('Selesai', 'Tim JAMU berhasil dihapus.');
+        Alert::success('Selesai', 'Data Tim JAMU berhasil dihapus.');
         return redirect()->route('TimJAMU');
     }
 }

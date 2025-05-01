@@ -1,10 +1,11 @@
 <?php
 
+// use Illuminate\Http\Request;
 use App\Http\Controllers\Info;
 use App\Http\Controllers\auth\Login;
+// use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\auth\Register;
-use App\Http\Controllers\EmailController;
 use App\Http\Controllers\Panduanpengguna;
 use App\Http\Controllers\standarController;
 use App\Http\Controllers\timjamuController;
@@ -13,9 +14,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\perangkatController;
 use App\Http\Controllers\peningkatanController;
 use App\Http\Controllers\DataPenggunaController;
+use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\pelaksanaan1Controller;
 use App\Http\Controllers\pelaksanaan2Controller;
 use App\Http\Controllers\pengendalianController;
+use App\Http\Controllers\ProfilPenggunaController;
+
+// use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,31 +33,56 @@ use App\Http\Controllers\pengendalianController;
 |
 */
 
-//AUTH
+//  untuk user yang belum login (tamu), diarahkan ke halaman login
 Route::middleware('guest')->group(function () {
     Route::get('/auth/login', [Login::class, 'index'])->name('auth.login');
     Route::post('/login', [Login::class, 'login'])->name('login');
+    Route::get('/PanduanPengguna', [Panduanpengguna::class, 'index'])->name('FilePanduanPangguna');
+    Route::get('/Info', [Info::class, 'index'])->name('info');
+
+    // Route::get('/Registrasi-akun-pengguna', [Register::class, 'create'])->name('auth.register');
+    // Route::post('/Registrasi', [Register::class, 'store'])->name('simpanDataRegistrasi');
 });
 
-Route::get('/logout', [Login::class, 'logout'])->name('logout');
-// Route::get('/send-email', [EmailController::class, 'sendEmail']);
 
-// Grup route dengan middleware 'ceklogin'
-    Route::middleware(['cekLogin'])->group(function () {
+// Tampilkan form lupa password
+Route::get('/lupa-password', [LupaPasswordController::class, 'index'])->name('lupa-password');
+
+// Proses pencarian akun
+Route::post('/lupa-password/cari', [LupaPasswordController::class, 'cariAkun'])->name('lupa-password.cari');
+
+// Tampilkan form ganti password
+// Route::get('/password-baru/{id}', [LupaPasswordController::class, 'passwordbaruForm'])->name('password-baru.form');
+Route::get('/buat-password-baru', function () {
+    return view('auth.password-baru');
+})->name('password-baru.form');
+
+// Simpan password baru
+Route::post('/password-baru/{id}', [LupaPasswordController::class, 'passwordBaru'])->name('password-baru.update');
+
+
+//  untuk user yang sudah login, diarahkan ke halaman BerandaSIJAMUFKIP
+Route::middleware(['cekLogin'])->group(function () {
     Route::get('/', function () {
         return view('User.admin.index');
     });
 
-    // route untuk menu Sign Up, Unduh Panduan Pengguna, Info
-    // Route::get('/auth/Registrasi', [Register::class, 'index'])->name('auth.register');
-    Route::get('/Registrasi-akun-pengguna', [Register::class, 'create'])->name('daftar');
-    Route::post('/Registrasi', [Register::class, 'store'])->name('simpanDataRegistrasi');
+    // Profil Akun Pengguna
+    Route::get('/profilpengguna/edit', [ProfilPenggunaController::class, 'profilpengguna'])->name('profilpengguna.edit');
+    Route::put('/profilpengguna/update', [ProfilPenggunaController::class, 'updateProfil'])->name('profilpengguna.update');
 
-    Route::get('/PanduanPengguna', [Panduanpengguna::class, 'index'])->name('FilePanduanPangguna');
-    Route::get('/Info', [Info::class, 'index'])->name('info');
+    // Pengaturan
+    Route::get('/pengaturan', [ProfilPenggunaController::class, 'pengaturan'])->name('pengaturan');
+    // Halaman yang ada menu Ubah Password
+    Route::get('/pengguna/pengaturan/form-ubah-password', [ProfilPenggunaController::class, 'formUbahPassword'])->name('pengguna.form-ubah-password'); //edit
+    Route::post('/pengguna/pengaturan/ubah-password', [ProfilPenggunaController::class, 'updatePassword'])->name('pengguna.ubah-password'); //update
+    Route::put('/profil/reset-password', [ProfilPenggunaController::class, 'resetPasswordToNIP'])->name('pengguna.reset-password');
+    Route::get('/logout', [Login::class, 'logout'])->name('logout');
+    // Route::get('/send-email', [EmailController::class, 'sendEmail']);
+
 
     // route untuk halaman menu Home atau dashboard
-    Route::get('/Beranda', [DashboardController::class, 'index'])->name('BerandaSIJAMUFIP');
+    Route::get('/Beranda', [DashboardController::class, 'index'])->name('BerandaSIJAMUFKIP');
 
     //route untuk halaman Data Pengguna
     Route::get('/DataPengguna', [DataPenggunaController::class, 'index'])->name('DataPengguna');
@@ -79,7 +109,6 @@ Route::get('/logout', [Login::class, 'logout'])->name('logout');
     Route::get('/dokumenPerangkatSPMI/{id_dokspmi}/buka/{namafile}', [perangkatController::class, 'lihatdokumenperangkat'])->name('dokumenperangkat.tampil');
     Route::delete('/Penetapan/PerangkatSPMI{id_dokspmi}', [perangkatController::class, 'destroy'])->name('hapusDokumenPerangkat');
     Route::put('Penetapan/updateDokumenPerangkat/{id_dokspmi}', [perangkatController::class, 'update'])->name('updateDokumenPerangkat');
-
 
     // route untuk halaman menu Penetapan CRUD -> Standar Yang Ditetapkan Institusi
     Route::get('/Penetapan/StandarInstitusi', [standarController::class, 'index'])->name('penetapan.standar');

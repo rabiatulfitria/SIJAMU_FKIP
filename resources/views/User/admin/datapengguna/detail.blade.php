@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Detail Pengguna</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Detail Pengguna</div>
         </div>
     </div>
 @endsection

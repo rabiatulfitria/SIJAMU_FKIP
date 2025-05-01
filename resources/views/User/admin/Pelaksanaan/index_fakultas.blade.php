@@ -3,6 +3,7 @@
     @if (Auth::user() &&
             (Auth::user()->role->role_name == 'Admin' ||
                 Auth::user()->role->role_name == 'JMF' ||
+                Auth::user()->role->role_name == 'Ketua Jurusan' ||
                 Auth::user()->role->role_name == 'Koordinator Prodi'))
         <a href="/tambahdata-dokumen-pelaksanaan-fakultas" class="btn btn-primary mb-3">Tambah Dokumen</a>
     @endif
@@ -19,6 +20,7 @@
                     @if (Auth::user() &&
                             (Auth::user()->role->role_name == 'Admin' ||
                                 Auth::user()->role->role_name == 'JMF' ||
+                                Auth::user()->role->role_name == 'Ketua Jurusan' ||
                                 Auth::user()->role->role_name == 'Koordinator Prodi'))
                         <th>Aksi</th>
                     @endif
@@ -45,6 +47,7 @@
                         @if (Auth::user() &&
                                 (Auth::user()->role->role_name == 'Admin' ||
                                     Auth::user()->role->role_name == 'JMF' ||
+                                    Auth::user()->role->role_name == 'Ketua Jurusan' ||
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanFakultas', $document->id_plks_fklts) }}"
@@ -76,6 +79,7 @@
                     @if (Auth::user() &&
                             (Auth::user()->role->role_name == 'Admin' ||
                                 Auth::user()->role->role_name == 'JMF' ||
+                                Auth::user()->role->role_name == 'Ketua Jurusan' ||
                                 Auth::user()->role->role_name == 'Koordinator Prodi'))
                         <th>Aksi</th>
                     @endif
@@ -102,6 +106,7 @@
                         @if (Auth::user() &&
                                 (Auth::user()->role->role_name == 'Admin' ||
                                     Auth::user()->role->role_name == 'JMF' ||
+                                    Auth::user()->role->role_name == 'Ketua Jurusan' ||
                                     Auth::user()->role->role_name == 'Koordinator Prodi'))
                             <td>
                                 <a href="{{ route('editPelaksanaanFakultas', $document->id_plks_fklts) }}"

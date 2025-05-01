@@ -9,7 +9,7 @@
 
 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
     <div class="navbar-nav align-items-center">
-        <div class="nav-items d-flex align-item-center">Tambah Tim Jaminan Mutu Fakultas</div>
+        <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Tambah Tim Jaminan Mutu Fakultas</div>
     </div>
 @endsection
 
@@ -69,6 +69,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">{{ isset($jamutims) }}Simpan</button>
+                        <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/TimPenjaminanMutu'">Batal</button>
                     </form>
                 </div>
             </div>

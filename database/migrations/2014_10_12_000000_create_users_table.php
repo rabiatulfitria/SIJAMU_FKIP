@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId('role_id')->references('role_id')->on('roles')->onDelete('restrict');
+            // $table->enum('status', ['pending', 'active'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
         });

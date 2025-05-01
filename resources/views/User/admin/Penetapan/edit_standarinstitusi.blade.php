@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Pengisian Data Dokumen Standar SPMI Universita Tronojoyo Madura</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Ubah Data Dokumen Standar SPMI Universitas Tronojoyo Madura</div>
         </div>
     @endsection
 
@@ -95,9 +95,10 @@
                                 <p class="form-text" style="color: #7ebcfe">Maksimum (20 MB)</p>
                             </div>
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/Penetapan/StandarInstitusi'">Batal</button>
                         </form>
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
     </div>

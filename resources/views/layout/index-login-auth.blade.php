@@ -35,8 +35,8 @@
 
     <!-- Core theme CSS (includes Bootstrap)-->
 
-    <link rel="stylesheet" href="{{ asset('sneat/assets/assets/img/bg-mobile-fallback.jpg') }}" />
-    <link rel="stylesheet" href="{{ asset('sneat/assets/assets/mp4/bg.mp4') }}" />
+    <a href="{{ asset('sneat/assets/assets/img/bg-mobile-fallback.jpg') }}" ></a>
+    <link rel="stylesheet" href="{{ asset('sneat/assets/assets/mp4/bg2.mp4') }}" />
     <link rel="stylesheet" href="{{ asset('sneat/assets/css/demo.css') }}" />
     <script rel="stylesheet" src="{{ asset('sneat/assets/js/config.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('sneat/assets/css/styles.css') }}" />
@@ -49,10 +49,11 @@
 </head>
 
 <body>
+    @include('sweetalert::alert')
 
     <!-- Background Video-->
     <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-        <source src="{{ asset('sneat/assets/assets/mp4/bg.mp4') }}" type="video/mp4" />
+        <source src="{{ asset('sneat/assets/assets/mp4/bg2.mp4') }}" type="video/mp4" />
     </video>
     <!-- Masthead-->
     <div class="masthead">
@@ -64,19 +65,54 @@
     </div>
     <!-- tombol Registrasi, Panduan Pengguna, Info -->
     <div class="social-icons">
-        <div type="button" class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
-            <a href="{{ route('daftar') }}" class="btn btn-dark m-3">
+        <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
+            {{-- <a type="button" href="{{ route('auth.register') }}" class="btn btn-dark m-3" class="btn btn-dark m-3 tooltip-trigger" title="Daftar Akun Baru">
                 <i class="fa-solid fa-user-plus" style="color: #fefefe"></i>
-            </a>
-            <a href="{{ route('FilePanduanPangguna') }}" class="btn btn-dark m-3">
+            </a> --}}
+            <a href="{{ route('FilePanduanPangguna') }}" class="btn btn-dark m-3" class="btn btn-dark m-3 tooltip-trigger" title="Panduan Pengguna">
                 <i class="fa-solid fa-book" style="color: #fefefe;"></i>
             </a>
-            <a href="{{ route('info') }}" class="btn btn-dark m-3">
+            <a href="/Info" class="btn btn-dark m-3" class="btn btn-dark m-3 tooltip-trigger" title="Tentang Website Ini">
                 <i class="fa-solid fa-circle-info" style="color: #fefefe;"></i>
             </a>
         </div>
     </div>
 
+    <script>
+        // Inisialisasi tooltip Bootstrap
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('.tooltip-trigger'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl, { trigger: 'hover focus' });
+        });
+    
+        // Simpan waktu klik terakhir di tombol
+        const clickTimestamps = {};
+    
+        // Deteksi klik tombol
+        document.querySelectorAll('.tooltip-trigger').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                const now = Date.now();
+                const id = this.getAttribute('data-href');
+    
+                if (!clickTimestamps[id] || now - clickTimestamps[id] > 1500) {
+                    // Pertama kali klik → tampilkan tooltip
+                    e.preventDefault(); // cegah langsung redirect
+                    clickTimestamps[id] = now;
+    
+                    // Tampilkan tooltip secara manual
+                    const tooltip = bootstrap.Tooltip.getInstance(this);
+                    tooltip.show();
+    
+                    // Sembunyikan tooltip setelah 1.5 detik
+                    setTimeout(() => tooltip.hide(), 1500);
+                } else {
+                    // Klik kedua → redirect
+                    window.location.href = id;
+                }
+            });
+        });
+    </script>
+    
 
 
     <!-- Core JS -->

@@ -667,6 +667,11 @@ progress {
   height: auto;
 }
 
+.logo-small-s {
+  width: 70px;
+  height: auto;
+}
+
 .figure {
   display: inline-block;
 }

@@ -23,7 +23,7 @@ class pelaksanaan1Controller extends Controller
                     'Laporan Kinerja Program Studi',
                     'Dokumen Kurikulum',
                     'Rencana Pembelajaran Semester (RPS)',
-                    'Dokumen Monitoring dan Evaluasi Kegiatan Program MBKM',
+                    'Dokumen Monitoring dan Kegiatan Program MBKM',
                     'Capaian Pembelajaran Lulusan (CPL)',
                     'Panduan RPS',
                     'Panduan Mutu Soal',
@@ -95,14 +95,16 @@ class pelaksanaan1Controller extends Controller
         ));
     }
 
-    public function create()
+    public function create(Request $request) 
     {
-        // Mengambil data prodi dan kategori menggunakan model
-        $prodi = Prodi::select('id_prodi', 'nama_prodi')->get();
-        $kategori = kategori::select('id_kategori', 'nama_kategori')->get();
+        $menu = $request->query('menu'); // ambil dari URL
 
         // Mengirim data ke view
-        return view('User.admin.Pelaksanaan.tambah_pelaksanaan_prodi', compact('prodi', 'kategori'));
+        return view('User.admin.Pelaksanaan.tambah_pelaksanaan_prodi', [
+            'menu' => $menu,
+            'kategori' => kategori::all(),
+            'prodi' => Prodi::all(),
+        ]);
     }
 
     public function create_FormKepuasanMhs() //untuk URL formulir kepuasan mahasiswa
@@ -148,11 +150,17 @@ class pelaksanaan1Controller extends Controller
                 'file' => $filePath, // Menyimpan path file atau URL di kolom yang sama
             ]);
 
-            // Tampilkan pesan sukses
-            Alert::success('Selesai', 'Data dan dokumen berhasil ditambahkan.');
+            // Cek nama kategori (Formulir Kepuasan Mahasiswa) untuk menentukan pesan alert + konversi ke stringLowerCase
+            $kategori = kategori::find($data['id_kategori']);
+            if ($kategori && strtolower($kategori->nama_kategori) === 'formulir kepuasan mahasiswa') {
+                Alert::success('Selesai', 'Data dan tautan formulir berhasil ditambahkan.');
+            } else {
+                Alert::success('Selesai', 'Data dan dokumen berhasil ditambahkan.');
+            }
+
+
             return redirect()->route('pelaksanaan.prodi');
         } catch (\Exception $e) {
-            // Menangkap semua error dan menampilkan pesan kesalahan
             Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
@@ -214,8 +222,10 @@ class pelaksanaan1Controller extends Controller
         ]);
     }
 
-    public function edit(String $id_plks_prodi)
+    public function edit(Request $request, string $id_plks_prodi)
     {
+        $menu = $request->query('menu');
+
         // Ambil data pelaksanaan_prodi yang ingin diedit dengan relasi terkait
         $pelaksanaanprodi = pelaksanaan_prodi::with(['prodi', 'kategori'])
             ->where('id_plks_prodi', $id_plks_prodi)
@@ -230,7 +240,8 @@ class pelaksanaan1Controller extends Controller
         return view('User.admin.Pelaksanaan.edit_pelaksanaan_prodi', [
             'oldData' => $pelaksanaanprodi,
             'prodi' => $prodi,
-            'kategori' => $kategori
+            'kategori' => $kategori,
+            'menu' => $menu,
         ]);
     }
 
@@ -327,11 +338,17 @@ class pelaksanaan1Controller extends Controller
             // Update semua data sekaligus
             $plks_prodi->update($updateData);
 
-            // Tampilkan pesan sukses
-            Alert::success('Selesai', 'Data berhasil diperbarui.');
+            // Cek nama kategori untuk menentukan pesan alert
+            $kategori = kategori::find($validatedData['id_kategori']);
+            if ($kategori && strtolower($kategori->nama_kategori) === 'formulir kepuasan mahasiswa') {
+                Alert::success('Selesai', 'Data dan tautan formulir berhasil diperbarui.');
+            } else {
+                Alert::success('Selesai', 'Data dan dokumen berhasil diperbarui.');
+            }
+
+
             return redirect()->route('pelaksanaan.prodi');
         } catch (\Exception $e) {
-            // Menangkap semua error dan menampilkan pesan kesalahan
             Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
@@ -356,8 +373,13 @@ class pelaksanaan1Controller extends Controller
             // Hapus data dari database
             $dokumen->delete();
 
-            // Berikan notifikasi sukses
-            Alert::success('Selesai', 'Dokumen berhasil dihapus.');
+            $kategori = kategori::find($data['id_kategori']);
+            if ($kategori && strtolower($kategori->nama_kategori) === 'formulir kepuasan mahasiswa') {
+                Alert::success('Selesai', 'Data dan tautan formulir berhasil diperbarui.');
+            } else {
+                Alert::success('Selesai', 'Data dan dokumen berhasil diperbarui.');
+            }
+
             return redirect()->route('pelaksanaan.prodi');
         } catch (ModelNotFoundException $e) {
             // Jika dokumen tidak ditemukan

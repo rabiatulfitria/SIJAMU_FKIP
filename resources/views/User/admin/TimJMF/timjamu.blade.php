@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Jaminan Mutu Fakultas (JMF)</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Jaminan Mutu Fakultas (JMF)</div>
         </div>
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -40,15 +40,22 @@
                             </div>
                         </a>
                     </li>
-                    <!--<li>-->
-                    <!--    <div class="dropdown-divider"></div>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                    <!--    <a class="dropdown-item" href="#">-->
-                    <!--        <i class="bx bx-user me-2"></i>-->
-                    <!--        <span class="align-middle">Profil Pengguna</span>-->
-                    <!--    </a>-->
-                    <!--</li>-->
+                    <li>
+                        <div class="dropdown-divider"></div>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{{route('profilpengguna.edit')}}">
+                          <i class="bx bx-user me-2"></i>
+                          <span class="align-middle">Profil Akun Pengguna</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{{route('pengaturan')}}">
+                          <i class="bx bx-cog me-2"></i>
+                          <span class="align-middle">Pengaturan</span>
+                        </a>
+                      </li>
+  
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
@@ -125,7 +132,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-2 demo-inline-spacing">
                 <button type="button" class="btn btn-primary" style="padding-left: 50px; padding-right: 50px"
-                    onclick="window.location.href='{{ route('tambahTimJAMU') }}'">Tambah</button>
+                    onclick="window.location.href='{{ route('tambahTimJAMU') }}'">Tambah Anggota</button>
                 @if (session('success'))
                     <div>{{ @session('success') }}</div>
                 @endif

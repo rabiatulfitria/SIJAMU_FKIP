@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Pengisian Data Pengendalian Standar SPMI Perguruan Tinggi</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Ubah Data Pengendalian Standar SPMI Perguruan Tinggi</div>
         </div>
     @endsection
 

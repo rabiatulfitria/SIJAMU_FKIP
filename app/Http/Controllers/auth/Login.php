@@ -18,7 +18,6 @@ class Login extends Controller
         return view('auth.index-login');
     }
 
-    // Fungsi login
     public function login(Request $request)
     {
         // Validasi input
@@ -31,35 +30,49 @@ class Login extends Controller
             'password.required' => 'Password harus diisi!',
         ]);
 
-        // Ambil user dari database menggunakan query builder
+        // Ambil user dari database
         $user = DB::table('users')->where('email', $request->email)->first();
 
-        // Jika user ditemukan dan password cocok
-        if ($user && Hash::check($request->password, $user->password)) {
-            // Login user menggunakan Auth
-            Auth::loginUsingId($user->id);
+        if ($user) {
+            // // Cek status dulu
+            // if ($user->status !== 'active') {
+            //     $linkWa = "https://wa.me/6281234567890?text=" . urlencode(
+            //         "Kepada Admin SIJAMU FKIP, mohon kesediaannya untuk mengaktifkan akun pengguna berikut:\n" .
+            //         "Nama : ..." .
+            //         "NIP : ..." .
+            //         "Email : ..."
+            //     );
+        
+            //     Alert::html('Akun Belum Aktif', 
+            //         'Akun Anda belum diaktifkan oleh Admin. Silakan <a href="' . $linkWa . '" target="_blank" style="color:#007bff;">Hubungi Admin via WhatsApp</a>.',
+            //         'warning'
+            //     )->persistent()->showConfirmButton('<i class="fa fa-times"></i> Tutup', '#d33');
+        
+            //     return redirect()->back();
+            // }
 
-            // Redirect ke halaman sijamufip
-            Alert::success('Selesai', 'Login berhasil.');
-            return redirect()->route('BerandaSIJAMUFIP');
+            // Cek password
+            if (Hash::check($request->password, $user->password)) {
+                Auth::loginUsingId($user->id);
+                Alert::success('Selesai', 'Login berhasil.');
+                return redirect()->route('BerandaSIJAMUFKIP');
+            } else {
+                Alert::error('Gagal', 'Password salah!');
+                return redirect()->back();
+            }
         } else {
-            // Jika email atau password salah, kembali ke halaman login dengan pesan error
-            Alert::error('Gagal', 'Email atau password salah!.');
+            Alert::error('Gagal', 'Email tidak ditemukan!');
             return redirect()->back();
         }
-
     }
 
-    // Fungsi logout
     public function logout()
     {
         // Logout user
         Auth::logout();
 
         // Redirect ke halaman login dengan pesan sukses
-        Alert::success('Selesai', 'Logout berhasil.');
+        // Alert::success('Selesai', 'Logout berhasil.');
         return redirect()->route('auth.login');
     }
-
-
 }

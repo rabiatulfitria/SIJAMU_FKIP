@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center">Pengisian Data Dokumen Pelaksanaan (Program Studi)</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Ubah Data Dokumen Pelaksanaan (Program Studi)</div>
         </div>
     @endsection
 
@@ -19,7 +19,7 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0"></h5>
+                        <h5 class="mb-0">{{ $menu ?? 'Renstra Program Studi' }}</h5>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('updatePelaksanaanProdi', $oldData->id_plks_prodi) }}"
@@ -85,6 +85,7 @@
 
                             <!-- Kirim -->
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/Pelaksanaan/Prodi'">Batal</button>                            
                         </form>
                     </div>
 

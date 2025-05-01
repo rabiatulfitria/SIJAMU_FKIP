@@ -8,7 +8,7 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        <div class="navbar-nav align-items-center" style="color: #007bff; font-size: 20px; font-weight:bold">Penetapan</div>
+        <div class="navbar-nav align-items-center" style="color: #007bff; font-size: 20px; font-weight:bold; margin-left: 3px">Penetapan</div>
 
         <!-- <small class="text-gray fw-semibold">Perangkat SPMI</small> -->
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -39,15 +39,22 @@
                             </div>
                         </a>
                     </li>
-                    <!--<li>-->
-                    <!--    <div class="dropdown-divider"></div>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                    <!--    <a class="dropdown-item" href="#">-->
-                    <!--        <i class="bx bx-user me-2"></i>-->
-                    <!--        <span class="align-middle">Profil Pengguna</span>-->
-                    <!--    </a>-->
-                    <!--</li>-->
+                    <li>
+                        <div class="dropdown-divider"></div>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{{route('profilpengguna.edit')}}">
+                          <i class="bx bx-user me-2"></i>
+                          <span class="align-middle">Profil Akun Pengguna</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{{route('pengaturan')}}">
+                          <i class="bx bx-cog me-2"></i>
+                          <span class="align-middle">Pengaturan</span>
+                        </a>
+                      </li>
+  
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>

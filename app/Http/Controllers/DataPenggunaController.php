@@ -44,7 +44,7 @@ class DataPenggunaController extends Controller
         return redirect()->route('DataPengguna');
     }
 
-    public function edit($id)
+    public function edit($id) // untuk tombol edit, berdasarkan models User yang sudah memiliki value(isi).Misal id = 2,nama = budi, role_id=adm001
     {
         $user = User::with('role')->findOrFail($id);
         $roles = role::select('role_id', 'role_name')->get();

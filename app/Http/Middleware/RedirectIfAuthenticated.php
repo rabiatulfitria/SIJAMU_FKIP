@@ -23,8 +23,8 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                // Arahkan ke route 'BerandaSIJAMUFIP' jika sudah login
-                return redirect()->route('BerandaSIJAMUFIP');
+                // Arahkan ke route 'BerandaSIJAMUFKIP' jika sudah login
+                return redirect()->route('BerandaSIJAMUFKIP');
             }
         }
 

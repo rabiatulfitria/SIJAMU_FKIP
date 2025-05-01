@@ -35,7 +35,7 @@
 
     <!-- Core theme CSS (includes Bootstrap)-->
 
-    <link rel="stylesheet" href="{{ asset('sneat/assets/assets/img/bg-mobile-fallback.jpg') }}" />
+    <a href="{{ asset('sneat/assets/assets/img/bg-mobile-fallback.jpg') }}"></a>
     <link rel="stylesheet" href="{{ asset('sneat/assets/assets/mp4/bg.mp4') }}" />
     <link rel="stylesheet" href="{{ asset('sneat/assets/css/demo.css') }}" />
     <script rel="stylesheet" src="{{ asset('sneat/assets/js/config.js') }}"></script>
@@ -49,6 +49,8 @@
 </head>
 
 <body>
+    @include('sweetalert::alert')
+
     <style>
         .text-container {
             max-width: 400px;
@@ -67,6 +69,13 @@
             word-wrap: break-word;
             /* Bungkus kata panjang */
         }
+
+        a:hover {
+            color: #0d6efd;
+            /* Ganti dengan warna yang kamu inginkan */
+            text-decoration: underline;
+            /* Opsional, untuk efek garis bawah saat hover */
+        }
     </style>
 
     <!-- Background Video-->
@@ -76,52 +85,121 @@
     <!-- Masthead-->
     <div class="masthead">
         <div class="masthead-content text-white">
-            <div class="container-fluid px-4 px-lg-0">
-                <span class="app-brand-logo demo">
-                    <img src="{{ asset('sneat/assets/img/favicon/Logo-kemendikbud.png') }}" class="logo-small"
-                        alt="">
-                    <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small" alt="">
-                    <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small" alt="">
-                </span>
-                <h1 class="fst-bold lh-1 mb-4">SIJAMU FKIP</h1>
-                <div class="text-container">
-                    <p class="mb-5">
-                        Daftar Akun Pengguna<br>
-                        SIJAMU FKIP<br>
-                    </p>
-                </div>
+            <div class="">
+                <p class="">
+                    Registrasi Akun Pengguna<br>
+                </p>
 
                 <form id="formAuthentication" class="mb-3" action="{{ route('simpanDataRegistrasi') }}"
                     method="POST">
                     @csrf
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="name" name="nama" required>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="name" name="nama" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nip" class="form-label">NIP.</label>
+                                <input type="text" class="form-control" id="nip" name="nip" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required />
+                            </div>
+                        </div>
+                        <!-- -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="minimal 6 karakter" required />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="confirm_password" class="form-label">Konfirmasi Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="confirm_password"
+                                        name="password_confirmation" placeholder="minimal 6 karakter" required />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Peran Sebagai</label>
+                                <select class="form-select" id="role" name="role_id" required>
+                                    <option selected disabled>Pilih Peran</option>
+                                    @foreach ($roles as $role)
+                                        @if ($role->role_name !== 'Admin')
+                                            <option value="{{ $role->role_id }}">{{ $role->role_name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="role">Peran Sebagai</label>
-                        <select class="form-select" id="role" name="role_id" required>
-                            <option value="" disabled selected>Pilih Peran</option>
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->role_id }}">{{ $role->role_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+
                     <div class="mb-3">
                         <button class="btn btn-primary d-grid w-100" type="submit">DAFTAR</button>
+                        @if (session('success'))
+                            <div>{{ @session('success') }}</div>
+                        @endif
                     </div>
+                    <p>Sudah punya akun? <a href="{{ route('auth.login') }}">Login</a></p>
                 </form>
             </div>
         </div>
     </div>
+    <div class="social-icons">
+        <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
+            <span class="app-brand-logo demo">
+                <img src="{{ asset('sneat/assets/img/favicon/Logo-kemendikbud.png') }}" class="logo-small-s"
+                    alt="">
+                <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small-s" alt="">
+                <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small-s" alt="">
+            </span>
+            <h1 style="font-size: 35px">SIJAMU FKIP</h1>
+        </div>
+    </div>
+
+
+    <script>
+        // Untuk Password
+        $('#togglePassword').on('click', function() {
+            const passwordInput = $('#password');
+            const icon = $('#toggleIcon');
+            const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
+            passwordInput.attr('type', type);
+            icon.toggleClass('fa-eye fa-eye-slash');
+        });
+
+        // Untuk Konfirmasi Password
+        $('#toggleConfirmPassword').on('click', function() {
+            const passwordInput = $('#confirm_password');
+            const icon = $('#toggleConfirmIcon');
+            const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
+            passwordInput.attr('type', type);
+            icon.toggleClass('fa-eye fa-eye-slash');
+        });
+    </script>
+
+    {{-- @if (session('whatsappLink'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Registrasi Berhasil!',
+                html: 'Silakan hubungi admin untuk aktivasi akun.<br><br>' +
+                    '<a href="{{ session('whatsappLink') }}" class="btn btn-success" target="_blank">Hubungi Admin via WhatsApp</a>',
+                showConfirmButton: true,
+                confirmButtonText: '<i class="fa fa-times"></i> Tutup',
+                confirmButtonColor: '#d33',
+            });
+        </script>
+    @endif --}}
+
 
 
     <!-- Core JS -->
