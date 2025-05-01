@@ -74,6 +74,11 @@
             text-decoration: underline;
             /* Opsional, untuk efek garis bawah saat hover */
         }
+        
+        .logo-small-ss {
+            width: 35px;
+            height: auto;
+        }
     </style>
 
     <!-- Background Video-->
@@ -119,10 +124,10 @@
     <div class="social-icons">
         <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
             <span class="app-brand-logo demo">
-                <img src="{{ asset('sneat/assets/img/favicon/Logo-kemendikbud.png') }}" class="logo-small-s"
+                <img src="{{ asset('sneat/assets/img/favicon/Logo-kemendikbud.png') }}" class="logo-small-ss"
                     alt="">
-                <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small-s" alt="">
-                <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small-s" alt="">
+                <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small-ss" alt="">
+                <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small-ss" alt="">
             </span>
             <h1 style="font-size: 35px">SIJAMU FKIP</h1>
         </div>

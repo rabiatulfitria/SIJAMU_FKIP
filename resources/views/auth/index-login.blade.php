@@ -29,12 +29,16 @@
             text-decoration: underline;
             /* Opsional, untuk efek garis bawah saat hover */
         }
+        .logo-small-s {
+            width: 70px;
+            height: auto;
+        }        
     </style>
 
     <span class="app-brand-logo demo">
-        <img src="{{ asset('sneat/assets/img/favicon/Logo-kemendikbud.png') }}" class="logo-small" alt="">
-        <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small" alt="">
-        <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small" alt="">
+        <img src="{{ asset('sneat/assets/img/favicon/Logo-kemendikbud.png') }}" class="logo-small-s" alt="">
+        <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small-s" alt="">
+        <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small-s" alt="">
     </span>
     <h1 class="fst-bold lh-1 mb-4">SIJAMU FKIP</h1>
     <div class="text-container">
