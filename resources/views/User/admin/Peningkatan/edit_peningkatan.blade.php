@@ -91,6 +91,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/Peningkatan/StandarInstitusi'">Batal</button>
                         </form>
                     </div>
 

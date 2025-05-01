@@ -9,7 +9,8 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Tambah Data Dokumen Pelaksanaan (Fakultas)</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Tambah Data Dokumen Pelaksanaan
+                (Fakultas)</div>
         </div>
     @endsection
 
@@ -19,7 +20,7 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0"></h5>
+                        <h5 class="mb-0">{{ $menu ?? 'Renstra Fakultas' }}</h5>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ url('simpanPelaksanaanFakultas') }}" enctype="multipart/form-data">
@@ -28,8 +29,10 @@
                             <div class="mb-3">
                                 <label class="form-label" for="bx bx-file">Nama Dokumen</label>
                                 <div class="input-group input-group-merge">
-                                    <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-file"></i></span>
-                                    <input type="text" class="form-control" id="bx bx-file" name="namafile" placeholder="Nama Dokumen" required />
+                                    <span id="basic-icon-default-fullname2" class="input-group-text"><i
+                                            class="bx bx-file"></i></span>
+                                    <input type="text" class="form-control" id="bx bx-file" name="namafile"
+                                        placeholder="Nama Dokumen" required />
                                 </div>
                             </div>
 
@@ -47,8 +50,8 @@
                             <!-- Tahun -->
                             <div class="mb-3">
                                 <label for="periode_tahunakademik" class="form-label">Periode/Tahun Akademik</label>
-                                <input type="text" class="form-control" id="periode_tahunakademik" name="periode_tahunakademik"
-                                    placeholder="isi periode atau tahun akademik" required />
+                                <input type="text" class="form-control" id="periode_tahunakademik"
+                                    name="periode_tahunakademik" placeholder="isi periode atau tahun akademik" required />
                             </div>
 
                             <!-- Pilih Dokumen -->
@@ -60,7 +63,8 @@
 
                             <!-- Kirim -->
                             <button type="submit" class="btn btn-primary">Simpan</button>
-                            <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/Pelaksanaan/Fakultas'">Batal</button>                            
+                            <button type="reset" class="btn btn-outline-secondary"
+                                onclick="window.location.href='/Pelaksanaan/Fakultas'">Batal</button>
                         </form>
                     </div>
                 </div>

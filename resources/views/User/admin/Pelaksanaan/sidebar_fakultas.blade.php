@@ -40,20 +40,20 @@
                     </li>
                     <li>
                         <div class="dropdown-divider"></div>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="{{route('profilpengguna.edit')}}">
-                          <i class="bx bx-user me-2"></i>
-                          <span class="align-middle">Profil Akun Pengguna</span>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('profilpengguna.edit') }}">
+                            <i class="bx bx-user me-2"></i>
+                            <span class="align-middle">Profil Akun Pengguna</span>
                         </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="{{route('pengaturan')}}">
-                          <i class="bx bx-cog me-2"></i>
-                          <span class="align-middle">Pengaturan</span>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('pengaturan') }}">
+                            <i class="bx bx-cog me-2"></i>
+                            <span class="align-middle">Pengaturan</span>
                         </a>
-                      </li>
-  
+                    </li>
+
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
@@ -94,11 +94,14 @@
                                 <div class="card-body left shadow-lg" id="vertical-example">
                                     <div class="section-title"><b style="font-size: 13px">Strategi Pencapaian</b></div>
                                     <ul>
-                                        <li class="menu-itemm active" style="font-size: 12px"><a href="javascript:void(0);" onclick="showTable('DatatablesRenstraProgramStudinya')">Renstra Fakultas</a>
+                                        <li class="menu-itemm active" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Renstra Fakultas', 'DatatablesRenstraProgramStudinya')">Renstra Fakultas</a>
                                         </li>
                                     </ul>
                                     <ul>
-                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);" onclick="showTable('DatatablesLaporanKinerjaFakultas')">Laporan Kinerja Fakultas</a></li>
+                                        <li class="menu-itemm" style="font-size: 12px"><a href="javascript:void(0);"
+                                                onclick="setMenu('Laporan Kinerja Fakultas', 'DatatablesLaporanKinerjaFakultas')">Laporan Kinerja
+                                                Fakultas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -135,5 +138,22 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        function setMenu(menuName, tableId) {
+            showTable(tableId);
+
+            let tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
+
+            if (!tambahDokumenBtn) return;
+
+            // Simpan nama menu di atribut tombol, supaya bisa diambil saat redirect
+            tambahDokumenBtn.setAttribute('data-menu', menuName);
+
+            // Set teks dan URL dasar tombol
+            tambahDokumenBtn.textContent = "Tambah Dokumen";
+            tambahDokumenBtn.href = "/tambahdata-dokumen-pelaksanaan-fakultas";
+        }
     </script>
 @endsection

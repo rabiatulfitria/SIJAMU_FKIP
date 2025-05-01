@@ -39,13 +39,15 @@ class pelaksanaan2Controller extends Controller
         ));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        // Mengambil data kategori menggunakan model
-        $kategori = kategori::select('id_kategori', 'nama_kategori')->get();
+        $menu = $request->query('menu'); // ambil dari URL
 
         // Mengirim data ke view
-        return view('User.admin.Pelaksanaan.tambah_pelaksanaan_fakultas', compact('kategori'));
+        return view('User.admin.Pelaksanaan.tambah_pelaksanaan_fakultas', [
+            'menu' => $menu,
+            'kategori' => kategori::all(),
+        ]);
     }
 
     public function store(Request $request)
@@ -144,8 +146,10 @@ class pelaksanaan2Controller extends Controller
         ]);
     }
 
-    public function edit(String $id_plks_fklts)
+    public function edit(Request $request, string  $id_plks_fklts)
     {
+        $menu = $request->query('menu');
+
         // Ambil data pelaksanaan_fakultas yang ingin diedit dengan relasi terkait
         $plks_fklts = pelaksanaan_fakultas::with(['kategori'])
             ->where('id_plks_fklts', $id_plks_fklts)
@@ -157,6 +161,7 @@ class pelaksanaan2Controller extends Controller
         return view('User.admin.Pelaksanaan.edit_pelaksanaan_fakultas', [
             'oldData' => $plks_fklts,
             'kategori' => $kategori,
+            'menu' => $menu,
         ]);
     }
 

@@ -79,6 +79,7 @@
                             </div>
                             <div>
                                 <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/Evaluasi/AuditMutuInternal'">Batal</button>
                         </form>
                     </div>
                 </div>

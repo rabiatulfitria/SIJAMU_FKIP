@@ -5,7 +5,7 @@
                 Auth::user()->role->role_name == 'JMF' ||
                 Auth::user()->role->role_name == 'Ketua Jurusan' ||
                 Auth::user()->role->role_name == 'Koordinator Prodi'))
-        <a href="/tambahdata-dokumen-pelaksanaan-fakultas" class="btn btn-primary mb-3">Tambah Dokumen</a>
+        <a id="tambahDokumenBtn" href="/tambahdata-dokumen-pelaksanaan-fakultas" class="btn btn-primary mb-3">Tambah Dokumen</a>
     @endif
 
     <div id="DatatablesRenstraProgramStudinya">
@@ -126,4 +126,25 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
+
+            if (tambahDokumenBtn) {
+                tambahDokumenBtn.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    let menuName = tambahDokumenBtn.getAttribute('data-menu') || '';
+                    let baseHref = tambahDokumenBtn.getAttribute('href') || '#';
+
+                    if (menuName) {
+                        window.location.href = baseHref + "?menu=" + encodeURIComponent(menuName);
+                    } else {
+                        window.location.href = baseHref;
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

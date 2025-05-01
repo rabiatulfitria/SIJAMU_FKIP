@@ -77,6 +77,7 @@
                             </div>
                             <div>
                                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/Pengendalian/Standar/RTM'">Batal</button>
                             </div>
                         </form>
                     </div>
