@@ -50,11 +50,29 @@
             text-decoration: underline;
             /* Opsional, untuk efek garis bawah saat hover */
         }
+
+        /* Ukuran default untuk mobile */
         .logo-small-ss {
             width: 35px;
             height: auto;
         }
 
+        .logo-text {
+            font-size: 16px;
+            /* kecil untuk mobile */
+        }
+
+        /* Ukuran untuk layar ≥ 768px (tablet ke atas / desktop) */
+        @media (min-width: 768px) {
+            .logo-small-ss {
+                width: 70px;
+            }
+
+            .logo-text {
+                font-size: 35px;
+                /* besar untuk desktop */
+            }
+        }
     </style>
 </head>
 
@@ -69,13 +87,14 @@
         <div class="masthead-content text-white text-center">
             <h1 class="mb-4">Panduan Pengguna</h1>
             <p class="lead">Unduh panduan pengguna dalam format PDF.</p>
-            <a href="{{ asset('file_panduanpengguna/panduanpengguna.pdf') }}" class="btn btn-primary btn-lg" target="_blank">
+            <a href="{{ asset('file_panduanpengguna/panduanpengguna.pdf') }}" class="btn btn-primary btn-lg"
+                target="_blank">
                 <i class="fas fa-download"></i> Unduh Panduan Pengguna
             </a>
             <p style="padding-top: 50px"><a href="{{ route('auth.login') }}">Kembali Ke Halaman Login</a></p>
         </div>
     </div>
-    
+
     <div class="social-icons">
         <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
             <span class="app-brand-logo demo">
@@ -84,7 +103,7 @@
                 <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small-ss" alt="">
                 <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small-ss" alt="">
             </span>
-            <h1 style="font-size: 35px">SIJAMU FKIP</h1>
+            <h1 class="logo-text">SIJAMU FKIP</h1>
         </div>
     </div>
 </body>

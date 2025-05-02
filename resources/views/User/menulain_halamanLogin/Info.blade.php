@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-assets-path="{{ asset('sneat/assets/assets/') }}">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -49,13 +50,33 @@
             text-decoration: underline;
             /* Opsional, untuk efek garis bawah saat hover */
         }
+
+        /* Ukuran default untuk mobile */
         .logo-small-ss {
             width: 35px;
             height: auto;
-        }        
+        }
+
+        .logo-text {
+            font-size: 16px;
+            /* kecil untuk mobile */
+        }
+
+        /* Ukuran untuk layar ≥ 768px (tablet ke atas / desktop) */
+        @media (min-width: 768px) {
+            .logo-small-ss {
+                width: 70px;
+            }
+
+            .logo-text {
+                font-size: 35px;
+                /* besar untuk desktop */
+            }
+        }
     </style>
 
 </head>
+
 <body>
     <!-- Background Video -->
     <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
@@ -66,9 +87,11 @@
     <div class="masthead">
         <div class="masthead-content text-white text-center">
             <h1 class="mb-5">Tentang SIJAMU FKIP</h1>
-            <p class="lead">Sistem Informasi Sistem Penjaminan Mutu Internal Fakultas Keguruan dan Ilmu Pendidikan - Universitas Trunojoyo Madura.</p>
+            <p class="lead">Sistem Informasi Sistem Penjaminan Mutu Internal Fakultas Keguruan dan Ilmu Pendidikan -
+                Universitas Trunojoyo Madura.</p>
             <p style="font-style: italic">
-                Website ini dirancang untuk menyimpan berkas yang berkaitan dengan SPMI yang dapat mendukung proses penjaminan mutu internal di tingkat fakultas.
+                Website ini dirancang untuk menyimpan berkas yang berkaitan dengan SPMI yang dapat mendukung proses
+                penjaminan mutu internal di tingkat fakultas.
             </p>
 
             <p style="padding-top: 50px"><a href="{{ route('auth.login') }}">Kembali Ke Halaman Login</a></p>
@@ -82,9 +105,10 @@
                 <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small-ss" alt="">
                 <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small-ss" alt="">
             </span>
-            <h1 style="font-size: 35px">SIJAMU FKIP</h1>
+            <h1 class="logo-text">SIJAMU FKIP</h1>
         </div>
     </div>
-    
+
 </body>
+
 </html>

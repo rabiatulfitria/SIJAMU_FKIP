@@ -74,9 +74,28 @@
             text-decoration: underline;
             /* Opsional, untuk efek garis bawah saat hover */
         }
+
+        /* Ukuran default untuk mobile */
         .logo-small-ss {
             width: 35px;
             height: auto;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            /* kecil untuk mobile */
+        }
+
+        /* Ukuran untuk layar ≥ 768px (tablet ke atas / desktop) */
+        @media (min-width: 768px) {
+            .logo-small-ss {
+                width: 70px;
+            }
+
+            .logo-text {
+                font-size: 35px;
+                /* besar untuk desktop */
+            }
         }
     </style>
 
@@ -105,18 +124,28 @@
                         <div class="col">
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password Baru</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="minimal 6 karakter" required />
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="minimal 6 karakter" required />
+                                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                        <i class="fa fa-eye" id="toggleIcon"></i>
+                                    </button>
+                                </div>
                                 <small id="passwordError" class="text-danger d-none"> Password minimal 6
                                     karakter.</small>
                             </div>
 
                             <div class="mb-3">
                                 <label for="confirm_password" class="form-label">Konfirmasi Password</label>
-                                <input type="password" class="form-control" id="confirm_password"
-                                    name="password_confirmation" placeholder="minimal 6 karakter" required />
-                                <small id="confirmPasswordError" class="text-danger d-none"> Password minimal 6
-                                    karakter.</small>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="confirm_password"
+                                        name="password_confirmation" placeholder="minimal 6 karakter" required />
+                                    <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword">
+                                        <i class="fa fa-eye" id="toggleConfirmIcon"></i>
+                                    </button>
+                                </div>
+                                <small id="confirmPasswordError" class="text-danger d-none">Isikan format password yang
+                                    benar</small>
                             </div>
                         </div>
                     </div>
@@ -138,7 +167,7 @@
                 <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small-ss" alt="">
                 <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small-ss" alt="">
             </span>
-            <h1 style="font-size: 35px">SIJAMU FKIP</h1>
+            <h1 class="logo-text">SIJAMU FKIP</h1>
         </div>
     </div>
 

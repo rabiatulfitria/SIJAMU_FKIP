@@ -74,10 +74,28 @@
             text-decoration: underline;
             /* Opsional, untuk efek garis bawah saat hover */
         }
-        
+
+        /* Ukuran default untuk mobile */
         .logo-small-ss {
             width: 35px;
             height: auto;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            /* kecil untuk mobile */
+        }
+
+        /* Ukuran untuk layar ≥ 768px (tablet ke atas / desktop) */
+        @media (min-width: 768px) {
+            .logo-small-ss {
+                width: 70px;
+            }
+
+            .logo-text {
+                font-size: 35px;
+                /* besar untuk desktop */
+            }
         }
     </style>
 
@@ -129,7 +147,7 @@
                 <img src="{{ asset('sneat/assets/img/favicon/LOGO UTM.png') }}" class="logo-small-ss" alt="">
                 <img src="{{ asset('sneat/assets/img/favicon/LOGO FIP.png') }}" class="logo-small-ss" alt="">
             </span>
-            <h1 style="font-size: 35px">SIJAMU FKIP</h1>
+            <h1 class="logo-text">SIJAMU FKIP</h1>
         </div>
     </div>
 
@@ -154,35 +172,35 @@
         });
     </script>
 
-<script>
-    function validateForm() {
-        const nip = document.getElementById("nip").value.trim();
-        const email = document.getElementById("email").value.trim();
+    <script>
+        function validateForm() {
+            const nip = document.getElementById("nip").value.trim();
+            const email = document.getElementById("email").value.trim();
 
-        let isValid = true;
+            let isValid = true;
 
-        // Validasi NIP (hanya angka dan minimal 17 digit)
-        const nipError = document.getElementById("nipError");
-        if (!/^\d{17,}$/.test(nip)) {
-            nipError.classList.remove("d-none");
-            isValid = false;
-        } else {
-            nipError.classList.add("d-none");
+            // Validasi NIP (hanya angka dan minimal 17 digit)
+            const nipError = document.getElementById("nipError");
+            if (!/^\d{17,}$/.test(nip)) {
+                nipError.classList.remove("d-none");
+                isValid = false;
+            } else {
+                nipError.classList.add("d-none");
+            }
+
+            // Validasi Email (format email standar)
+            const emailError = document.getElementById("emailError");
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                emailError.classList.remove("d-none");
+                isValid = false;
+            } else {
+                emailError.classList.add("d-none");
+            }
+
+            return isValid;
         }
-
-        // Validasi Email (format email standar)
-        const emailError = document.getElementById("emailError");
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            emailError.classList.remove("d-none");
-            isValid = false;
-        } else {
-            emailError.classList.add("d-none");
-        }
-
-        return isValid;
-    }
-</script>
+    </script>
 
 
 

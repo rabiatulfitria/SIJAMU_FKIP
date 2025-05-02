@@ -29,10 +29,11 @@
             text-decoration: underline;
             /* Opsional, untuk efek garis bawah saat hover */
         }
+
         .logo-small-s {
             width: 70px;
             height: auto;
-        }        
+        }
     </style>
 
     <span class="app-brand-logo demo">
@@ -61,9 +62,10 @@
             <label class="form-label" for="basic-default-password32">Password</label>
             <div class="input-group input-group-merge">
                 <input type="password" id="basic-default-password32" class="form-control" name="password"
-                    placeholder="Masukkan Password" aria-describedby="basic-default-password" />
-                {{-- <span class="input-group-text cursor-pointer" id="basic-default-password"><i class="bx bx-hide"
-                        style="z-index: 15"></i></span> --}}
+                    placeholder="Masukkan Password" aria-describedby="toggle-password-icon" />
+                <span class="input-group-text cursor-pointer" id="toggle-password-icon">
+                    <i class="bx bx-hide" id="toggle-password-icon-eye"></i>
+                </span>
             </div>
         </div>
         <div class="mb-3">
@@ -74,4 +76,20 @@
         </div>
         <a href="{{ route('lupa-password') }}">Lupa Password</a>
     </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const passwordInput = document.getElementById('basic-default-password32');
+            const toggleIcon = document.getElementById('toggle-password-icon-eye');
+
+            if (passwordInput && toggleIcon) {
+                toggleIcon.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.classList.toggle('bx-hide');
+                    this.classList.toggle('bx-show');
+                });
+            }
+        });
+    </script>
 @endsection
