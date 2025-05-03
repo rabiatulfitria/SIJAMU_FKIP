@@ -54,7 +54,7 @@ class EvaluasiController extends Controller
             if ($request->hasFile('file_eval')) {
                 $file = $request->file('file_eval');
                 $namaFile = time() . '-' . $file->getClientOriginalName();
-                $path = $file->storeAs('evaluasi', $namaFile, 'public');
+                $path = $file->storeAs('evaluasi', $namaFile, 'public'); 
 
                 DokumenEvaluasi::create([
                     'id_evaluasi' => $evaluasi->id_evaluasi,
