@@ -110,6 +110,16 @@
                         </li>
                     @endif
 
+                    @if (Auth::user() && Auth::user()->role->role_name == 'Admin')
+                        <li class="menu-item {{ \Route::is('admin.panduan.index') ? 'active' : '' }}">
+                            <a href="{{ route('admin.panduan.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bxs-file-pdf bx-border-circle bx-xs"></i>
+                                <div data-i18n="File Panduan Pengguna">Panduan Pengguna</div>
+                            </a>
+                        </li>
+                    @endif
+
+
                     <!-- Tim Penjaminan Mutu -->
                     <li class="menu-item {{ \Route::is('TimJAMU') ? 'active' : '' }}">
                         <a href="{{ route('TimJAMU') }}" class="menu-link">

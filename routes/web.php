@@ -19,7 +19,6 @@ use App\Http\Controllers\pelaksanaan1Controller;
 use App\Http\Controllers\pelaksanaan2Controller;
 use App\Http\Controllers\pengendalianController;
 use App\Http\Controllers\ProfilPenggunaController;
-
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -37,7 +36,7 @@ use App\Http\Controllers\ProfilPenggunaController;
 Route::middleware('guest')->group(function () {
     Route::get('/auth/login', [Login::class, 'index'])->name('auth.login');
     Route::post('/login', [Login::class, 'login'])->name('login');
-    Route::get('/PanduanPengguna', [Panduanpengguna::class, 'index'])->name('FilePanduanPangguna');
+    Route::get('/PanduanPengguna', [Panduanpengguna::class, 'Unduhpanduan'])->name('FilePanduanPangguna');
     Route::get('/Info', [Info::class, 'index'])->name('info');
 
     // Route::get('/Registrasi-akun-pengguna', [Register::class, 'create'])->name('auth.register');
@@ -91,6 +90,11 @@ Route::middleware(['cekLogin'])->group(function () {
     Route::get('/DataPengguna/editDataPengguna/{id}', [DataPenggunaController::class, 'edit'])->name('editDataPengguna');
     Route::delete('/DataPengguna/{id}', [DataPenggunaController::class, 'destroy'])->name('hapusDataPengguna');
     Route::put('/DataPengguna/{id}/updateDataPengguna', [DataPenggunaController::class, 'update'])->name('updateDataPengguna');
+
+    // route untuk halaman menu File Panduan Pengguna
+    Route::get('/panduan-pengguna', [PanduanPengguna::class, 'index'])->name('admin.panduan.index');
+    Route::get('/panduan-pengguna/unggah/{id}', [PanduanPengguna::class, 'unggahfile'])->name('admin.panduan.unggah');
+    Route::put('/panduan-pengguna/update/{id}', [PanduanPengguna::class, 'updatefile'])->name('admin.panduan.update');
 
 
     // route untuk halaman menu Tim Penjaminan Mutu CRUD
