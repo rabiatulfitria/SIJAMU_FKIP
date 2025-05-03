@@ -68,6 +68,7 @@
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">{{ isset($users) }}Simpan Perubahan</button>
+                            <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/DataPengguna'">Batal</button>
                         </form>
                     </div>
                 </div>
