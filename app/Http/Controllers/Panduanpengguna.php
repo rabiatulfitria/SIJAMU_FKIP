@@ -10,13 +10,9 @@ class Panduanpengguna extends Controller
 {
     public function Unduhpanduan()
     {
-        $pdfPath = null;
-    if (Storage::disk('public')->exists('file_panduanpengguna/panduanpengguna.pdf')) {
-        $pdfPath = asset('storage/file_panduanpengguna/panduanpengguna.pdf');
+        return view('User.menulain_halamanLogin.Panduanpengguna');
     }
 
-    return view('User.menulain_halamanLogin.Panduanpengguna', compact('pdfPath'));
-    }
 
     public function index()
     {
@@ -31,7 +27,7 @@ class Panduanpengguna extends Controller
     //         'tahun' => 'required|string',
     //         'pdf' => 'nullable||file|mimes:pdf|max:5120', //name input form
     //     ]);
- 
+
     //     $file = $request->file('pdf'); 
     //     $path = $file->storeAs('file_panduanpengguna', $file->getClientOriginalName(), 'public');
 
@@ -79,4 +75,26 @@ class Panduanpengguna extends Controller
 
         return redirect()->route('admin.panduan.index')->with('success', 'Data berhasil diperbarui.');
     }
+
+    public function preview()
+    {
+        try {
+            $panduan = panduan_pengguna::latest()->first();
+    
+            if (!$panduan || !$panduan->path) {
+                abort(404, 'File panduan tidak tersedia.');
+            }
+    
+            $filePath = $panduan->path; // contoh: 'file_panduanpengguna/panduanpengguna.pdf'
+    
+            if (Storage::disk('public')->exists($filePath)) {
+                // tampilkan file di browser
+                return response()->file(storage_path('app/public/' . $filePath));
+            } else {
+                abort(404, 'File tidak ditemukan di penyimpanan.');
+            }
+        } catch (\Exception $e) {
+            abort(500, 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }    
 }

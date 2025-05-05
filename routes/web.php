@@ -36,7 +36,9 @@ use App\Http\Controllers\ProfilPenggunaController;
 Route::middleware('guest')->group(function () {
     Route::get('/auth/login', [Login::class, 'index'])->name('auth.login');
     Route::post('/login', [Login::class, 'login'])->name('login');
-    Route::get('/PanduanPengguna', [Panduanpengguna::class, 'Unduhpanduan'])->name('FilePanduanPangguna');
+    Route::get('/PanduanPengguna', [Panduanpengguna::class, 'Unduhpanduan'])->name('FilePanduanPengguna');
+    Route::get('/panduan_sijamufkip', [PanduanPengguna::class, 'preview'])->name('panduan.preview');
+
     Route::get('/Info', [Info::class, 'index'])->name('info');
 
     // Route::get('/Registrasi-akun-pengguna', [Register::class, 'create'])->name('auth.register');
@@ -95,7 +97,6 @@ Route::middleware(['cekLogin'])->group(function () {
     Route::get('/panduan-pengguna', [PanduanPengguna::class, 'index'])->name('admin.panduan.index');
     Route::get('/panduan-pengguna/unggah/{id}', [PanduanPengguna::class, 'unggahfile'])->name('admin.panduan.unggah');
     Route::put('/panduan-pengguna/update/{id}', [PanduanPengguna::class, 'updatefile'])->name('admin.panduan.update');
-
 
     // route untuk halaman menu Tim Penjaminan Mutu CRUD
     Route::get('/TimPenjaminanMutu', [timjamuController::class, 'index'])->name('TimJAMU');

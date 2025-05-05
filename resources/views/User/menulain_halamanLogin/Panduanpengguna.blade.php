@@ -87,7 +87,7 @@
         <div class="masthead-content text-white text-center">
             <h1 class="mb-4">Panduan Pengguna</h1>
             <p class="lead">Unduh panduan pengguna dalam format PDF.</p>
-            <a href="{{ $pdfPath ?? '#' }}" class="btn btn-primary btn-lg {{ $pdfPath ? '' : 'disabled' }}"
+            <a href="{{ route('panduan.preview') }}" class="btn btn-primary btn-lg"
                 target="_blank">
                 <i class="fas fa-download"></i> Unduh Panduan Pengguna
             </a>
