@@ -9,13 +9,13 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-none d-md-flex align-items-center" style="margin-left: 15px;">
+            <div class="nav-items d-none d-md-flex align-items-center" style="font-size: 13px">
                 SI - Sistem Penjaminan Mutu Internal - Fakultas Keguruan dan Ilmu Pendidikan
             </div>
         </div>
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-            <h5 class="card-title mb-1" style="margin-right: 10px">{{ Auth::user()->nama }}</h5>
+            <h5 class="card-title mb-1" style="margin-right: 10px; font-size: 13px">{{ Auth::user()->nama }}</h5>
 
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">

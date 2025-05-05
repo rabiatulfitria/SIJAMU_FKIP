@@ -70,7 +70,7 @@
             {{-- <a type="button" href="{{ route('auth.register') }}" class="btn btn-dark m-3" class="btn btn-dark m-3 tooltip-trigger" title="Daftar Akun Baru">
                 <i class="fa-solid fa-user-plus" style="color: #fefefe"></i>
             </a> --}}
-            <a href="{{ route('FilePanduanPangguna') }}" class="btn btn-dark m-3" class="btn btn-dark m-3 tooltip-trigger" title="Panduan Pengguna">
+            <a href="{{ route('FilePanduanPengguna') }}" class="btn btn-dark m-3" class="btn btn-dark m-3 tooltip-trigger" title="Panduan Pengguna">
                 <i class="fa-solid fa-book" style="color: #fefefe;"></i>
             </a>
             <a href="/Info" class="btn btn-dark m-3" class="btn btn-dark m-3 tooltip-trigger" title="Tentang Website Ini">
