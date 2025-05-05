@@ -174,26 +174,28 @@
         });
     </script>
     <script>
-        function setMenu(menuName, tableId) {
-            showTable(tableId);
+        function setMenu(menuProdi, proditableId) {
+            showTable(proditableId);
 
-            let tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
+            let tambahDokumenBtnp = document.getElementById("tambahDokumenBtnp");
             let isFormulirKepuasanInput = document.getElementById("isFormulirKepuasan");
 
-            if (!tambahDokumenBtn || !isFormulirKepuasanInput) return;
+            if (!tambahDokumenBtnp || !isFormulirKepuasanInput) return;
 
             // Simpan nama menu di attribute tombol, supaya bisa diambil nanti
-            tambahDokumenBtn.setAttribute('data-menu', menuName);
+            tambahDokumenBtnp.setAttribute('data-menuprodi', menuProdi);
 
-            if (menuName === "Formulir Kepuasan Mahasiswa") {
-                tambahDokumenBtn.textContent = "Tambah Tautan Formulir";
-                tambahDokumenBtn.href = "/tambahdata-pelaksanaan-prodi-formulirkepuasanmhs";
+            if (menuProdi === "Formulir Kepuasan Mahasiswa") {
+                tambahDokumenBtnp.textContent = "Tambah Tautan Formulir";
+                tambahDokumenBtnp.href = "/tambahdata-pelaksanaan-prodi-formulirkepuasanmhs?menuprodi=" +
+                    encodeURIComponent(menuProdi);
                 isFormulirKepuasanInput.value = "1";
             } else {
-                tambahDokumenBtn.textContent = "Tambah Dokumen";
-                tambahDokumenBtn.href = "/tambahdata-dokumen-pelaksanaan-prodi";
+                tambahDokumenBtnp.textContent = "Tambah Dokumen";
+                tambahDokumenBtnp.href = "/tambahdata-dokumen-pelaksanaan-prodi?menuprodi=" + encodeURIComponent(menuProdi);
                 isFormulirKepuasanInput.value = "0";
             }
+
         }
     </script>
 

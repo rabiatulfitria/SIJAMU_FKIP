@@ -97,11 +97,11 @@ class pelaksanaan1Controller extends Controller
 
     public function create(Request $request) 
     {
-        $menu = $request->query('menu'); // ambil dari URL
+        $menuprodi = $request->query('menuprodi'); // ambil dari URL
 
         // Mengirim data ke view
         return view('User.admin.Pelaksanaan.tambah_pelaksanaan_prodi', [
-            'menu' => $menu,
+            'menuprodi' => $menuprodi,
             'kategori' => kategori::all(),
             'prodi' => Prodi::all(),
         ]);
@@ -224,7 +224,7 @@ class pelaksanaan1Controller extends Controller
 
     public function edit(Request $request, string $id_plks_prodi)
     {
-        $menu = $request->query('menu');
+        $menuprodi = $request->query('menuprodi');
 
         // Ambil data pelaksanaan_prodi yang ingin diedit dengan relasi terkait
         $pelaksanaanprodi = pelaksanaan_prodi::with(['prodi', 'kategori'])
@@ -241,7 +241,7 @@ class pelaksanaan1Controller extends Controller
             'oldData' => $pelaksanaanprodi,
             'prodi' => $prodi,
             'kategori' => $kategori,
-            'menu' => $menu,
+            'menuprodi' => $menuprodi,
         ]);
     }
 

@@ -5,7 +5,7 @@
                 Auth::user()->role->role_name == 'JMF' ||
                 Auth::user()->role->role_name == 'Dosen' ||
                 Auth::user()->role->role_name == 'Koordinator Prodi'))
-        <a id="tambahDokumenBtn" href="/tambahdata-dokumen-pelaksanaan-prodi" class="btn btn-primary mb-3">Tambah Dokumen</a>
+        <a id="tambahDokumenBtnp" href="/tambahdata-dokumen-pelaksanaan-prodi" class="btn btn-primary mb-3">Tambah Dokumen</a>
         <input type="hidden" id="isFormulirKepuasan" value="0">
         <!--jika menu yang diklik adalah Formulir Kepasan Mhs, teks button berubah-->
     @endif
@@ -682,14 +682,14 @@
     
                     const originalHref = btn.getAttribute("href");
     
-                    // Ambil menuName dari tombol Tambah Dokumen
-                    const tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
-                    const menuName = tambahDokumenBtn?.getAttribute("data-menu") || "";
+                    // Ambil menuProdi dari tombol Tambah Dokumen
+                    const tambahDokumenBtnp = document.getElementById("tambahDokumenBtnp");
+                    const menuProdi = tambahDokumenBtnp?.getAttribute("data-menuprodi") || "";
     
-                    // Susun ulang URL dengan query ?menu=...
+                    // Susun ulang URL dengan query ?menuprodi=...
                     const url = new URL(originalHref, window.location.origin);
-                    if (menuName) {
-                        url.searchParams.set("menu", menuName);
+                    if (menuProdi) {
+                        url.searchParams.set("menuprodi", menuProdi);
                     }
     
                     // Redirect ke URL baru
@@ -700,48 +700,5 @@
     </script>
     
 
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
 
-            if (tambahDokumenBtn) {
-                tambahDokumenBtn.addEventListener("click", function(e) {
-                    e.preventDefault(); // Mencegah href default langsung jalan
-
-                    let menuName = tambahDokumenBtn.getAttribute('data-menu') || '';
-                    let baseHref = tambahDokumenBtn.getAttribute('href') || '#';
-
-                    // Redirect dengan tambahan query menu (kalau menuName tidak kosong)
-                    if (menuName) {
-                        window.location.href = baseHref + "?menu=" + encodeURIComponent(menuName);
-                    } else {
-                        window.location.href = baseHref; // Kalau tidak ada menuName, biasa saja
-                    }
-                });
-            }
-        });
-    </script> --}}
-
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Set menuName default jika halaman baru dimuat
-            let isFormulirKepuasanInput = document.getElementById("isFormulirKepuasan");
-            let tambahDokumenBtn = document.getElementById("tambahDokumenBtn");
-    
-            // Jika tidak ada menu lain yang diklik, anggap "Renstra Program Studi" sebagai default
-            let defaultMenu = "Renstra Program Studi";
-            tambahDokumenBtn.addEventListener("click", function (e) {
-                e.preventDefault(); // Cegah redirect langsung
-                let url = "";
-    
-                if (isFormulirKepuasanInput.value === "1") {
-                    url = "/tambahdata-pelaksanaan-prodi-formulirkepuasanmhs";
-                } else {
-                    url = "/tambahdata-dokumen-pelaksanaan-prodi?menu=" + encodeURIComponent(defaultMenu);
-                }
-    
-                window.location.href = url;
-            });
-        });
-    </script>     --}}
 @endsection

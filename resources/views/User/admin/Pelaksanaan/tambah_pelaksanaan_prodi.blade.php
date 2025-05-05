@@ -18,7 +18,7 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">{{ $menu ?? 'Renstra Program Studi' }}</h5> <!--jika tidak ada menu yang di klik, tampil nama Renstra-->
+                        <h5 class="mb-0">{{ $menuprodi ?? 'Renstra Program Studi' }}</h5> <!--jika tidak ada menu yang di klik, tampil nama Renstra-->
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ url('simpanPelaksanaanProdi') }}" enctype="multipart/form-data">
