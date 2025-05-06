@@ -50,12 +50,25 @@
 </head>
 
 <body>
+    <style>
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ asset('sneat/assets/assets/fkip.png') }}');
+            background-size: cover;
+            background-position: center;
+            z-index: -1; /* Taruh di belakang konten */
+        }
+    </style>
+    
     @include('sweetalert::alert')
 
-    <!-- Background Video-->
-    <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-        <source src="{{ asset('sneat/assets/assets/mp4/bg2.mp4') }}" type="video/mp4" />
-    </video>
+    <!-- Background-->
+    <div class="bg-image"></div>
+
     <!-- Masthead-->
     <div class="masthead">
         <div class="masthead-content text-white">
