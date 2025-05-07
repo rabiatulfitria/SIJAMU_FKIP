@@ -57,7 +57,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('{{ asset('sneat/assets/assets/fkip.png') }}');
+            background-image: url('{{ asset('sneat/assets/assets/img/fkip.png') }}');
             background-size: cover;
             background-position: center;
             z-index: -1; /* Taruh di belakang konten */
