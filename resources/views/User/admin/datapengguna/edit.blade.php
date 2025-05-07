@@ -53,22 +53,34 @@
                                 </div>
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="basic-default-password32">Password</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="basic-default-password32" class="form-control"
+                                        name="password" value="{{ $oldData->password }}" placeholder="Masukkan Password"
+                                        aria-describedby="toggle-password-icon" />
+                                    <span class="input-group-text cursor-pointer" id="toggle-password-icon">
+                                        <i class="bx bx-hide" id="toggle-password-icon-eye"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="role">Peran Sebagai</label>
                                 <select class="form-select" id="role" name="role_id" required>
-                                    <option value="" disabled
-                                        {{ old('role_id', $role_id ?? null) === null ? 'selected' : '' }}>
+                                    <option value="" disabled {{ $role_id == null ? 'selected' : '' }}>
                                         Pilih Peran
                                     </option>
                                     @foreach ($roles as $opsi)
                                         <option value="{{ $opsi->role_id }}"
-                                            {{ old('role_id', $role_id ?? null) == $opsi->role_id ? 'selected' : '' }}>
+                                            {{ $role_id == $opsi->role_id ? 'selected' : '' }}>
                                             {{ $opsi->role_name }}
                                         </option>
                                     @endforeach
                                 </select>
+
                             </div>
                             <button type="submit" class="btn btn-primary">{{ isset($users) }}Simpan Perubahan</button>
-                            <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/DataPengguna'">Batal</button>
+                            <button type="reset" class="btn btn-outline-secondary"
+                                onclick="window.location.href='/DataPengguna'">Batal</button>
                         </form>
                     </div>
                 </div>

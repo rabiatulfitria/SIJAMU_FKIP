@@ -51,19 +51,21 @@ class DataPenggunaController extends Controller
         
         return view('User.admin.datapengguna.edit', [
             'oldData' => $user,
-            'roles' => $roles
+            'roles' => $roles,
+            'role_id' => old('role_id', $user->role_id),
         ]);
     }
 
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
+        $user->role_id = $request->input('role_id');
+        
         $request->validate([
             'nip' => 'required',
             'nama' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:6', // Tidak wajib diisi
+            'password' => 'nullable|min:6', 
             'role_id' => 'required|exists:roles,role_id',
         ]);
 
@@ -71,6 +73,7 @@ class DataPenggunaController extends Controller
             'nip' => $request->nip,
             'nama' => $request->nama,
             'email' => $request->email,
+            'password' => $request->password,
             'role_id' => $request->role_id,
         ];
 

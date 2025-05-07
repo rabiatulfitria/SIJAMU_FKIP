@@ -42,13 +42,13 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{route('profilpengguna.edit')}}">
+                        <a class="dropdown-item" href="{{ route('profilpengguna.edit') }}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">Profil Akun Pengguna</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{route('pengaturan')}}">
+                        <a class="dropdown-item" href="{{ route('pengaturan') }}">
                             <i class="bx bx-cog me-2"></i>
                             <span class="align-middle">Pengaturan</span>
                         </a>
@@ -82,7 +82,6 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Aksi</th>
-                        {{-- <th>Detail</th> --}}
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -105,10 +104,13 @@
                                                 <i class="bx bx-edit-alt me-1"></i> Ubah</a>
                                         </div>
                                         <div>
-                                            <form method="POST" action="{{ route('hapusDataPengguna', $user->id) }}">
+                                            <form id="delete-form-{{ $user->id }}" method="POST"
+                                                action="{{ route('hapusDataPengguna', $user->id) }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="dropdown-item"><i class="bx bx-trash me-1"></i>
+                                                <button button type="button" class="dropdown-item btn btn-outline-danger"
+                                                    onclick="confirmDeleteUser({{ $user->id }})"><i
+                                                        class="bx bx-trash me-1"></i>
                                                     Hapus</button>
                                             </form>
                                         </div>

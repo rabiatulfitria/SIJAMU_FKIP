@@ -352,6 +352,25 @@
         }
     </script>
 
+    <script>
+        function confirmDeleteUser(documentId) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda tidak dapat mengembalikan data ini setelah dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + documentId).submit();
+                }
+            });
+        }
+    </script>
+
 
 
 
