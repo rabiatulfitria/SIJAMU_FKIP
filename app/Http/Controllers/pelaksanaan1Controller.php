@@ -359,36 +359,36 @@ class pelaksanaan1Controller extends Controller
         try {
             // Ambil data dokumen berdasarkan ID
             $dokumen = pelaksanaan_prodi::findOrFail($id_plks_prodi);
-
+    
             // Cek apakah 'file' berisi URL atau path file di storage
             if ($dokumen->file) {
                 $isUrl = filter_var($dokumen->file, FILTER_VALIDATE_URL) !== false;
-
+    
                 // Jika bukan URL (berarti file), maka hapus dari storage
                 if (!$isUrl && Storage::exists('public/' . $dokumen->file)) {
                     Storage::delete('public/' . $dokumen->file);
                 }
             }
-
+    
+            // Ambil kategori berdasarkan id_kategori yang ada di dokumen
+            $kategori = kategori::find($dokumen->id_kategori);
+    
             // Hapus data dari database
             $dokumen->delete();
-
-            $kategori = kategori::find($data['id_kategori']);
+    
             if ($kategori && strtolower($kategori->nama_kategori) === 'formulir kepuasan mahasiswa') {
-                Alert::success('Selesai', 'Data dan tautan formulir berhasil diperbarui.');
+                Alert::success('Selesai', 'Data dan tautan formulir berhasil dihapus.');
             } else {
-                Alert::success('Selesai', 'Data dan dokumen berhasil diperbarui.');
+                Alert::success('Selesai', 'Data dan dokumen berhasil dihapus.');
             }
-
+    
             return redirect()->route('pelaksanaan.prodi');
         } catch (ModelNotFoundException $e) {
-            // Jika dokumen tidak ditemukan
             Alert::error('Error', 'Dokumen tidak ditemukan.');
             return redirect()->route('pelaksanaan.prodi');
         } catch (\Exception $e) {
-            // Jika terjadi kesalahan lain
             Alert::error('Error', 'Terjadi kesalahan: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-    }
+    }    
 }
