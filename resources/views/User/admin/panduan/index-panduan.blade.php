@@ -74,7 +74,7 @@
 
 @section('content')
     <div class="card">
-        <h5 class="card-header">File Panduan Pengguna - SJIAMU FKIP</h5>
+        <h5 class="card-header">File Panduan Pengguna - SIJAMU FKIP</h5>
         <div class="table-responsive text-nowrap">
             <table class="table custom-table-sm dataTables_paginate .paginate_button" id="Datatable">
                 <thead class="table-purple">
