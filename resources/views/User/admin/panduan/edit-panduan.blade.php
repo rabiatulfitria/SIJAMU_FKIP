@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Panduan Pengguna</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">File Panduan Pengguna SIJAMU FKIP</div>
         </div>
     @endsection
 
@@ -18,7 +18,7 @@
         <div class="col-xl">
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Edit Panduan Pengguna</h5>
+                    <h5 class="mb-0">Edit File Panduan</h5>
                 </div>
                 <div class="card-body">
                     @if ($errors->any())
@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">File Sebelumnya:</label><br>
+                            <label class="form-label">Buka File:</label><br>
                             <a href="{{ asset('storage/' . $panduan->path) }}" target="_blank">{{ $panduan->nama_file }}</a>
                         </div>
 

@@ -81,9 +81,7 @@
                 <thead class="table-purple">
                     <tr>
                         <th>Nama Dokumen</th>
-                        <th>Kategori</th>
                         <th>Tanggal Ditetapkan</th>
-                        <th>Program Studi</th>
                         <th>Unggahan</th>
                         @if (Auth::user() &&
                                 (Auth::user()->role->role_name == 'Admin' ||
@@ -98,9 +96,7 @@
                     @foreach ($dokumenp1 as $row)
                         <tr>
                             <td>{{ $row->namafile }}</td>
-                            <td>{{ $row->kategori }}</td>
                             <td>{{ $row->penetapan->tanggal_ditetapkan }}</td>
-                            <td>{{ $row->prodi->nama_prodi }}</td>
                             <td>
                                 @if ($row->file)
                                     <!-- Link ke dokumen -->

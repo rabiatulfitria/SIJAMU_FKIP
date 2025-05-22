@@ -15,15 +15,14 @@ class StandarController extends Controller
 {
     public function index()
     {
-        $dokumenp1 = StandarInstitut::with(['penetapan', 'prodi'])->get();
+        $dokumenp1 = StandarInstitut::with('penetapan')->get();
         return view('User.admin.Penetapan.standarinstitusi', compact('dokumenp1'));
     }
 
     public function create()
     {
         $penetapans = Penetapan::select('id_penetapan', 'tanggal_ditetapkan')->get();
-        $prodi = Prodi::select('id_prodi', 'nama_prodi')->get();
-        return view('User.admin.Penetapan.tambah_standarspmi', compact('prodi', 'penetapans'));
+        return view('User.admin.Penetapan.tambah_standarspmi', compact('penetapans'));
     }
 
     public function store(Request $request)
@@ -33,8 +32,7 @@ class StandarController extends Controller
             'namafile' => 'required|string|max:255',
             'kategori' => 'required|string',
             'tanggal_ditetapkan' => 'nullable|date',
-            'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480'
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls|max:20480'
         ]);
 
         DB::beginTransaction();
@@ -49,8 +47,6 @@ class StandarController extends Controller
                 StandarInstitut::create([
                     'id_penetapan' => $penetapans->id_penetapan,
                     'namafile' => $validatedData['namafile'],
-                    'kategori' => $validatedData['kategori'],
-                    'id_prodi' => $validatedData['id_prodi'],
                     'file' => $path,
                 ]);
             }
@@ -83,9 +79,6 @@ class StandarController extends Controller
             'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'xls'  => 'application/vnd.ms-excel',
             'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'png'  => 'image/png',
-            'jpg'  => 'image/jpeg',
-            'jpeg' => 'image/jpeg',
         ];
 
         // Cek apakah ekstensi file didukung
@@ -122,9 +115,8 @@ class StandarController extends Controller
 
     public function edit($id_standarinstitut)
     {
-        $dokumenp1 = StandarInstitut::with(['penetapan', 'prodi'])->findOrFail($id_standarinstitut);
-        $prodi = Prodi::select('id_prodi', 'nama_prodi')->get();
-        return view('User.admin.Penetapan.edit_standarinstitusi', ['oldData' => $dokumenp1, 'prodi' => $prodi]);
+        $dokumenp1 = StandarInstitut::with('penetapan')->findOrFail($id_standarinstitut);
+        return view('User.admin.Penetapan.edit_standarinstitusi', ['oldData' => $dokumenp1]);
     }
 
     public function update(Request $request, $id_standarinstitut)
@@ -134,10 +126,8 @@ class StandarController extends Controller
             // Validasi input
             $validatedData = $request->validate([
                 'namafile' => 'required|string|max:255',
-                'kategori' => 'required|string',
                 'tanggal_ditetapkan' => 'nullable|date',
-                'id_prodi' => 'required|exists:tabel_prodi,id_prodi',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls,png,jpg,jpeg|max:20480' // Maksimum 20MB
+                'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls|max:20480' // Maksimum 20MB
             ]);
     
             // Ambil data berdasarkan ID
@@ -146,8 +136,6 @@ class StandarController extends Controller
             // Persiapkan data untuk diupdate
             $updateData = [
                 'namafile' => $validatedData['namafile'],
-                'kategori' => $validatedData['kategori'],
-                'id_prodi' => $validatedData['id_prodi'],
             ];
     
             // Update tanggal_ditetapkan pada relasi penetapan

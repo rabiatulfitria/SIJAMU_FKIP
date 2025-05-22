@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en" data-assets-path="{{ asset('sneat/assets/assets/') }}">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>SIJAMU FKIP | Download Panduan Pengguna</title>
+    <title>SIJAMU FKIP | Download Panduan</title>
 
     <!-- Modal -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -85,11 +85,11 @@
     <!-- Main Content -->
     <div class="masthead">
         <div class="masthead-content text-white text-center">
-            <h1 class="mb-4">Panduan Pengguna</h1>
-            <p class="lead">Unduh panduan pengguna dalam format PDF.</p>
+            <h1 class="mb-4">Panduan SIJAMU FKIP</h1>
+            <p class="lead">Unduh panduan dalam format PDF.</p>
             <a href="{{ route('panduan.preview') }}" class="btn btn-primary btn-lg"
                 target="_blank">
-                <i class="fas fa-download"></i> Unduh Panduan Pengguna
+                <i class="fas fa-download"></i> Unduh Panduan
             </a>
             <p style="padding-top: 50px"><a href="{{ route('auth.login') }}">Kembali Ke Halaman Login</a></p>
         </div>
@@ -108,4 +108,4 @@
     </div>
 </body>
 
-</html>
+</html> --}}

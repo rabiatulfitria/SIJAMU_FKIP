@@ -114,7 +114,7 @@
                         <li class="menu-item {{ \Route::is('admin.panduan.index') ? 'active' : '' }}">
                             <a href="{{ route('admin.panduan.index') }}" class="menu-link">
                                 <i class="menu-icon tf-icons bx bxs-file-pdf bx-border-circle bx-xs"></i>
-                                <div data-i18n="File Panduan Pengguna">Panduan Pengguna</div>
+                                <div data-i18n="File Panduan" style="font-size: 13px">File Panduan Pengguna SIJAMU FKIP</div>
                             </a>
                         </li>
                     @endif
@@ -175,6 +175,18 @@
                             <div data-i18n="Pengendalian">Peningkatan</div>
                         </a>
                     </li>
+
+                    @if (Auth::user() && Auth::user()->role->role_name != 'Admin')
+                        <li class="menu-header small text-uppercase">
+                            <span class="menu-header-text">Panduan Pengguna SIJAMU FKIP</span>
+                        </li>
+                        <li class="menu-item {{ \Route::is('panduan.preview') ? 'active' : '' }}">
+                            <a href="{{ route('panduan.preview') }}" target="_blank" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-book"></i>
+                                <div data-i18n="File Panduan">Unduh File Panduan</div>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -311,6 +323,26 @@
         }
     </script>
 
+    <!-- Show-Hide Password -->
+    <script>
+        // Untuk Password
+        $('#togglePassword').on('click', function() {
+            const passwordInput = $('#password');
+            const icon = $('#toggleIcon');
+            const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
+            passwordInput.attr('type', type);
+            icon.toggleClass('fa-eye fa-eye-slash');
+        });
+
+        // Untuk Konfirmasi Password
+        $('#toggleConfirmPassword').on('click', function() {
+            const passwordInput = $('#confirm_password');
+            const icon = $('#toggleConfirmIcon');
+            const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
+            passwordInput.attr('type', type);
+            icon.toggleClass('fa-eye fa-eye-slash');
+        });
+    </script>
 
     <!-- Script SweetAlert konfirmasi penghapusan -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

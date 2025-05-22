@@ -71,7 +71,7 @@
         </table>
     </div>
 
-    <div id="DatatablesKinerjaProgramStudinya">
+    {{-- <div id="DatatablesKinerjaProgramStudinya">
         <!-- Tabel Kinerja Program Studi di sini -->
         <table class="table table-bordered custom-table-sm">
             <thead class="table-purple">
@@ -130,7 +130,7 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
+    </div> --}}
 
     <div id="DatatablesKurikulum">
         <!-- Tabel Dokumen Kurikulum di sini -->

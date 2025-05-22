@@ -17,12 +17,7 @@ return new class extends Migration
             $table->id('id_standarinstitut');
             //foreign key
             $table->foreignId('id_penetapan')->references('id_penetapan')->on('penetapans')->onDelete('restrict');
-
             $table->string('namafile');
-            $table->string('kategori');
-            //foreign key
-            $table->foreignId('namaprodi')->references('id_prodi')->on('tabel_prodi')->onDelete('restrict');
-
             $table->text('file');
             $table->timestamps();
         });

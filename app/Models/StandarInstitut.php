@@ -23,18 +23,11 @@ class StandarInstitut extends Model
         'id_standarinstitut',
         'id_penetapan',
         'namafile',
-        'kategori',
-        'id_prodi',
         'file'
     ];
 
     public function penetapan()
     {
         return $this->belongsTo(Penetapan::class, 'id_penetapan', 'id_penetapan');
-    }
-
-    public function prodi()
-    {
-      return $this->belongsTo(Prodi::class, 'id_prodi', 'id_prodi');
     }
 }

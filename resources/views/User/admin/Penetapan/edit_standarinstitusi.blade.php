@@ -38,52 +38,12 @@
                                 </div>
                             </div>
 
-                            <!-- Kategori -->
-                            <div class="mb-3">
-                                <label for="kategori" class="form-label">Kategori</label>
-                                <select class="form-select" id="kategori" name="kategori" required>
-                                    <option value="">Pilih Kategori</option>
-                                    <option value="Standar Pendidikan Universitas Trunojoyo Madura"
-                                        {{ $oldData->kategori == 'Standar Pendidikan Universitas Trunojoyo Madura' ? 'selected' : '' }}>
-                                        Standar Pendidikan Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Penelitian Universitas Trunojoyo Madura"
-                                        {{ $oldData->kategori == 'Standar Penelitian Universitas Trunojoyo Madura' ? 'selected' : '' }}>
-                                        Standar Penelitian Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Pengabdian Kepada Masyarakat Universitas Trunojoyo Madura"
-                                        {{ $oldData->kategori == 'Standar Pengabdian Kepada Masyarakat Universitas Trunojoyo Madura' ? 'selected' : '' }}>
-                                        Standar Pengabdian Kepada Masyarakat Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Layanan Kemahasiswaan Universitas Trunojoyo Madura"
-                                        {{ $oldData->kategori == 'Standar Layanan Kemahasiswaan Universitas Trunojoyo Madura' ? 'selected' : '' }}>
-                                        Standar Layanan Kemahasiswaan Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Layanan Kerjasama Universitas Trunojoyo Madura"
-                                        {{ $oldData->kategori == 'Standar Layanan Kerjasama Universitas Trunojoyo Madura' ? 'selected' : '' }}>
-                                        Standar Layanan Kerjasama Universitas Trunojoyo Madura</option>
-                                    <option value="Standar Tata Kelola Universitas Trunojoyo Madura"
-                                        {{ $oldData->kategori == 'Standar Tata Kelola Universitas Trunojoyo Madura' ? 'selected' : '' }}>
-                                        Standar Tata Kelola Universitas Trunojoyo Madura</option>
-                                </select>
-                            </div>
-
                             <!-- Tahun -->
                             <div class="mb-3">
                                 <label for="tanggal_ditetapkan" class="form-label">Tanggal Ditetapkan</label>
                                 <input type="date" class="form-control" id="tanggal_ditetapkan" name="tanggal_ditetapkan"
                                     placeholder="Tanggal Ditetapkan" required
                                     value="{{ old('tanggal_ditetapkan', $oldData->penetapan->tanggal_ditetapkan) }}" />
-                            </div>
-
-                            <!-- Nama Program Studi -->
-                            <div class="mb-3">
-                                <label class="form-label" for="namaprodi">Program Studi</label>
-                                <select class="form-select" id="namaprodi" name="id_prodi" required>
-                                    <option value="" disabled>Pilih Program Studi</option>
-                                    @foreach ($prodi as $item)
-                                        <option value="{{ $item->id_prodi }}"
-                                            {{ old('id_prodi', $oldData->id_prodi) == $item->id_prodi ? 'selected' : '' }}>
-                                            {{ $item->nama_prodi }}
-                                        </option>
-                                    @endforeach
-                                </select>
                             </div>
 
                             <!-- Pilih Dokumen -->

@@ -15,35 +15,61 @@
 @endsection
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <form action="{{ route('pengguna.ubah-password') }}" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label for="current_password" class="form-label">Password Lama</label>
-                <input type="password" name="current_password" class="form-control" required>
-            </div>
+    <div class="card">
+        <div class="card-body">
+            <form id="formAuthentication" action="{{ route('pengguna.ubah-password') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="current_password" class="form-label">Password Lama</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="current_password"
+                            placeholder="minimal 6 karakter" required />
+                        <button type="button" id="togglePassword">
+                            <i class="fa fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                    <small id="passwordError" class="text-danger d-none"> Password minimal 6
+                        karakter.</small>
+                </div>
 
-            <div class="mb-3">
-                <label for="new_password" class="form-label">Password Baru</label>
-                <input type="password" name="new_password" class="form-control" required>
-            </div>
+                <div class="mb-3">
+                    <label for="new_password" class="form-label">Password Baru</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="new_password"
+                            placeholder="minimal 6 karakter" required />
+                        <button type="button" id="togglePassword">
+                            <i class="fa fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                    <small id="passwordError" class="text-danger d-none"> Password minimal 6
+                        karakter.</small>
+                </div>
 
-            <div class="mb-3">
-                <label for="confirm_password" class="form-label">Konfirmasi Password Baru</label>
-                <input type="password" name="confirm_password" class="form-control" required>
-            </div>
+                <div class="mb-3">
+                    <label for="confirm_password" class="form-label">Konfirmasi Password Baru</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                            placeholder="minimal 6 karakter" required />
+                        <button type="button" id="toggleConfirmPassword">
+                            <i class="fa fa-eye" id="toggleConfirmIcon"></i>
+                        </button>
+                    </div>
+                    <small id="confirmPasswordError" class="text-danger d-none">Isikan format password yang
+                        benar</small>
+                </div>
 
-            <button type="submit" class="btn btn-warning">Simpan Password</button>
-        </form>
 
-        <form action="{{ route('pengguna.reset-password') }}" method="POST" onsubmit="return confirm('Yakin ingin reset password?')">
-            @csrf
-            @method('PUT')
-            <button type="submit" class="btn btn-outline-secondary mt-3">
-                <i class="fas fa-undo"></i> Reset Password
-            </button>
-        </form>        
+                <button type="submit" class="btn btn-warning">Simpan Password</button>
+            </form>
+
+            <form action="{{ route('pengguna.reset-password') }}" method="POST"
+                onsubmit="return confirm('Yakin ingin reset password?')">
+                @csrf
+                @method('PUT')
+                <button type="submit" class="btn btn-outline-secondary mt-3">
+                    <i class="fas fa-undo"></i> Reset Password
+                </button>
+            </form>
+        </div>
     </div>
-</div>
 @endsection

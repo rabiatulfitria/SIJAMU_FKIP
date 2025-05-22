@@ -9,7 +9,7 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
-            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">Panduan Pengguna</div>
+            <div class="nav-items d-flex align-item-center" style="margin-left: 15px;">File Panduan Pengguna SIJAMU FKIP</div>
         </div>
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -74,7 +74,7 @@
 
 @section('content')
     <div class="card">
-        <h5 class="card-header">File Panduan Pengguna - SIJAMU FKIP</h5>
+        <h5 class="card-header">File Panduan Pengguna SIJAMU FKIP</h5>
         <div class="table-responsive text-nowrap">
             <table class="table custom-table-sm dataTables_paginate .paginate_button" id="Datatable">
                 <thead class="table-purple">

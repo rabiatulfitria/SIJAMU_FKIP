@@ -99,11 +99,7 @@
                                                 onclick="setMenu('Renstra Program Studi', 'DatatablesRenstraProgramStudinya')">Renstra
                                                 Program Studi</a>
                                         </li>
-                                        <li class="menu-itemm" style="font-size: 12px">
-                                            <a href="javascript:void(0);"
-                                                onclick="setMenu('Laporan Kinerja Program Studi', 'DatatablesKinerjaProgramStudinya')">Laporan
-                                                Kinerja Program Studi</a>
-                                        </li>
+                                        
                                     </ul>
                                     <div class="section-title"><b>Standar Proses Pembelajaran</b></div>
                                     <ul>
