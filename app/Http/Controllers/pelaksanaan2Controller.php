@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\pelaksanaan_fakultas;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -78,7 +79,6 @@ class pelaksanaan2Controller extends Controller
                 'periode_tahunakademik' => $data['periode_tahunakademik'],
                 'file' => $data['file'],
             ]);
-
 
             // Tampilkan pesan sukses
             Alert::success('Selesai', 'Data dan dokumen berhasil ditambahkan.');
@@ -214,7 +214,8 @@ class pelaksanaan2Controller extends Controller
     
             // Update semua data sekaligus
             $plks_fklts->update($updateData);
-    
+            DB::commit();
+            
             // Tampilkan pesan sukses
             Alert::success('Selesai', 'Data berhasil diperbarui.');
             return redirect()->route('pelaksanaan.fakultas');

@@ -45,7 +45,6 @@
                                     <option value="Manual">Manual</option>
                                     <option value="Standar">Standar</option>
                                     <option value="Formulir">Formulir</option>
-                                    <option value="SOP">SOP</option>
                                 </select>
                             </div>
 

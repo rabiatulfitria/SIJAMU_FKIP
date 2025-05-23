@@ -52,7 +52,6 @@
                                     </option>
                                     <option value="Formulir" {{ $oldData->kategori == 'Formulir' ? 'selected' : '' }}>
                                         Formulir</option>
-                                    <option value="SOP" {{ $oldData->kategori == 'SOP' ? 'selected' : '' }}>SOP</option>
                                 </select>
                             </div>
 

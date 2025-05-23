@@ -23,7 +23,7 @@ class pelaksanaan1Controller extends Controller
                     'Laporan Kinerja Program Studi',
                     'Dokumen Kurikulum',
                     'Rencana Pembelajaran Semester (RPS)',
-                    'Dokumen Monitoring dan Kegiatan Program MBKM',
+                    'Dokumen Monitoring dan Evaluasi Kegiatan Program MBKM',
                     'Capaian Pembelajaran Lulusan (CPL)',
                     'Panduan RPS',
                     'Panduan Mutu Soal',
@@ -157,7 +157,6 @@ class pelaksanaan1Controller extends Controller
             } else {
                 Alert::success('Selesai', 'Data dan dokumen berhasil ditambahkan.');
             }
-
 
             return redirect()->route('pelaksanaan.prodi');
         } catch (\Exception $e) {
@@ -337,6 +336,7 @@ class pelaksanaan1Controller extends Controller
 
             // Update semua data sekaligus
             $plks_prodi->update($updateData);
+            DB::commit();
 
             // Cek nama kategori untuk menentukan pesan alert
             $kategori = kategori::find($validatedData['id_kategori']);

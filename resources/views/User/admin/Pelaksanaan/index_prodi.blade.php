@@ -299,7 +299,7 @@
                             <td>
                                 <a href="{{ url('/edit-dokumen-pelaksanaan/' . $document->id_plks_prodi) }}"
                                     class="btn btn-warning btn-sm btn-ubah-pelaksanaan">Ubah</a>
-                                <form action="{{ route('deletePelaksanaan', $document->id_plks_prodi) }}" method="POST"
+                                <form action="{{ route('deletePelaksanaanProdi', $document->id_plks_prodi) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
                                     @method('DELETE')
