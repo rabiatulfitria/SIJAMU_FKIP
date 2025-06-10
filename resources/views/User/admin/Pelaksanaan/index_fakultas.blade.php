@@ -3,9 +3,9 @@
     @if (Auth::user() &&
             (Auth::user()->role->role_name == 'Admin' ||
                 Auth::user()->role->role_name == 'JMF' ||
-                Auth::user()->role->role_name == 'Ketua Jurusan' ||
-                Auth::user()->role->role_name == 'Koordinator Prodi'))
-        <a id="tambahDokumenBtn" href="/tambahdata-dokumen-pelaksanaan-fakultas" class="btn btn-primary mb-3">Tambah Dokumen</a>
+                Auth::user()->role->role_name == 'Ketua Jurusan'))
+        <a id="tambahDokumenBtn" href="/tambahdata-dokumen-pelaksanaan-fakultas" class="btn btn-primary mb-3">Tambah
+            Dokumen</a>
     @endif
 
     <div id="DatatablesRenstraProgramStudinya">
@@ -20,8 +20,7 @@
                     @if (Auth::user() &&
                             (Auth::user()->role->role_name == 'Admin' ||
                                 Auth::user()->role->role_name == 'JMF' ||
-                                Auth::user()->role->role_name == 'Ketua Jurusan' ||
-                                Auth::user()->role->role_name == 'Koordinator Prodi'))
+                                Auth::user()->role->role_name == 'Ketua Jurusan'))
                         <th>Aksi</th>
                     @endif
                 </tr>
@@ -47,8 +46,7 @@
                         @if (Auth::user() &&
                                 (Auth::user()->role->role_name == 'Admin' ||
                                     Auth::user()->role->role_name == 'JMF' ||
-                                    Auth::user()->role->role_name == 'Ketua Jurusan' ||
-                                    Auth::user()->role->role_name == 'Koordinator Prodi'))
+                                    Auth::user()->role->role_name == 'Ketua Jurusan'))
                             <td>
                                 <a href="{{ route('editPelaksanaanFakultas', $document->id_plks_fklts) }}"
                                     class="btn btn-warning btn-sm">Ubah</a>
@@ -79,8 +77,7 @@
                     @if (Auth::user() &&
                             (Auth::user()->role->role_name == 'Admin' ||
                                 Auth::user()->role->role_name == 'JMF' ||
-                                Auth::user()->role->role_name == 'Ketua Jurusan' ||
-                                Auth::user()->role->role_name == 'Koordinator Prodi'))
+                                Auth::user()->role->role_name == 'Ketua Jurusan'))
                         <th>Aksi</th>
                     @endif
                 </tr>
@@ -106,8 +103,7 @@
                         @if (Auth::user() &&
                                 (Auth::user()->role->role_name == 'Admin' ||
                                     Auth::user()->role->role_name == 'JMF' ||
-                                    Auth::user()->role->role_name == 'Ketua Jurusan' ||
-                                    Auth::user()->role->role_name == 'Koordinator Prodi'))
+                                    Auth::user()->role->role_name == 'Ketua Jurusan'))
                             <td>
                                 <a href="{{ route('editPelaksanaanFakultas', $document->id_plks_fklts) }}"
                                     class="btn btn-warning btn-sm">Ubah</a>
